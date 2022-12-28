@@ -1,0 +1,24 @@
+.align-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .form-card {
+    box-sizing: border-box;
+    width: 50%;
+    margin: 10rem auto;
+    box-shadow: lightgray 4px 4px 20px;
+    text-align: center;
+
+    mat-form-field {
+      margin: 10px auto;
+      width: 75%;
+    }
+
+    button {
+      margin: 20px auto;
+    }
+  }
+}
+
+

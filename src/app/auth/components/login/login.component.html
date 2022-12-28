@@ -1,0 +1,24 @@
+<div class="align-item">
+  <div [formGroup]="loginForm" class="form-card">
+    <h2>Authentification</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom d'utilisateur</mat-label>
+      <input formControlName="username" matInput type="text">
+      <!--      <mat-error>{{getFormControlErrorText(loginInfoForm.controls['username'])}}</mat-error>-->
+    </mat-form-field>
+    <!--<label for="email">Email</label>
+    <input id="email" type="text">-->
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input [type]="showPassword? 'text':'password'" formControlName="password" matInput>
+      <mat-icon (click)=" showPassword=!showPassword; $event.stopPropagation() "
+                matSuffix>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+      <!--      <mat-error>{{getFormControlErrorText(loginInfoForm.controls['username'])}}</mat-error>-->
+    </mat-form-field>
+    <!--<label for="password">Mot de passe</label>
+    <input id="password" type="password">-->
+    <div>
+      <button (click)="onLogin()" color="primary" mat-flat-button>Connexion</button>
+    </div>
+  </div>
+</div>
