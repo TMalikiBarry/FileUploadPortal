@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../../core/services/auth.service";
+import {AuthService} from "../../../core/services/AuthService/auth.service";
 import {Router} from "@angular/router";
 import {FormBuilder, Validators} from "@angular/forms";
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.authService.login();
+    this.authService.loginByOldWay();
     this.router.navigateByUrl('dashboard');
   }
 
