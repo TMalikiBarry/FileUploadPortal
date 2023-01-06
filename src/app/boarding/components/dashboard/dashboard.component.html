@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<mat-toolbar color="primary">
+  <button (click)="isOpen = !isOpen" aria-label="menu icon" mat-icon-button>
+    <mat-icon *ngIf="!isOpen">menu</mat-icon>
+    <mat-icon *ngIf="isOpen">close</mat-icon>
+  </button>
+  <span>Mon DashBoard</span>
+  <span class="example-spacer"></span>
+  <button (click)="logOut()" aria-label="Log Out icon" mat-icon-button>
+    <mat-icon matTooltip="Déconnexion">logout</mat-icon>
+    <span>Se déconnecter</span>
+  </button>
+  <!--<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>-->
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="isOpen" class="mat-elevation-z8" mode="side">
+    <img alt="Mon PP" class="avatar mat-elevation-z8" src="assets/images/profiles/profile-default.png"/>
+
+    <h4 class="name">Nom du commerçant</h4>
+    <p class="designation"><strong>{{'commerçant' | uppercase}}</strong></p>
+
+    <mat-divider></mat-divider>
+    <button aria-label="icône Agents" class="menu-button" mat-button routerLink="/dashboard/mes-agents">
+      <mat-icon>list_alt</mat-icon>
+      <span>Liste des agents</span>
+    </button>
+    <button aria-label="icône Dossiers" class="menu-button" mat-button routerLink="/dashboard/voir-dossiers">
+      <mat-icon>folder_shared</mat-icon>
+      <span>Les documents</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button aria-label="icône Profil" class="menu-button" mat-button routerLink="/dashboard/mon-profil">
+      <mat-icon>person</mat-icon>
+      <span>Mon Profil</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

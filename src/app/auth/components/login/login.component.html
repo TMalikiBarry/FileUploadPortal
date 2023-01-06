@@ -4,6 +4,9 @@
     <mat-form-field appearance="outline">
       <mat-label>Nom d'utilisateur</mat-label>
       <input formControlName="username" matInput type="text">
+      <mat-error>
+        Champs Obligatoire
+      </mat-error>
       <!--      <mat-error>{{getFormControlErrorText(loginInfoForm.controls['username'])}}</mat-error>-->
     </mat-form-field>
     <!--<label for="email">Email</label>
@@ -14,6 +17,9 @@
       <mat-icon (click)=" showPassword=!showPassword; $event.stopPropagation() "
                 matSuffix>{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
       <!--      <mat-error>{{getFormControlErrorText(loginInfoForm.controls['username'])}}</mat-error>-->
+      <mat-error>
+        Champs Obligatoire
+      </mat-error>
     </mat-form-field>
     <!--<label for="password">Mot de passe</label>
     <input id="password" type="password">-->

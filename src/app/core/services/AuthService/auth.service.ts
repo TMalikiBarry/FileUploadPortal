@@ -14,8 +14,8 @@ export class AuthService {
   isAuth: boolean = false;
   roleAs !: string | null;
   role !: string;
-  public currentUser!: Observable<LoginInterface>;
   private currentUserSubject!: BehaviorSubject<LoginInterface>;
+  public currentUser!: Observable<LoginInterface>;
 
   constructor(private http: HttpClient, private loginService: UserService, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<LoginInterface>(JSON.parse(<string>localStorage.getItem("currentUser")));
@@ -43,7 +43,7 @@ export class AuthService {
       }));
   }
 
-  public AuthentificateUser(login: LoginInterface): Observable<boolean> {
+  public authentificateUser(login: LoginInterface): Observable<boolean> {
     this.currentUserSubject.next(login);
     this.isAuth = true;
     return of(true);
@@ -81,11 +81,10 @@ export class AuthService {
   }
 
   routingAlreadyConnectedApp() {
-    // console.log('babs');
     if (localStorage.getItem('currentUser')) {
       let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
       if (user) {
-        this.AuthentificateUser(user);
+        this.authentificateUser(user);
         this.isAuth = true;
         this.router.navigateByUrl('/dashboard');
       } else {
@@ -97,8 +96,10 @@ export class AuthService {
   public getTheRole(roles: [string]): string {
     if (roles.indexOf("ADMIN") !== -1) {
       return this.role = "ADMIN"
-    } else if (roles.indexOf("USER") !== -1) {
-      return this.role = "USER"
+    } else if (roles.indexOf("COMMERCANT") !== -1) {
+      return this.role = "COMMERCANT"
+    } else if (roles.indexOf("AGENT") !== -1) {
+      return this.role = "AGENT";
     }
 
     return this.role = "";

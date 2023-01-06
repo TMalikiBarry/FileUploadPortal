@@ -3,16 +3,25 @@ import {NgModule} from '@angular/core';
 import {BoardingRoutingModule} from './boarding-routing.module';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {SharedModule} from "../shared/shared.module";
+import {ListAgentsComponent} from './components/list-agents/list-agents.component';
+import {ConfigFolderComponent} from './components/config-folder/config-folder.component';
+import {ViewFoldersComponent} from './components/view-folders/view-folders.component';
+import {MyProfileComponent} from './components/my-profile/my-profile.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
+    ListAgentsComponent,
+    ConfigFolderComponent,
+    ViewFoldersComponent,
+    MyProfileComponent,
   ],
   imports: [
     BoardingRoutingModule,
     SharedModule
-  ]
+  ],
+  providers: []
 })
 export class BoardingModule {
 }

@@ -1,13 +1,34 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DashboardComponent, Role} from "./components/dashboard/dashboard.component";
+import {Role} from "./components/dashboard/dashboard.component";
 import {AuthGuard} from "../core/guards/auth.guard";
+import {ListAgentsComponent} from "./components/list-agents/list-agents.component";
+import {ConfigFolderComponent} from "./components/config-folder/config-folder.component";
+import {ViewFoldersComponent} from "./components/view-folders/view-folders.component";
+import {MyProfileComponent} from "./components/my-profile/my-profile.component";
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    component: DashboardComponent,
+    path: 'mes-agents',
+    component: ListAgentsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+  },
+  {
+    path: 'config-dossier',
+    component: ConfigFolderComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+  },
+  {
+    path: 'voir-dossiers',
+    component: ViewFoldersComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+  },
+  {
+    path: 'mon-profil',
+    component: MyProfileComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
   },

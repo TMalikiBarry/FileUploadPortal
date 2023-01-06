@@ -10,6 +10,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [],
@@ -24,6 +28,11 @@ import {MatRadioModule} from "@angular/material/radio";
     MatInputModule,
     MatRadioModule,
     MatSelectModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatDividerModule,
     MatProgressSpinnerModule,
   ],
   imports: []
