@@ -3,9 +3,9 @@
     <mat-icon *ngIf="!isOpen">menu</mat-icon>
     <mat-icon *ngIf="isOpen">close</mat-icon>
   </button>
-  <span>Mon DashBoard</span>
+  <span class="get-space">Mon DashBoard</span>
   <span class="example-spacer"></span>
-  <button (click)="logOut()" aria-label="Log Out icon" mat-icon-button>
+  <button (click)="logOut()" aria-label="Log Out icon" class="animateMe mat-elevation-z4" mat-raised-button>
     <mat-icon matTooltip="Déconnexion">logout</mat-icon>
     <span>Se déconnecter</span>
   </button>
@@ -18,7 +18,8 @@
   <mat-sidenav [(opened)]="isOpen" class="mat-elevation-z8" mode="side">
     <img alt="Mon PP" class="avatar mat-elevation-z8" src="assets/images/profiles/profile-default.png"/>
 
-    <h4 class="name">Nom du commerçant</h4>
+    <h4
+      class="name">{{commercant != null ? (commercant.name | formatName: 'name') : 'nom du commerçant'| titlecase}}</h4>
     <p class="designation"><strong>{{'commerçant' | uppercase}}</strong></p>
 
     <mat-divider></mat-divider>

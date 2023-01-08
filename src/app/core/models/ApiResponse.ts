@@ -3,5 +3,5 @@ export interface ApiResponse {
   statusCode: number;
   status: string
   message: string;
-  data: Object[];
+  data: Object | Object[];
 }

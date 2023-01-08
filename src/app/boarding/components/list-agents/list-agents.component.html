@@ -1,1 +1,67 @@
-<p>list-agents works!</p>
+<div class="big-body">
+  <div class="hearder-actions">
+    <mat-form-field appearance="outline">
+      <mat-label>Rechercher</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" matInput placeholder="Rechercher">
+    </mat-form-field>
+
+    <button (click)="add()" class="animateMe mat-elevation-z4" color="primary" mat-raised-button style="float: right">
+      <mat-icon>folder</mat-icon>
+      Voir les dossiers
+    </button>
+  </div>
+  <h2>La liste des agents</h2>
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+
+    <!-- NAME Column -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell> Nom</th>
+      <td *matCellDef="let element" mat-cell> {{element.name | formatName: 'name'}} </td>
+    </ng-container>
+
+    <!-- USERNAME Column -->
+    <ng-container matColumnDef="username">
+      <th *matHeaderCellDef mat-header-cell> Login</th>
+      <td *matCellDef="let element" mat-cell> {{element.username | formatName: 'username'}} </td>
+    </ng-container>
+
+    <!-- EMAIL Column -->
+    <ng-container matColumnDef="email">
+      <th *matHeaderCellDef mat-header-cell> Email</th>
+      <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+    </ng-container>
+
+    <!-- PROFIL Column -->
+    <ng-container matColumnDef="roles">
+      <th *matHeaderCellDef mat-header-cell> Profil</th>
+      <td *matCellDef="let element" mat-cell> {{element.roles[0].name}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef mat-header-cell> Action</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="update(row)"
+                class="animateMeBig"
+                color="primary"
+                mat-icon-button
+                matTooltip="Importer ses fichiers">
+          <mat-icon>create_new_folder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columnsToDisplay;" mat-row></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr *matNoDataRow class="mat-row">
+      <td class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 15, 25, 50]" aria-label="Select page of users"
+                 class="mat-elevation-z4"></mat-paginator>
+</div>
+

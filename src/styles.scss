@@ -9,6 +9,14 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
 
+  .animateMe:hover {
+    transform: scale(1.1);
+  }
+
+  .animateMeBig:hover {
+    transform: scale(1.7);
+  }
+
   .snack-success {
     background-color: rgba(lightgreen, 0.8);
     color: darkgreen;

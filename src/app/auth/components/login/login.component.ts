@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(username, password)
         .subscribe({
           next: (user) => {
-            this.authService.authentificateUser(user).subscribe({
+            this.authService.authenticateUser(user).subscribe({
               next: (data) => {
                 console.log("data " + data)
                 if (this.authService.currentUserValue) {
@@ -44,19 +44,14 @@ export class LoginComponent implements OnInit {
                   this.router.navigateByUrl('/dashboard');
                   this.notif.snackMessage("Bienvenue", 2000, 'success');
                 }
+                this.loginForm.reset();
               }
             })
           },
           error: (err) => {
             console.log(err);
             this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
-            /*this._snackBar.openFromComponent(DialogAlertComponent, {
-              data: "Identifiant ou mot de passe incorrect",
-              duration: 5000,
-              verticalPosition: "top",
-              horizontalPosition: "end",
-              panelClass: ["custom-style-delete"]
-            })*/
+            this.loginForm.reset();
           }
         })
     }

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../core/services/AuthService/auth.service";
 import {tap} from "rxjs";
 import {Router} from "@angular/router";
+import {UserService} from "../../../core/services/userService/user.service";
+import {UserInterface} from "../../../core/models/user.interface";
 
 export enum Role {
   USER = "USER",
@@ -18,10 +20,13 @@ export enum Role {
 export class DashboardComponent implements OnInit {
   isOpen = true;
 
-  constructor(private authService: AuthService, private router: Router) {
+  commercant!: UserInterface
+
+  constructor(private authService: AuthService, private router: Router, private userSevice: UserService) {
   }
 
   ngOnInit(): void {
+    this.commercant = this.userSevice.getCommercant();
   }
 
   logOut() {

@@ -43,7 +43,7 @@ export class AuthService {
       }));
   }
 
-  public authentificateUser(login: LoginInterface): Observable<boolean> {
+  public authenticateUser(login: LoginInterface): Observable<boolean> {
     this.currentUserSubject.next(login);
     this.isAuth = true;
     return of(true);
@@ -52,12 +52,6 @@ export class AuthService {
   public hasRole(roles: string): boolean {
     return this.currentUserSubject.getValue()!.roles.includes(roles);
   }
-
-  public isAuthentificated(): boolean {
-    this.isAuth = this.currentUser != null;
-    return this.isAuth;
-  }
-
   public logout(): Observable<boolean> {
     this.isAuth = false;
     this.roleAs = '';
@@ -65,7 +59,7 @@ export class AuthService {
     localStorage.setItem('STATE', 'false');
     localStorage.setItem('ROLE', '');
     localStorage.setItem('TOKEN', '')
-    // mettre a jour la liste des users
+    // mettre à jour la liste des users
     return of(true);
   }
 
@@ -84,7 +78,7 @@ export class AuthService {
     if (localStorage.getItem('currentUser')) {
       let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
       if (user) {
-        this.authentificateUser(user);
+        this.authenticateUser(user);
         this.isAuth = true;
         this.router.navigateByUrl('/dashboard');
       } else {

@@ -2,16 +2,23 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ApiResponse} from "../../models/ApiResponse";
+import {UserInterface} from "../../models/user.interface";
+import {tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  readonly API_URL = environment.API_URL
+  private readonly API_URL = environment.API_URL
+  private readonly ENDPOINT_USER = "/users/"
 
-  readonly ENDPOINT_USER = "/users/"
+  private commercant!: UserInterface
+  private userId!: number;
 
   constructor(private http: HttpClient) {
+    let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log("Infos " + user);
+    this.userId = user.id;
   }
 
   postUser(data: any) {
@@ -20,11 +27,26 @@ export class UserService {
   }
 
   getUser(id: number) {
-    return this.http.get<ApiResponse>(this.API_URL + "/user/" + id)
+    return this.http.get<ApiResponse>(this.API_URL + "/user/" + id);
   }
 
-  getAllUser() {
-    return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER)
+  getCommercant(): UserInterface {
+    this.getUser(this.userId).pipe(
+      tap((response) => {
+        console.log("Valeur de la request " + response.data);
+        this.commercant = <UserInterface>response.data;
+        console.log("Commerçant apres requête réseau " + this.commercant);
+      }),
+    ).subscribe();
+
+    return this.commercant;
+  }
+
+  getMyAgents() {
+    if (this.userId) {
+      return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER + this.userId);
+    }
+    return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER);
   }
 
   putUser(data: any, id: number) {

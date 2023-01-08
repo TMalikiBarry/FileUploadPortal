@@ -14,6 +14,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [],
@@ -32,6 +35,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     MatDividerModule,
     MatProgressSpinnerModule,
   ],
