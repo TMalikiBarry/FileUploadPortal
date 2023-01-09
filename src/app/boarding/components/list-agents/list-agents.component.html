@@ -6,7 +6,8 @@
       <input #input (keyup)="applyFilter($event)" matInput placeholder="Rechercher">
     </mat-form-field>
 
-    <button (click)="add()" class="animateMe mat-elevation-z4" color="primary" mat-raised-button style="float: right">
+    <button class="animateMe mat-elevation-z4" color="primary" mat-raised-button routerLink="/dashboard/voir-dossiers"
+            style="float: right">
       <mat-icon>folder</mat-icon>
       Voir les dossiers
     </button>
@@ -38,15 +39,15 @@
       <td *matCellDef="let element" mat-cell> {{element.roles[0].name}} </td>
     </ng-container>
 
-    <!-- Symbol Column -->
-
-    <ng-container matColumnDef="action">
+    <!-- ACTION Column -->
+    <ng-container matColumnDef="id">
       <th *matHeaderCellDef mat-header-cell> Action</th>
       <td *matCellDef="let row" mat-cell>
-        <button (click)="update(row)"
+        <button (click)="OnRedirect(row.id)"
                 class="animateMeBig"
                 color="primary"
                 mat-icon-button
+                matTooltipClass="tool-tip-class"
                 matTooltip="Importer ses fichiers">
           <mat-icon>create_new_folder</mat-icon>
         </button>

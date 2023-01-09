@@ -17,6 +17,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [],
@@ -36,6 +37,7 @@ import {MatSortModule} from "@angular/material/sort";
     MatToolbarModule,
     MatTooltipModule,
     MatTableModule,
+    MatGridListModule,
     MatPaginatorModule,
     MatSortModule,
     MatDividerModule,

@@ -7,6 +7,7 @@ import {ListAgentsComponent} from './components/list-agents/list-agents.componen
 import {ConfigFolderComponent} from './components/config-folder/config-folder.component';
 import {ViewFoldersComponent} from './components/view-folders/view-folders.component';
 import {MyProfileComponent} from './components/my-profile/my-profile.component';
+import {ViewOneFolderComponent} from './components/view-one-folder/view-one-folder.component';
 
 
 @NgModule({
@@ -16,10 +17,11 @@ import {MyProfileComponent} from './components/my-profile/my-profile.component';
     ConfigFolderComponent,
     ViewFoldersComponent,
     MyProfileComponent,
+    ViewOneFolderComponent,
   ],
   imports: [
     BoardingRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   providers: []
 })

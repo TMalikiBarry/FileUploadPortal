@@ -26,7 +26,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commercant = this.userSevice.getCommercant();
+    const user = this.userSevice.getCommercant();
+    if (user) {
+      this.commercant = user;
+    } else {
+      this.commercant = JSON.parse(this.userSevice.getLocalValue('commercant'));
+    }
   }
 
   logOut() {

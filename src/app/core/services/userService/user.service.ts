@@ -30,11 +30,21 @@ export class UserService {
     return this.http.get<ApiResponse>(this.API_URL + "/user/" + id);
   }
 
+  saveInLocal(key: string, value: string) {
+    localStorage.removeItem(key);
+    localStorage.setItem(key, value);
+  }
+
+  getLocalValue(key: string): string {
+    return localStorage.getItem(key)!;
+  }
+
   getCommercant(): UserInterface {
     this.getUser(this.userId).pipe(
       tap((response) => {
         console.log("Valeur de la request " + response.data);
         this.commercant = <UserInterface>response.data;
+        this.saveInLocal('commercant', JSON.stringify(<UserInterface>response.data));
         console.log("Commerçant apres requête réseau " + this.commercant);
       }),
     ).subscribe();

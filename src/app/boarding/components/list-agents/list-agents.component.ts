@@ -5,6 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {UserInterface} from "../../../core/models/user.interface";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-agents',
@@ -14,12 +15,12 @@ import {NotifService} from "../../../core/services/notificationService/notif.ser
 export class ListAgentsComponent implements OnInit {
 
   dataSource !: MatTableDataSource<any>;
-  columnsToDisplay = ['name', 'username', 'email', 'roles', 'action'];
+  columnsToDisplay = ['name', 'username', 'email', 'roles', 'id'];
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  constructor(private userService: UserService, private notify: NotifService) {
+  constructor(private userService: UserService, private notify: NotifService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -40,8 +41,9 @@ export class ListAgentsComponent implements OnInit {
     }
   }
 
-  update(row: string) {
-
+  OnRedirect(id: number) {
+    console.log(id);
+    this.router.navigateByUrl(`dashboard/mes-agents/${id}`);
   }
 
   private getAgents() {

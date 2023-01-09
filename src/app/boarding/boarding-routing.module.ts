@@ -6,6 +6,7 @@ import {ListAgentsComponent} from "./components/list-agents/list-agents.componen
 import {ConfigFolderComponent} from "./components/config-folder/config-folder.component";
 import {ViewFoldersComponent} from "./components/view-folders/view-folders.component";
 import {MyProfileComponent} from "./components/my-profile/my-profile.component";
+import {ViewOneFolderComponent} from "./components/view-one-folder/view-one-folder.component";
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
   },
   {
-    path: 'config-dossier',
+    path: 'mes-agents/:id',
     component: ConfigFolderComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
@@ -23,6 +24,12 @@ const routes: Routes = [
   {
     path: 'voir-dossiers',
     component: ViewFoldersComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+  },
+  {
+    path: 'voir-dossier/:type',
+    component: ViewOneFolderComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
   },

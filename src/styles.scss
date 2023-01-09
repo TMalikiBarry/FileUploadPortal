@@ -17,6 +17,19 @@ body {
     transform: scale(1.7);
   }
 
+  .tool-tip-class {
+    background: #004a9f;
+    color: white;
+  }
+
+  .under-big-body {
+    width: 100%;
+    padding-inline: 1rem;
+    padding-top: .5rem;
+    background-color: white;
+    border-radius: 1rem;
+  }
+
   .snack-success {
     background-color: rgba(lightgreen, 0.8);
     color: darkgreen;

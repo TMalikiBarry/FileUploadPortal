@@ -1,0 +1,48 @@
+mat-grid-list {
+  padding-bottom: 1.5rem;
+  /* mat-grid-tile:not(:first-child) {
+     margin-top: 2rem;
+   }*/
+  mat-grid-tile {
+    .upload-file {
+      p {
+        font-size: 1.3rem;
+        font-weight: 400;
+      }
+
+      button {
+        width: 130%;
+        height: 120%;
+        color: darkgray;
+
+        span {
+          float: left;
+        }
+
+        mat-icon {
+          margin-top: .35rem;
+          float: right;
+        }
+      }
+
+
+    }
+
+    .save-files {
+      button {
+        width: 150%;
+        height: 130%;
+
+        span {
+          float: left;
+        }
+
+        mat-icon {
+          margin-top: .35rem;
+          float: right;
+        }
+      }
+    }
+  }
+
+}
