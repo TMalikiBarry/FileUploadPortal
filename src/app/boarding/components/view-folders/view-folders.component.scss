@@ -1,0 +1,20 @@
+mat-grid-tile {
+  text-align: center;
+}
+
+.single-folder {
+  svg:active {
+    transform: scale(0.65);
+  }
+
+  svg {
+    width: 100%;
+    margin-left: 2.5rem;
+  }
+
+  p {
+    margin-top: -2.5rem;
+  }
+}
+
+

@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
     switch (agent) {
       case "profil": this.router.navigateByUrl('/dashboard/mon-profil'); break;
       case "agent": this.router.navigateByUrl('/dashboard/mes-agents'); break;
-      case "vFolders": this.router.navigateByUrl('/dashboardvoir-dossiers'); break;
+      case "vFolders": this.router.navigateByUrl('/dashboard/voir-documents'); break;
       case "cFolder": this.router.navigateByUrl('/dashboard/config-dossier'); break;
     }
   }*/

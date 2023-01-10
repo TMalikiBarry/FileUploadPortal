@@ -22,13 +22,13 @@ const routes: Routes = [
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
   },
   {
-    path: 'voir-dossiers',
+    path: 'voir-documents',
     component: ViewFoldersComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}
   },
   {
-    path: 'voir-dossier/:type',
+    path: 'voir-documents/:type',
     component: ViewOneFolderComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN, Role.COMMERCANT]}

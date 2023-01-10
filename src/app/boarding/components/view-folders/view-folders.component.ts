@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-view-folders',
@@ -7,10 +8,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ViewFoldersComponent implements OnInit {
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
+  }
+
+  onRedirect(typeFile: 'cni' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence') {
+    this.router.navigateByUrl(`dashboard/voir-documents/${typeFile}`);
   }
 
 }

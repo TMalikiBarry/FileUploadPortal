@@ -41,8 +41,7 @@ export class ListAgentsComponent implements OnInit {
     }
   }
 
-  OnRedirect(id: number) {
-    console.log(id);
+  onRedirect(id: number) {
     this.router.navigateByUrl(`dashboard/mes-agents/${id}`);
   }
 
