@@ -20,6 +20,8 @@ body {
   .tool-tip-class {
     background: #004a9f;
     color: white;
+    font-size: .8rem;
+    font-weight: 475;
   }
 
   .under-big-body {
@@ -30,7 +32,7 @@ body {
   }
 
   .snack-success {
-    background-color: rgba(lightgreen, 0.8);
+    background-color: lightgreen;
     color: darkgreen;
     font-weight: bold;
   }
@@ -41,7 +43,7 @@ body {
   }
 
   .snack-danger {
-    background-color: rgba(#ec7878, 0.8);
+    background-color: #e8adad;
     color: darkred;
     font-weight: bold;
   }

@@ -4,10 +4,12 @@ import {MaterialModule} from "./material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {FormatNamePipe} from './pipes/format-name.pipe';
+import {FormatFileSizePipe} from './pipes/format-file-size.pipe';
 
 @NgModule({
   declarations: [
     FormatNamePipe,
+    FormatFileSizePipe,
   ],
   exports: [
     CommonModule,
@@ -15,6 +17,7 @@ import {FormatNamePipe} from './pipes/format-name.pipe';
     FormsModule,
     ReactiveFormsModule,
     FormatNamePipe,
+    FormatFileSizePipe,
   ],
   imports: [
     CommonModule,

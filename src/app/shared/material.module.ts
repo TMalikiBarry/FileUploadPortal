@@ -18,6 +18,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [],
@@ -41,6 +42,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatPaginatorModule,
     MatSortModule,
     MatDividerModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
   ],
   imports: []
