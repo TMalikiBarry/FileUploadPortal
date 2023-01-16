@@ -15,7 +15,9 @@ export class ConfigFolderComponent implements OnInit {
 
   currentAgent!: UserInterface;
   idAgent!: number;
-  progressTest: number = 2;
+
+  typeAgent = 'informel'
+  progressTest: number = 5;
   progress_cni_r?: number;
   progress_cni_v?: number;
   progress_geoloc?: number;
@@ -23,6 +25,7 @@ export class ConfigFolderComponent implements OnInit {
   progress_connaissance?: number;
   progress_CGU?: number;
   progress_residence?: number;
+  progress_statut?: number;
   file_cni_r?: File;
   file_cni_v?: File;
   file_geoloc?: File;
@@ -30,12 +33,13 @@ export class ConfigFolderComponent implements OnInit {
   file_connaissance?: File;
   file_CGU?: File;
   file_residence?: File;
+  file_statut?: File;
   currentFile?: File;
-  progress = 2;
+  progress = 5;
   message = '';
   currentEvent!: Event;
   fileInfos?: Observable<File>;
-  fileType!: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence';
+  fileType!: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -97,16 +101,22 @@ export class ConfigFolderComponent implements OnInit {
 
       this.fileService.save(this.currentFile).subscribe({
         next: value => {
-          this.notify.snackMessage('Upload avec succès' + value.data.toString(), 5000, 'success');
+          this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
+          this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
           this.progress = 100;
-          // this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100)
         },
         error: err => {
-          console.error(err);
-          this.notify.snackMessage('Error while uploading ' + err.toString(), 5000, 'danger');
-        }
+          if (err == 'OK') {
+            this.notify.snackMessage('Upload avec succès ', 5000, 'success');
+            this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
+            this.progress = 100;
+          } else {
+            console.error(err.status);
+            this.notify.snackMessage('Error while uploading ' + err.toString(), 5000, 'danger');
+          }
+        },
+        // complete: () => this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, this.progress),
       });
-      this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, this.progress);
 
       /*this.fileService.upload(this.currentFile).subscribe({
         next: (event: any) => {
@@ -138,11 +148,11 @@ export class ConfigFolderComponent implements OnInit {
           // this.notify.snackMessage('Dans complete', 4000, 'warning')
         }
       });*/
-      this.currentFile = undefined;
+      this.resetVariables('default');
     }
   }
 
-  onUpload(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence') {
+  onUpload(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut') {
     document.getElementById('file_uploader')?.click();
     this.fileType = fileType;
 
@@ -153,7 +163,7 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   dispatchVariableAndGetMessageByType(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance'
-    | 'CGU' | 'residence', file?: File, progress?: number) {
+    | 'CGU' | 'residence' | 'statut', file?: File, progress?: number) {
     let paragraph: string;
     switch (fileType) {
       case "cni_r":
@@ -212,6 +222,14 @@ export class ConfigFolderComponent implements OnInit {
         if (file)
           this.file_residence = file;
         break;
+      case "statut":
+        paragraph = 'Statut de l\'entreprise';
+        if (progress) {
+          this.progress_statut = progress;
+        }
+        if (file)
+          this.file_statut = file;
+        break;
       default:
         paragraph = 'Fichier';
         break;
@@ -219,35 +237,40 @@ export class ConfigFolderComponent implements OnInit {
     return paragraph;
   }
 
-  resetVariables(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'all') {
+  resetVariables(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU'
+    | 'residence' | 'statut' | 'all' | 'default') {
     switch (fileType) {
       case "cni_r":
         this.file_cni_r = undefined;
-        this.progress_cni_r = 2;
+        this.progress_cni_r = 5;
         break;
       case "cni_v":
         this.file_cni_v = undefined;
-        this.progress_cni_v = 2;
+        this.progress_cni_v = 5;
         break;
       case "geoloc":
         this.file_CGU = undefined;
-        this.progress_geoloc = 2;
+        this.progress_geoloc = 5;
         break;
       case "honneur":
         this.file_honneur = undefined;
-        this.progress_honneur = 2;
+        this.progress_honneur = 5;
         break;
       case "connaissance":
         this.file_connaissance = undefined;
-        this.progress_connaissance = 2;
+        this.progress_connaissance = 5;
         break;
       case "CGU":
         this.file_CGU = undefined;
-        this.progress_CGU = 2;
+        this.progress_CGU = 5;
         break;
       case "residence":
         this.file_residence = undefined;
-        this.progress_residence = 2;
+        this.progress_residence = 5;
+        break;
+      case "statut":
+        this.file_statut = undefined;
+        this.progress_statut = 5;
         break;
       case "all":
         this.file_cni_r = undefined;
@@ -257,15 +280,19 @@ export class ConfigFolderComponent implements OnInit {
         this.file_connaissance = undefined;
         this.file_honneur = undefined;
         this.file_cni_v = undefined;
-        this.progress_cni_r = 2;
-        this.progress_cni_v = 2;
-        this.progress_geoloc = 2;
-        this.progress_honneur = 2;
-        this.progress_connaissance = 2;
-        this.progress_CGU = 2;
-        this.progress_residence = 2;
+        this.file_statut = undefined;
+        this.progress_cni_r = 5;
+        this.progress_cni_v = 5;
+        this.progress_geoloc = 5;
+        this.progress_honneur = 5;
+        this.progress_connaissance = 5;
+        this.progress_CGU = 5;
+        this.progress_residence = 5;
+        this.progress_statut = 5;
         break;
-      default:
+      case 'default':
+        this.currentFile = undefined;
+        this.progress = 5;
         break;
     }
   }
@@ -273,6 +300,18 @@ export class ConfigFolderComponent implements OnInit {
   getTooltipContent(fileType: 'gotImage' | 'document'): string {
     return fileType === 'gotImage' ? 'Les formats de fichier autorisés sont pdf, png, jpg, jpeg, rtf.'
       : 'Les type de fichier autorisés ici sont l\'image, les documents pdf et traitement de texte';
+  }
+
+  showSaveButton(): boolean {
+    const value = 100;
+    const formelVariables = [this.progress_cni_r, this.progress_cni_v, this.progress_geoloc, this.progress_honneur,
+      this.progress_connaissance, this.progress_CGU, this.progress_residence, this.progress_statut];
+    if (this.typeAgent === 'informel') {
+      return (this.progress_cni_r === 100 && this.progress_cni_v === 100 && this.progress_geoloc === 100
+        && this.progress_honneur === 100 && this.progress_connaissance === 100 && this.progress_CGU === 100)
+    } else {
+      return formelVariables.every(variable => variable === value);
+    }
   }
 
 }

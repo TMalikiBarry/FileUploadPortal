@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {ApiResponse} from "../../models/ApiResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +26,11 @@ export class FileService {
     }
   }
 
+  checkTypeFile(extension: string, typeFile: 'CNI' | 'notCNI'): boolean {
+    return typeFile === 'CNI' ? this.tableauCNI.indexOf(extension.toLowerCase().split('.').pop()!) !== -1 :
+      this.tableau.indexOf(extension.toLowerCase().split('.').pop()!) !== -1;
+  }
+
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
@@ -41,17 +45,12 @@ export class FileService {
 
   save(file: File) {
     let formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-    return this.http.post<ApiResponse>(this.baseUrl + "/upload", formData);
+    formData.append("file", file);
+    return this.http.post(this.baseUrl + "/upload", formData);
   }
 
   getFiles(): Observable<any> {
     return this.http.get(`${this.baseUrl}/all`);
-  }
-
-  checkTypeFile(extension: string, typeFile: 'CNI' | 'notCNI'): boolean {
-    return typeFile === 'CNI' ? this.tableauCNI.indexOf(extension.toLowerCase().split('.').pop()!) !== -1 :
-      this.tableau.indexOf(extension.toLowerCase().split('.').pop()!) !== -1;
   }
 
 }

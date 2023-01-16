@@ -1,8 +1,12 @@
+.statut-agent {
+  mat-radio-button {
+    margin-left: 2.5rem;
+  }
+}
+
 mat-grid-list {
   padding-bottom: 1.5rem;
-  /* mat-grid-tile:not(:first-child) {
-     margin-top: 2rem;
-   }*/
+
   mat-grid-tile {
     .upload-file {
       p {
@@ -24,18 +28,17 @@ mat-grid-list {
           float: right;
         }
       }
-
-
     }
 
     .uploaded-file {
-      padding-top: 3.35rem;
+      margin-top: 2.7rem;
       display: grid;
       grid-template-columns: repeat(10, 1fr);
+      height: 55%;
       grid-template-rows: repeat(3, 1fr);
       grid-column-gap: .5rem;
       grid-row-gap: .2rem;
-      border: thick;
+      border: .01rem solid darkgray;
 
       .div1 {
         padding-top: 2rem;
@@ -44,12 +47,18 @@ mat-grid-list {
       }
 
       .div2 {
+        width: min(100%, 12rem);
         padding-top: .8rem;
         text-align: left;
         grid-area: 1 / 3 / 2 / 9;
+
+        span {
+          width: min(100%, 11.5rem);
+        }
       }
 
       .div3 {
+        width: min(100%, 12rem);
         text-align: left;
         margin-top: .5rem;
         grid-area: 2 / 3 / 3 / 9;
@@ -66,7 +75,7 @@ mat-grid-list {
       }
 
       .div5 {
-        text-align: center;
+        text-align: left;
         grid-area: 2 / 10 / 3 / 11;
       }
 
@@ -80,7 +89,6 @@ mat-grid-list {
         }
       }
     }
-
 
     .save-files {
       button {
@@ -102,15 +110,14 @@ mat-grid-list {
 }
 
 .echec-upload {
-  font-size: .6rem;
-  font-weight: 200;
+  font-size: .75rem;
+  font-weight: 250;
   font-style: italic;
   color: red;
 }
 
 .success-upload {
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-style: oblique;
+  font-size: .8rem;
+  font-weight: 500;
   color: #002b5c;
 }

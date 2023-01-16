@@ -54,10 +54,11 @@ export class AuthService {
   public logout(): Observable<boolean> {
     this.isAuth = false;
     this.roleAs = '';
-    localStorage.removeItem("currentUser");
+    /*localStorage.removeItem("currentUser");
     localStorage.setItem('STATE', 'false');
     localStorage.setItem('ROLE', '');
-    localStorage.setItem('TOKEN', '')
+    localStorage.setItem('TOKEN', '')*/
+    localStorage.clear();
     // mettre à jour la liste des users
     return of(true);
   }

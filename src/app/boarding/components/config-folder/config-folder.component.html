@@ -1,6 +1,14 @@
 <input (change)="getEvent($event)" hidden id='file_uploader' type='file'/>
-<div class="under-big-body mat-elevation-z2">
+<div class="under-big-body">
   <h2>Importer les dossiers de l'agent <em style="color: blue">{{currentAgent.name | formatName: 'name'}}</em></h2>
+  <h3>Quel est le statut de cet agent</h3>
+  <div class="statut-agent">
+    <mat-radio-group [(ngModel)]="typeAgent" color="primary">
+      <mat-radio-button value="informel">Informel</mat-radio-button>
+      <mat-radio-button value="formel">Formel</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
   <mat-grid-list cols="2" rowHeight="10rem">
     <mat-grid-tile>
       <div class="upload-file">
@@ -18,7 +26,7 @@
         <div class="div2">
           <span *ngIf="!file_cni_r"><em>{{dispatchVariableAndGetMessageByType('cni_r')}}</em></span>
           <span *ngIf="file_cni_r"
-                [ngClass]="progress_cni_r! < 50 ? 'echec_upload' : 'success_upload'">{{file_cni_r.name}}</span>
+                [ngClass]="progress_cni_r! < 50 ? 'echec-upload' : 'success-upload'">{{file_cni_r.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
           <mat-progress-bar [color]="progress_cni_r! < 50 ? 'warn': 'primary'" [value]="progress_cni_r"
@@ -55,7 +63,7 @@
         <div class="div2">
           <span *ngIf="!file_cni_v"><em>{{dispatchVariableAndGetMessageByType('cni_v')}}</em></span>
           <span *ngIf="file_cni_v"
-                [ngClass]="progress_cni_v! < 50 ? 'echec_upload' : 'success_upload'">{{file_cni_v.name}}</span>
+                [ngClass]="progress_cni_v! < 50 ? 'echec-upload' : 'success-upload'">{{file_cni_v.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
           <mat-progress-bar [color]="progress_cni_v! < 50 ? 'warn': 'primary'" [value]="progress_cni_v"
@@ -92,7 +100,7 @@
         <div class="div2">
           <span *ngIf="!file_geoloc"><em>{{dispatchVariableAndGetMessageByType('geoloc')}}</em></span>
           <span *ngIf="file_geoloc"
-                [ngClass]="progress_geoloc! < 50 ? 'echec_upload' : 'success_upload'">{{file_geoloc.name}}</span>
+                [ngClass]="progress_geoloc! < 50 ? 'echec-upload' : 'success-upload'">{{file_geoloc.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
           <mat-progress-bar [color]="progress_geoloc! < 50 ? 'warn': 'primary'" [value]="progress_geoloc"
@@ -129,7 +137,7 @@
         <div class="div2">
           <span *ngIf="!file_honneur"><em>{{dispatchVariableAndGetMessageByType('honneur')}}</em></span>
           <span *ngIf="file_honneur"
-                [ngClass]="progress_honneur! < 50 ? 'echec_upload' : 'success_upload'">{{file_honneur.name}}</span>
+                [ngClass]="progress_honneur! < 50 ? 'echec-upload' : 'success-upload'">{{file_honneur.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
           <mat-progress-bar [color]="progress_honneur! < 50 ? 'warn': 'primary'" [value]="progress_honneur"
@@ -166,7 +174,7 @@
         <div class="div2">
           <span *ngIf="!file_connaissance"><em>{{dispatchVariableAndGetMessageByType('connaissance')}}</em></span>
           <span *ngIf="file_connaissance"
-                [ngClass]="progress_connaissance! < 50 ? 'echec_upload' : 'success_upload'">{{file_connaissance.name}}</span>
+                [ngClass]="progress_connaissance! < 50 ? 'echec-upload' : 'success-upload'">{{file_connaissance.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
           <mat-progress-bar [color]="progress_connaissance! < 50 ? 'warn': 'primary'" [value]="progress_connaissance"
@@ -202,10 +210,12 @@
         <div class="div1"> IMG</div>
         <div class="div2">
           <span *ngIf="!file_CGU"><em>{{dispatchVariableAndGetMessageByType('CGU')}}</em></span>
-          <span *ngIf="file_CGU"><strong>{{file_CGU.name}}</strong></span>
+          <span *ngIf="file_CGU"
+                [ngClass]="progress_CGU! < 50 ? 'echec-upload' : 'success-upload'">{{file_CGU.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_CGU! < 50 ? 'warn': 'primary'" [value]="progress_CGU" mode="determinate">
+          <mat-progress-bar [color]="progress_CGU! < 50 ? 'warn': 'primary'" [value]="progress_CGU"
+                            mode="determinate">
 
           </mat-progress-bar>
         </div>
@@ -220,6 +230,80 @@
           <mat-icon color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_CGU"> {{file_CGU.size | formatFileSize}}</span></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="typeAgent==='formel'">
+      <div class="upload-file">
+        <p>{{dispatchVariableAndGetMessageByType('residence')}}</p>
+        <button (click)="onUpload('residence')" [matTooltip]="getTooltipContent('document')"
+                mat-stroked-button matTooltipClass="tool-tip-class">
+          <span>Importer le fichier</span>
+          <mat-icon color="primary">insert_drive_file</mat-icon>
+        </button>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="typeAgent==='formel'">
+      <div class="uploaded-file">
+        <div class="div1"> IMG</div>
+        <div class="div2">
+          <span *ngIf="!file_residence"><em>{{dispatchVariableAndGetMessageByType('residence')}}</em></span>
+          <span *ngIf="file_residence"
+                [ngClass]="progress_residence! < 50 ? 'echec-upload' : 'success-upload'">{{file_residence.name | formatName: 'filename'}}</span>
+        </div>
+        <div class="div3">
+          <mat-progress-bar [color]="progress_residence! < 50 ? 'warn': 'primary'" [value]="progress_residence"
+                            mode="determinate">
+
+          </mat-progress-bar>
+        </div>
+        <div class="div4">
+          <svg *ngIf="progress_residence! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+               xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
+            <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="div5">
+          <mat-icon color="warn">delete</mat-icon>
+        </div>
+        <div class="div6"><span *ngIf="file_residence"> {{file_residence.size | formatFileSize}}</span></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="typeAgent==='formel'">
+      <div class="upload-file">
+        <p>{{dispatchVariableAndGetMessageByType('statut')}}</p>
+        <button (click)="onUpload('statut')" [matTooltip]="getTooltipContent('document')"
+                mat-stroked-button matTooltipClass="tool-tip-class">
+          <span>Importer le fichier</span>
+          <mat-icon color="primary">insert_drive_file</mat-icon>
+        </button>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="typeAgent==='formel'">
+      <div class="uploaded-file">
+        <div class="div1"> IMG</div>
+        <div class="div2">
+          <span *ngIf="!file_statut"><em>{{dispatchVariableAndGetMessageByType('statut')}}</em></span>
+          <span *ngIf="file_statut"
+                [ngClass]="progress_statut! < 50 ? 'echec-upload' : 'success-upload'">{{file_statut.name | formatName: 'filename'}}</span>
+        </div>
+        <div class="div3">
+          <mat-progress-bar [color]="progress_statut! < 50 ? 'warn': 'primary'" [value]="progress_statut"
+                            mode="determinate">
+
+          </mat-progress-bar>
+        </div>
+        <div class="div4">
+          <svg *ngIf="progress_statut! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+               xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
+            <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="div5">
+          <mat-icon color="warn">delete</mat-icon>
+        </div>
+        <div class="div6"><span *ngIf="file_statut"> {{file_statut.size | formatFileSize}}</span></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>

@@ -4,16 +4,18 @@ mat-grid-tile {
 
 .single-folder {
   svg:active {
-    transform: scale(0.65);
+    transform: scale(0.4);
   }
 
   svg {
     width: 100%;
-    margin-left: 2.5rem;
+    margin-left: 1rem;
+    transform: scale(0.5);
   }
 
   p {
     margin-top: -2.5rem;
+    font-size: .9rem;
   }
 }
 
