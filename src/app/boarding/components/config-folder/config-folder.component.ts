@@ -6,6 +6,9 @@ import {map, Observable, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
 
+
+export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
+
 @Component({
   selector: 'app-config-folder',
   templateUrl: './config-folder.component.html',
@@ -39,7 +42,7 @@ export class ConfigFolderComponent implements OnInit {
   message = '';
   currentEvent!: Event;
   fileInfos?: Observable<File>;
-  fileType!: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
+  fileType!: FileType;
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -79,26 +82,20 @@ export class ConfigFolderComponent implements OnInit {
     if (this.currentFile) {
       console.log(" Le type du fichier " + this.currentFile.type);
       console.log(" La taille du fichier " + this.currentFile.size);
-      let checkFileType = fileType.includes('cni') ? this.fileService.checkTypeFile(this.currentFile.name, 'CNI') :
-        this.fileService.checkTypeFile(this.currentFile.name, 'notCNI');
-      let checkFileSize = fileType.includes('cni') ? this.fileService.checkSize(this.currentFile, 'selfieIdentity') :
-        this.fileService.checkSize(this.currentFile, 'notSelfie');
 
-      if (!checkFileType) {
+      if (!this.checkFileType(fileType, this.currentFile)) {
         this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
         this.currentFile = undefined;
-        this.resetVariables(this.fileType);
+        this.resetVariables(fileType);
         return;
       }
-      if (!checkFileSize) {
+      if (!this.checkFileSize(fileType, this.currentFile)) {
         let taille = fileType.includes('cni') ? 10 : 4;
         this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 3000, 'danger');
         this.currentFile = undefined;
-        this.resetVariables(this.fileType);
+        this.resetVariables(fileType);
         return;
       }
-
-
       this.fileService.save(this.currentFile).subscribe({
         next: value => {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
@@ -152,7 +149,7 @@ export class ConfigFolderComponent implements OnInit {
     }
   }
 
-  onUpload(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut') {
+  onUpload(fileType: FileType) {
     document.getElementById('file_uploader')?.click();
     this.fileType = fileType;
 
@@ -162,8 +159,7 @@ export class ConfigFolderComponent implements OnInit {
     this.message = message;
   }
 
-  dispatchVariableAndGetMessageByType(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance'
-    | 'CGU' | 'residence' | 'statut', file?: File, progress?: number) {
+  dispatchVariableAndGetMessageByType(fileType: FileType, file?: File, progress?: number) {
     let paragraph: string;
     switch (fileType) {
       case "cni_r":
@@ -237,8 +233,7 @@ export class ConfigFolderComponent implements OnInit {
     return paragraph;
   }
 
-  resetVariables(fileType: 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU'
-    | 'residence' | 'statut' | 'all' | 'default') {
+  resetVariables(fileType: FileType | 'all' | 'default') {
     switch (fileType) {
       case "cni_r":
         this.file_cni_r = undefined;
@@ -314,4 +309,37 @@ export class ConfigFolderComponent implements OnInit {
     }
   }
 
+  checkFileSize(filetype: FileType, file?: File): boolean {
+    return filetype.includes('cni') ? this.fileService.checkSize(file!, 'selfieIdentity') :
+      this.fileService.checkSize(file!, 'notSelfie')
+  }
+
+  checkFileType(filetype: FileType, file?: File): boolean {
+    return filetype.includes('cni') ? this.fileService.checkTypeFile(file!.name, 'CNI') :
+      this.fileService.checkTypeFile(file!.name, 'notCNI');
+  }
+
+  checkFile(fileType: FileType, file?: File) {
+    console.log(" Le type du fichier " + file!.type);
+    console.log(" La taille du fichier " + file!.size);
+
+    if (!this.checkFileType(fileType, file)) {
+      this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
+      file = undefined;
+      this.resetVariables(fileType);
+      return;
+    }
+    if (!this.checkFileSize(fileType, file)) {
+      let taille = fileType.includes('cni') ? 10 : 4;
+      this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 3000, 'danger');
+      file = undefined;
+      this.resetVariables(fileType);
+      return;
+    }
+  }
+
+
+  showPreviewImg(file: File): string {
+    return URL.createObjectURL(file);
+  }
 }

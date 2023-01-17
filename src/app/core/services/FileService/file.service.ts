@@ -9,11 +9,15 @@ import {environment} from "../../../../environments/environment";
 export class FileService {
   tableauCNI: string[] = ['\'image/jpeg\'', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'];
   tableau: string[] = [...this.tableauCNI, 'doc', 'docx', 'odt', 'rft', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-  limitSelfie = 10 * 1024 * 1024;
-  limitFile = 4 * 1024 * 1024;
+  limitSelfie = 6 * 1024 * 1024;
+  limitFile = 3 * 1024 * 1024;
   private baseUrl = environment.API_URL + "/dossier";
 
   constructor(private http: HttpClient) {
+  }
+
+  IfTypeFileIsPDF(file: File) {
+    return file.name.toLowerCase().split('.').pop() === 'pdf';
   }
 
   checkSize(file: File, fileType: "selfieIdentity" | "notSelfie" = 'selfieIdentity'): boolean {
