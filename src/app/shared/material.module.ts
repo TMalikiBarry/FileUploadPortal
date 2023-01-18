@@ -19,6 +19,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [],
@@ -35,6 +36,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatSelectModule,
     MatSnackBarModule,
     MatSidenavModule,
+    MatDialogModule,
     MatToolbarModule,
     MatTooltipModule,
     MatTableModule,

@@ -7,7 +7,7 @@ export class FormatNamePipe implements PipeTransform {
 
   transform(value: string, formatType: 'name' | 'username' | 'filename'): string {
     if (formatType === 'filename') {
-      return value.length >= 27 ? value.slice(0, 27) + '...' : value;
+      return (value.substring(0, value.lastIndexOf('.'))).length >= 25 ? value.slice(0, 27) + '...' : value;
     }
     let names = value.split(" ");
     let formattedNames = [];

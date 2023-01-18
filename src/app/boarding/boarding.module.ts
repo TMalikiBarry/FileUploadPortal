@@ -8,6 +8,7 @@ import {ConfigFolderComponent} from './components/config-folder/config-folder.co
 import {ViewFoldersComponent} from './components/view-folders/view-folders.component';
 import {MyProfileComponent} from './components/my-profile/my-profile.component';
 import {ViewOneFolderComponent} from './components/view-one-folder/view-one-folder.component';
+import {SaveDossierComponent} from './dialogs/save-dossier/save-dossier.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {ViewOneFolderComponent} from './components/view-one-folder/view-one-fold
     ViewFoldersComponent,
     MyProfileComponent,
     ViewOneFolderComponent,
+    SaveDossierComponent,
   ],
   imports: [
     BoardingRoutingModule,

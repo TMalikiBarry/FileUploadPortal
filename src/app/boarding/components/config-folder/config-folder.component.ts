@@ -9,6 +9,17 @@ import {FileService} from "../../../core/services/FileService/file.service";
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
 
+export enum Typage {
+  cni_r = 'CNI_RECTO',
+  cni_v = 'CNI_VERSO',
+  geoloc = 'GEOLOCALISATION',
+  honneur = 'DECLARATION_HONNEUR',
+  connaissance = 'FICHE_CONNAISSANCE',
+  CGU = 'CGU',
+  residence = 'CONTRAT_LOCATION',
+  statut = 'STATUT',
+}
+
 @Component({
   selector: 'app-config-folder',
   templateUrl: './config-folder.component.html',
@@ -83,20 +94,21 @@ export class ConfigFolderComponent implements OnInit {
       console.log(" Le type du fichier " + this.currentFile.type);
       console.log(" La taille du fichier " + this.currentFile.size);
 
-      if (!this.checkFileType(fileType, this.currentFile)) {
+      if (!this.fileService.isTypeFilePDF(this.currentFile)) {
         this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
         this.currentFile = undefined;
         this.resetVariables(fileType);
         return;
       }
       if (!this.checkFileSize(fileType, this.currentFile)) {
-        let taille = fileType.includes('cni') ? 10 : 4;
-        this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 3000, 'danger');
+        let taille = fileType.includes('cni') ? this.fileService.limitSelfie : this.fileService.limitFile;
+        this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 4000, 'danger');
         this.currentFile = undefined;
         this.resetVariables(fileType);
         return;
       }
-      this.fileService.save(this.currentFile).subscribe({
+      let type = fileType + '_' + this.currentAgent.username;
+      this.fileService.uploadFile(this.currentFile, type).subscribe({
         next: value => {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
           this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
@@ -112,39 +124,7 @@ export class ConfigFolderComponent implements OnInit {
             this.notify.snackMessage('Error while uploading ' + err.toString(), 5000, 'danger');
           }
         },
-        // complete: () => this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, this.progress),
       });
-
-      /*this.fileService.upload(this.currentFile).subscribe({
-        next: (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.message= "WEEEAAH, upload avec succès";
-            this.progress = Math.round(100 * event.loaded / event.total);
-            this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, this.progress);
-          } else if (event instanceof HttpResponse) {
-            this.message ='dans instance ' + event.body.message;
-          }
-          this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
-          this.notify.snackMessage(`Message : ${this.message}`, 700, "success");
-          this.progressTest = 100;
-        },
-        error: (err: any) => {
-          console.error(err);
-          this.progress = 0;
-          this.progressTest = 0;
-          if (err.error && err.error.message) {
-            this.message = err.error.message;
-          } else {
-            this.message = 'Could not upload the file!';
-          }
-          this.notify.snackMessage(this.message, 5000, "danger");
-          this.currentFile = undefined;
-        },
-        complete: () =>
-        {
-          // this.notify.snackMessage('Dans complete', 4000, 'warning')
-        }
-      });*/
       this.resetVariables('default');
     }
   }
@@ -203,7 +183,7 @@ export class ConfigFolderComponent implements OnInit {
           this.file_connaissance = file;
         break;
       case "CGU":
-        paragraph = 'CGU';
+        paragraph = 'Conditions (CGU)';
         if (progress) {
           this.progress_CGU = progress;
         }
@@ -293,11 +273,12 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   getTooltipContent(fileType: 'gotImage' | 'document'): string {
-    return fileType === 'gotImage' ? 'Les formats de fichier autorisés sont pdf, png, jpg, jpeg, rtf.'
-      : 'Les type de fichier autorisés ici sont l\'image, les documents pdf et traitement de texte';
+    return fileType === 'gotImage' ? 'Les formats de fichier autorisés sont pdf (document/PDF).Veuillez ' +
+      'scanner si c\'est une image'
+      : 'Les types de fichier autorisés ici sont les documents pdf, veuillez convertir si c\'est autre';
   }
 
-  showSaveButton(): boolean {
+  allowSaveDossier(): boolean {
     const value = 100;
     const formelVariables = [this.progress_cni_r, this.progress_cni_v, this.progress_geoloc, this.progress_honneur,
       this.progress_connaissance, this.progress_CGU, this.progress_residence, this.progress_statut];
@@ -306,6 +287,14 @@ export class ConfigFolderComponent implements OnInit {
         && this.progress_honneur === 100 && this.progress_connaissance === 100 && this.progress_CGU === 100)
     } else {
       return formelVariables.every(variable => variable === value);
+    }
+  }
+
+  onSaveDossier() {
+    if (this.allowSaveDossier()) {
+
+    } else {
+
     }
   }
 
@@ -319,27 +308,9 @@ export class ConfigFolderComponent implements OnInit {
       this.fileService.checkTypeFile(file!.name, 'notCNI');
   }
 
-  checkFile(fileType: FileType, file?: File) {
-    console.log(" Le type du fichier " + file!.type);
-    console.log(" La taille du fichier " + file!.size);
-
-    if (!this.checkFileType(fileType, file)) {
-      this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
-      file = undefined;
-      this.resetVariables(fileType);
-      return;
-    }
-    if (!this.checkFileSize(fileType, file)) {
-      let taille = fileType.includes('cni') ? 10 : 4;
-      this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 3000, 'danger');
-      file = undefined;
-      this.resetVariables(fileType);
-      return;
-    }
-  }
-
-
   showPreviewImg(file: File): string {
     return URL.createObjectURL(file);
   }
+
+
 }

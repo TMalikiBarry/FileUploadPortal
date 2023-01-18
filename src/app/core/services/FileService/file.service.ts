@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
+import {DossierInterface} from "../../models/dossier.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class FileService {
   constructor(private http: HttpClient) {
   }
 
-  IfTypeFileIsPDF(file: File) {
+  isTypeFilePDF(file: File) {
     return file.name.toLowerCase().split('.').pop() === 'pdf';
   }
 
@@ -47,10 +48,14 @@ export class FileService {
     return this.http.request(req);
   }
 
-  save(file: File) {
+  saveDossier(fileInfos: DossierInterface) {
+    return this.http.post(`${this.baseUrl}/new`, fileInfos);
+  }
+
+  uploadFile(file: File, type: string) {
     let formData: FormData = new FormData();
     formData.append("file", file);
-    return this.http.post(this.baseUrl + "/upload", formData);
+    return this.http.post(this.baseUrl + "/upload/" + type, formData);
   }
 
   getFiles(): Observable<any> {
