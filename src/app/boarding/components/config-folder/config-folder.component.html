@@ -9,7 +9,7 @@
     </mat-radio-group>
   </div>
 
-  <mat-grid-list cols="2" rowHeight="7rem">
+  <mat-grid-list cols="2" rowHeight="10rem">
     <mat-grid-tile>
       <div class="upload-file">
         <p>{{dispatchVariableAndGetMessageByType('cni_r')}}</p>
@@ -44,7 +44,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_cni_r"> {{file_cni_r.size | formatFileSize}}</span></div>
       </div>
@@ -81,7 +81,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_cni_v"> {{file_cni_v.size | formatFileSize}}</span></div>
       </div>
@@ -118,7 +118,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_geoloc"> {{file_geoloc.size | formatFileSize}}</span></div>
       </div>
@@ -155,7 +155,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_honneur"> {{file_honneur.size | formatFileSize}}</span></div>
       </div>
@@ -192,7 +192,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_connaissance"> {{file_connaissance.size | formatFileSize}}</span></div>
       </div>
@@ -202,7 +202,7 @@
         <p>{{dispatchVariableAndGetMessageByType('CGU')}}</p>
         <button (click)="onUpload('CGU')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_cni_r !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_r!.name | formatName: 'filename'}}</span>
+          <span>{{progress_CGU !== 100 ? 'Importer l\'image scannée ou le fichier' : file_CGU!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
@@ -230,7 +230,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_CGU"> {{file_CGU.size | formatFileSize}}</span></div>
       </div>
@@ -267,7 +267,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_residence"> {{file_residence.size | formatFileSize}}</span></div>
       </div>
@@ -304,7 +304,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon color="warn">delete</mat-icon>
+          <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_statut"> {{file_statut.size | formatFileSize}}</span></div>
       </div>
@@ -315,7 +315,7 @@
         <button (click)="onSaveDossier()"
                 class="animateMe mat-elevation-z4" color="primary" mat-raised-button>
           <span>Sauvegarder</span>
-          <mat-icon>uploadFile</mat-icon>
+          <mat-icon>drive_folder_upload</mat-icon>
         </button>
       </div>
     </mat-grid-tile>

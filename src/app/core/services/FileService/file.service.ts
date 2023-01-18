@@ -52,6 +52,10 @@ export class FileService {
     return this.http.post(`${this.baseUrl}/new`, fileInfos);
   }
 
+  saveAllDossier(fileInfos: DossierInterface[]) {
+    return this.http.post(`${this.baseUrl}/newfiles`, fileInfos);
+  }
+
   uploadFile(file: File, type: string) {
     let formData: FormData = new FormData();
     formData.append("file", file);

@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
-import {map, Observable, tap} from "rxjs";
+import {map, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
+import {DossierInterface} from "../../../core/models/dossier.interface";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
@@ -31,7 +32,6 @@ export class ConfigFolderComponent implements OnInit {
   idAgent!: number;
 
   typeAgent = 'informel'
-  progressTest: number = 5;
   progress_cni_r?: number;
   progress_cni_v?: number;
   progress_geoloc?: number;
@@ -50,9 +50,10 @@ export class ConfigFolderComponent implements OnInit {
   file_statut?: File;
   currentFile?: File;
   progress = 5;
-  message = '';
-  currentEvent!: Event;
-  fileInfos?: Observable<File>;
+
+  informelVariableNames: string[] = ['file_cni_r', 'file_cni_v', 'file_geoloc', 'file_honneur',
+    'file_connaissance', 'file_CGU'];
+  formelVariableNames: string[] = [...this.informelVariableNames, 'file_residence', 'file_satut'];
   fileType!: FileType;
 
   constructor(private route: ActivatedRoute,
@@ -84,7 +85,6 @@ export class ConfigFolderComponent implements OnInit {
   getEvent(event: Event) {
     this.progress = 5;
     let fileType = this.fileType;
-    this.currentEvent = event
     const target = event.target as HTMLInputElement
     if (target.files && target.files.length) {
       this.currentFile = target?.files[0];
@@ -93,6 +93,7 @@ export class ConfigFolderComponent implements OnInit {
     if (this.currentFile) {
       console.log(" Le type du fichier " + this.currentFile.type);
       console.log(" La taille du fichier " + this.currentFile.size);
+      // console.log("TEST FONCTION ", this.getTypeByVariable(this.file_cni_r));
 
       if (!this.fileService.isTypeFilePDF(this.currentFile)) {
         this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
@@ -107,7 +108,7 @@ export class ConfigFolderComponent implements OnInit {
         this.resetVariables(fileType);
         return;
       }
-      let type = fileType + '_' + this.currentAgent.username;
+      let type = Typage[fileType];
       this.fileService.uploadFile(this.currentFile, type).subscribe({
         next: value => {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
@@ -133,10 +134,6 @@ export class ConfigFolderComponent implements OnInit {
     document.getElementById('file_uploader')?.click();
     this.fileType = fileType;
 
-  }
-
-  setMessage(message: string) {
-    this.message = message;
   }
 
   dispatchVariableAndGetMessageByType(fileType: FileType, file?: File, progress?: number) {
@@ -292,15 +289,72 @@ export class ConfigFolderComponent implements OnInit {
 
   onSaveDossier() {
     if (this.allowSaveDossier()) {
+      let informelFileVariables = [this.file_cni_r, this.file_cni_v, this.file_geoloc, this.file_honneur,
+        this.file_connaissance, this.file_CGU];
+      let formelFileVariables = [...informelFileVariables, this.file_residence, this.file_statut];
+      let dossiers: DossierInterface[] = [];
+      switch (this.typeAgent) {
+        case 'informel':
+          let i = 0;
+          informelFileVariables.forEach(file => {
+            dossiers.push({
+              name: this.getTypeByNameVariable(this.informelVariableNames[i]) + '_' + file!.name,
+              uploadingFile: file!.name,
+              typeFile: this.getTypeByNameVariable(this.informelVariableNames[i]),
+              acces: this.currentAgent,
+            });
+            i++;
+          })
+          break;
+        case 'formel':
+          let j = 0;
+          formelFileVariables.forEach(file => {
+            dossiers.push({
+              name: this.getTypeByNameVariable(this.formelVariableNames[j]) + '_' + file!.name,
+              uploadingFile: file!.name,
+              typeFile: this.getTypeByNameVariable(this.formelVariableNames[j]),
+              acces: this.currentAgent,
+            });
+            j++;
+          })
+          break;
+      }
+      this.fileService.saveAllDossier(dossiers).pipe(
+        tap(() => {
+          this.notify.snackMessage('Les fichiers ont bien été uploadé ', 4000, "success");
+        }),
+      ).subscribe();
 
     } else {
-
+      this.notify.snackMessage('Vous n\'avez pas chargés tous les fichiers', 4000, "danger");
     }
   }
 
   checkFileSize(filetype: FileType, file?: File): boolean {
     return filetype.includes('cni') ? this.fileService.checkSize(file!, 'selfieIdentity') :
       this.fileService.checkSize(file!, 'notSelfie')
+  }
+
+  getTypeByNameVariable(varName: string) {
+    let varTypeName: FileType = <FileType>(varName.slice(varName.indexOf('_') + 1));
+    console.log("Type recuperer ", varTypeName);
+    return Typage[varTypeName];
+  }
+
+  getTypeByVariable(myVar: any) {
+    if (myVar == null) {
+      return Typage.cni_r;
+    }
+
+    let varName = Object.keys({myVar})[0];
+    /*let match = myVar.toString().match(/^(?:function|class)\s*([^\s(]+)/);
+    if (match != null) {
+      varName = match[1];
+    }*/
+    console.log("Nom variable ", varName);
+    let varTypeName: FileType = <FileType>(varName.slice(varName.indexOf('_') + 1));
+    console.log("Type recuperer ", varTypeName);
+    return Typage[varTypeName];
   }
 
   checkFileType(filetype: FileType, file?: File): boolean {
