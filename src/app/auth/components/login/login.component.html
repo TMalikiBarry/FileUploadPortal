@@ -10,7 +10,7 @@
       <!--      <mat-error>{{getFormControlErrorText(loginInfoForm.controls['username'])}}</mat-error>-->
     </mat-form-field>
     <!--<label for="email">Email</label>
-    <input id="email" type="text">-->
+    <inputValue id="email" type="text">-->
     <mat-form-field appearance="outline">
       <mat-label>Mot de passe</mat-label>
       <input [type]="showPassword? 'text':'password'" formControlName="password" matInput>
@@ -22,7 +22,7 @@
       </mat-error>
     </mat-form-field>
     <!--<label for="password">Mot de passe</label>
-    <input id="password" type="password">-->
+    <inputValue id="password" type="password">-->
     <div>
       <button (click)="onLogin()" class="animateMe mat-elevation-z4" color="primary" mat-raised-button>Connexion
       </button>

@@ -5,14 +5,11 @@
   </button>
   <span class="get-space">Mon DashBoard</span>
   <span class="example-spacer"></span>
-  <button (click)="logOut()" aria-label="Log Out icon" class="animateMe mat-elevation-z4" color="warn"
+  <button (click)="logOut()" aria-label="Log Out icon" class="animateMe mat-elevation-z4"
           mat-raised-button>
     <mat-icon matTooltip="Déconnexion" matTooltipClass="tool-tip-class">logout</mat-icon>
     <span>Se déconnecter</span>
   </button>
-  <!--<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>-->
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -43,7 +40,7 @@
     </button>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content mat-elevation-z8">
+    <div class="content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

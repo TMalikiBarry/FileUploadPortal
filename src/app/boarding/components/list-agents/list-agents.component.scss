@@ -5,19 +5,20 @@
   table {
     margin-top: 2rem;
     width: 100%;
-    border-top-right-radius: 1.5rem;
-    border-top-left-radius: 1.5rem;
+    border-top-right-radius: .5rem;
+    border-top-left-radius: .5rem;
     overflow: hidden;
 
     th {
-      font-size: 1.5rem;
-      font-weight: 750;
+      color: black;
+      font-size: 1rem;
+      font-weight: 500;
     }
   }
 
   mat-paginator {
-    border-bottom-left-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
   }
 }
 
@@ -38,8 +39,9 @@
 
   mat-form-field {
     width: 60%;
-    height: 50%;
+    height: 45%;
     text-align: center;
+    background-color: white;
 
     mat-icon {
       color: gray;

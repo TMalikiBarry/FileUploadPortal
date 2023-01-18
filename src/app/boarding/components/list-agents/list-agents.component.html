@@ -1,9 +1,10 @@
 <div class="big-body">
+  <h2>La liste des agents</h2>
   <div class="hearder-actions">
     <mat-form-field appearance="outline">
       <mat-label>Rechercher</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input #input (keyup)="applyFilter($event)" matInput placeholder="Rechercher">
+      <input #inputValue (keyup)="applyFilter($event)" matInput placeholder="Rechercher">
     </mat-form-field>
 
     <button class="animateMe mat-elevation-z4" color="primary" mat-raised-button routerLink="/dashboard/voir-documents"
@@ -12,7 +13,6 @@
       Voir les dossiers
     </button>
   </div>
-  <h2>La liste des agents</h2>
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
 
     <!-- NAME Column -->
@@ -59,7 +59,7 @@
 
     <!-- Row shown when there is no matching data. -->
     <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche "{{input.value}}"</td>
+      <td class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche "{{inputValue.value}}"</td>
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 15, 25, 50]" aria-label="Select page of users"
