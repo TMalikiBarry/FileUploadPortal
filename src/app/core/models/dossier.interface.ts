@@ -1,5 +1,5 @@
-import {Typage} from "../../boarding/components/config-folder/config-folder.component";
 import {UserInterface} from "./user.interface";
+import {Typage} from "./typage";
 
 export interface DossierInterface {
   id?: number;

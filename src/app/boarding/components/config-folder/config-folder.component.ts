@@ -6,20 +6,12 @@ import {map, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
 import {DossierInterface} from "../../../core/models/dossier.interface";
+import {MatDialog} from "@angular/material/dialog";
+import {SaveDossierComponent} from "../../dialogs/save-dossier/save-dossier.component";
+import {Typage} from "../../../core/models/typage";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
-
-export enum Typage {
-  cni_r = 'CNI_RECTO',
-  cni_v = 'CNI_VERSO',
-  geoloc = 'GEOLOCALISATION',
-  honneur = 'DECLARATION_HONNEUR',
-  connaissance = 'FICHE_CONNAISSANCE',
-  CGU = 'CGU',
-  residence = 'CONTRAT_LOCATION',
-  statut = 'STATUT',
-}
 
 @Component({
   selector: 'app-config-folder',
@@ -53,12 +45,13 @@ export class ConfigFolderComponent implements OnInit {
 
   informelVariableNames: string[] = ['file_cni_r', 'file_cni_v', 'file_geoloc', 'file_honneur',
     'file_connaissance', 'file_CGU'];
-  formelVariableNames: string[] = [...this.informelVariableNames, 'file_residence', 'file_satut'];
+  formelVariableNames: string[] = [...this.informelVariableNames, 'file_statut', 'file_residence'];
   fileType!: FileType;
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private notify: NotifService,
+              private dialog: MatDialog,
               private fileService: FileService) {
   }
 
@@ -270,9 +263,9 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   getTooltipContent(fileType: 'gotImage' | 'document'): string {
-    return fileType === 'gotImage' ? 'Les formats de fichier autorisés sont pdf (document/PDF).Veuillez ' +
+    return fileType === 'gotImage' ? 'Le format de fichier autorisé est pdf (application/pdf). Veuillez ' +
       'scanner si c\'est une image'
-      : 'Les types de fichier autorisés ici sont les documents pdf, veuillez convertir si c\'est autre';
+      : 'Les types de fichier autorisés sont les documents pdf, veuillez convertir si c\'est autre';
   }
 
   allowSaveDossier(): boolean {
@@ -291,7 +284,7 @@ export class ConfigFolderComponent implements OnInit {
     if (this.allowSaveDossier()) {
       let informelFileVariables = [this.file_cni_r, this.file_cni_v, this.file_geoloc, this.file_honneur,
         this.file_connaissance, this.file_CGU];
-      let formelFileVariables = [...informelFileVariables, this.file_residence, this.file_statut];
+      let formelFileVariables = [...informelFileVariables, this.file_statut, this.file_residence];
       let dossiers: DossierInterface[] = [];
       switch (this.typeAgent) {
         case 'informel':
@@ -322,6 +315,14 @@ export class ConfigFolderComponent implements OnInit {
       this.fileService.saveAllDossier(dossiers).pipe(
         tap(() => {
           this.notify.snackMessage('Les fichiers ont bien été uploadé ', 4000, "success");
+          const dialogRef = this.dialog.open(SaveDossierComponent, {
+            data: {
+              agentName: this.currentAgent.name,
+              isOK: true
+            },
+            maxWidth: '25rem',
+          });
+
         }),
       ).subscribe();
 

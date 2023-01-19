@@ -1,0 +1,32 @@
+.big-mama {
+  text-align: center;
+
+  .message {
+    text-align: center;
+  }
+
+  .see-results {
+    text-align: center;
+  }
+
+  .redo-action {
+    text-align: center;
+  }
+}
+
+button {
+
+  span {
+    float: right;
+  }
+
+  mat-icon {
+    margin-top: .3rem;
+    margin-right: 1rem;
+    float: left;
+  }
+}
+
+.big-mama > * {
+  margin: 1.5rem;
+}

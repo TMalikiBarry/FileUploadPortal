@@ -5,7 +5,7 @@
   </button>
   <span class="get-space">Mon DashBoard</span>
   <span class="example-spacer"></span>
-  <button (click)="logOut()" aria-label="Log Out icon" class="animateMe mat-elevation-z4"
+  <button (click)="logOut()" aria-label="Log Out icon" class="log_out mat-elevation-z4"
           mat-raised-button>
     <mat-icon matTooltip="Déconnexion" matTooltipClass="tool-tip-class">logout</mat-icon>
     <span>Se déconnecter</span>
@@ -13,8 +13,8 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav [(opened)]="isOpen" class="mat-elevation-z8" mode="side">
-    <img alt="Mon PP" class="avatar mat-elevation-z8" src="assets/images/profiles/profile-default.png"/>
+  <mat-sidenav [(opened)]="isOpen" class="mat-elevation-z4" mode="side">
+    <img alt="Mon PP" class="avatar mat-elevation-z2" src="assets/images/profiles/profile-default.png"/>
 
     <h4 class="name">
       <!--      <span *ngIf="userSevice.getCommercant() | async as commercant"> {{commercant.name | formatName: 'name'}}</span>-->

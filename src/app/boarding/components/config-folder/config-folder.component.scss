@@ -6,16 +6,20 @@
 
 mat-grid-list {
   padding-bottom: 1.5rem;
+  margin-left: 2.5rem;
+
   mat-grid-tile {
 
     .upload-file {
+      width: max(115%, 21rem);
+
       p {
         font-size: 1.3rem;
         font-weight: 400;
       }
 
       button {
-        width: min(130%, 23.7rem);
+        width: max(70%, 21rem);
         height: 120%;
         color: darkgray;
 
@@ -101,16 +105,16 @@ mat-grid-list {
 
     .save-files {
       button {
-        width: 150%;
+        width: 120%;
         height: 130%;
 
         span {
-          float: left;
+          float: right;
         }
 
         mat-icon {
           margin-top: .35rem;
-          float: right;
+          float: left;
         }
       }
     }

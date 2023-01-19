@@ -26,6 +26,16 @@ mat-sidenav {
   margin-left: 1rem;
 }
 
+.log_out {
+  mat-icon {
+    margin-right: .5rem;
+  }
+}
+
+.log_out:hover {
+  transform: scale(1.1);
+}
+
 .content {
   height: calc(100vh - 6rem);
   border-radius: 1rem;
@@ -47,8 +57,8 @@ mat-sidenav {
 .avatar {
   margin-top: 1rem;
   width: 8rem;
-  height: 6.5rem;
-  border-radius: 50%;
+  height: 7rem;
+  border-radius: 47%;
 }
 
 .name {
