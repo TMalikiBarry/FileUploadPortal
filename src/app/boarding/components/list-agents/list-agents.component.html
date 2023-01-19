@@ -1,7 +1,7 @@
 <div class="big-body">
   <h2>La liste des agents</h2>
   <div class="hearder-actions">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="mat-elevation-z2">
       <mat-label>Rechercher</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input #inputValue (keyup)="applyFilter($event)" matInput placeholder="Rechercher">
@@ -62,7 +62,7 @@
       <td class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche "{{inputValue.value}}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 15, 25, 50]" aria-label="Select page of users"
+  <mat-paginator [pageSizeOptions]="[5, 8, 12, 15, 25, 50]" aria-label="Select page of users"
                  class="mat-elevation-z4"></mat-paginator>
 </div>
 
