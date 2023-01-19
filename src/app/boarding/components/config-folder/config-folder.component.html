@@ -15,7 +15,8 @@
         <p>{{dispatchVariableAndGetMessageByType('cni_r')}}</p>
         <button (click)="onUpload('cni_r')" [matTooltip]="getTooltipContent('gotImage')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_cni_r !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_r!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_cni_r === 100}">{{progress_cni_r !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_r!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">image</mat-icon>
         </button>
       </div>
@@ -54,7 +55,8 @@
         <p>{{dispatchVariableAndGetMessageByType('cni_v')}}</p>
         <button (click)="onUpload('cni_v')" [matTooltip]="getTooltipContent('gotImage')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_cni_v !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_v!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_cni_v === 100}">{{progress_cni_v !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_v!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">image</mat-icon>
         </button>
       </div>
@@ -91,7 +93,8 @@
         <p>{{dispatchVariableAndGetMessageByType('geoloc')}}</p>
         <button (click)="onUpload('geoloc')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_geoloc !== 100 ? 'Importer l\'image scannée ou le fichier' : file_geoloc!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_geoloc === 100}">{{progress_geoloc !== 100 ? 'Importer l\'image scannée ou le fichier' : file_geoloc!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">location_on</mat-icon>
         </button>
       </div>
@@ -128,7 +131,8 @@
         <p>{{dispatchVariableAndGetMessageByType('honneur')}}</p>
         <button (click)="onUpload('honneur')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_honneur !== 100 ? 'Importer l\'image scannée ou le fichier' : file_honneur!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_honneur === 100}">{{progress_honneur !== 100 ? 'Importer l\'image scannée ou le fichier' : file_honneur!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
@@ -165,7 +169,8 @@
         <p>{{dispatchVariableAndGetMessageByType('connaissance')}}</p>
         <button (click)="onUpload('connaissance')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_connaissance !== 100 ? 'Importer l\'image scannée ou le fichier' : file_connaissance!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_connaissance === 100}">{{progress_connaissance !== 100 ? 'Importer l\'image scannée ou le fichier' : file_connaissance!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
@@ -202,7 +207,8 @@
         <p>{{dispatchVariableAndGetMessageByType('CGU')}}</p>
         <button (click)="onUpload('CGU')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_CGU !== 100 ? 'Importer l\'image scannée ou le fichier' : file_CGU!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_CGU === 100}">{{progress_CGU !== 100 ? 'Importer l\'image scannée ou le fichier' : file_CGU!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
@@ -240,7 +246,8 @@
         <p>{{dispatchVariableAndGetMessageByType('residence')}}</p>
         <button (click)="onUpload('residence')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_residence !== 100 ? 'Importer l\'image scannée ou le fichier' : file_residence!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_residence === 100}">{{progress_residence !== 100 ? 'Importer l\'image scannée ou le fichier' : file_residence!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
@@ -277,7 +284,8 @@
         <p>{{dispatchVariableAndGetMessageByType('statut')}}</p>
         <button (click)="onUpload('statut')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
-          <span>{{progress_statut !== 100 ? 'Importer l\'image scannée ou le fichier' : file_statut!.name | formatName: 'filename'}}</span>
+          <span
+            [ngClass]="{'success-upload': progress_statut === 100}">{{progress_statut !== 100 ? 'Importer l\'image scannée ou le fichier' : file_statut!.name | formatName: 'filename'}}</span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
