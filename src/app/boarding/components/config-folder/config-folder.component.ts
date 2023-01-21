@@ -42,7 +42,7 @@ export class ConfigFolderComponent implements OnInit {
   file_statut?: File;
   currentFile?: File;
   progress = 5;
-
+  fileMap = new Map();
   informelVariableNames: string[] = ['file_cni_r', 'file_cni_v', 'file_geoloc', 'file_honneur',
     'file_connaissance', 'file_CGU'];
   formelVariableNames: string[] = [...this.informelVariableNames, 'file_statut', 'file_residence'];
@@ -68,7 +68,24 @@ export class ConfigFolderComponent implements OnInit {
           this.currentAgent = response;
           this.userService.saveInLocal('agent', JSON.stringify(response));
         }),
-      ).subscribe();
+      ).subscribe({
+        next: () => {
+          if (!this.currentAgent) {
+            this.currentAgent = JSON.parse(this.userService.getLocalValue('agent'));
+          }
+        },
+      });
+    }
+    // this.getTheCurrentAgent();
+  }
+
+  async getTheCurrentAgent() {
+    try {
+      this.idAgent = +this.route.snapshot.params["id"];
+      this.currentAgent = await this.userService.getUserByPromise(this.idAgent);
+      this.userService.saveInLocal('agent', JSON.stringify(this.currentAgent));
+    } catch (error) {
+      console.error(error);
     }
     if (!this.currentAgent) {
       this.currentAgent = JSON.parse(this.userService.getLocalValue('agent'));
@@ -86,6 +103,7 @@ export class ConfigFolderComponent implements OnInit {
     if (this.currentFile) {
       console.log(" Le type du fichier " + this.currentFile.type);
       console.log(" La taille du fichier " + this.currentFile.size);
+      this.fileMap.set(fileType, this.currentFile);
       // console.log("TEST FONCTION ", this.getTypeByVariable(this.file_cni_r));
 
       if (!this.fileService.isTypeFilePDF(this.currentFile)) {
@@ -95,7 +113,7 @@ export class ConfigFolderComponent implements OnInit {
         return;
       }
       if (!this.checkFileSize(fileType, this.currentFile)) {
-        let taille = fileType.includes('cni') ? this.fileService.limitSelfie : this.fileService.limitFile;
+        let taille = fileType.includes('cni') ? 6 : 3;
         this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 4000, 'danger');
         this.currentFile = undefined;
         this.resetVariables(fileType);
@@ -105,17 +123,18 @@ export class ConfigFolderComponent implements OnInit {
       this.fileService.uploadFile(this.currentFile, type).subscribe({
         next: value => {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
-          this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
           this.progress = 100;
+          this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
         },
         error: err => {
           if (err == 'OK') {
             this.notify.snackMessage('Upload avec succès ', 5000, 'success');
-            this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
             this.progress = 100;
+            this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
           } else {
-            console.error(err.status);
-            this.notify.snackMessage('Error while uploading ' + err.toString(), 5000, 'danger');
+            console.error(err.toString());
+            this.notify.snackMessage('Error while uploading ' + err.message.toString(),
+              5000, 'danger');
           }
         },
       });
@@ -342,6 +361,10 @@ export class ConfigFolderComponent implements OnInit {
     return Typage[varTypeName];
   }
 
+  removeFile(typeFile: FileType) {
+
+  }
+
   getTypeByVariable(myVar: any) {
     if (myVar == null) {
       return Typage.cni_r;
@@ -363,9 +386,8 @@ export class ConfigFolderComponent implements OnInit {
       this.fileService.checkTypeFile(file!.name, 'notCNI');
   }
 
+
   showPreviewImg(file: File): string {
     return URL.createObjectURL(file);
   }
-
-
 }

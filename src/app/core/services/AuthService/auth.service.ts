@@ -36,14 +36,14 @@ export class AuthService {
           localStorage.setItem('ROLE', this.getTheRole(user.roles));
           localStorage.setItem('TOKEN', user.accessToken)
           this.isAuth = true;
-          this.currentUserSubject.next(user);
+          this.currentUserSubject.next();
         }
         return user;
       }));
   }
 
   public authenticateUser(login: LoginInterface): Observable<boolean> {
-    this.currentUserSubject.next(login);
+    this.currentUserSubject.next();
     this.isAuth = true;
     return of(true);
   }

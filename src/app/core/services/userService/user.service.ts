@@ -29,15 +29,35 @@ export class UserService {
   }
 
   saveInLocal(key: string, value: string) {
-    localStorage.removeItem(key);
-    localStorage.setItem(key, value);
+    // localStorage.removeItem(key);
+    const currentValue = localStorage.getItem(key);
+    if (currentValue !== value) {
+      localStorage.setItem(key, value);
+    }
   }
 
   getLocalValue(key: string): string {
     return localStorage.getItem(key)!;
   }
 
-  getCommercant(): UserInterface {
+  async getCommercant(): Promise<UserInterface> {
+    const response = await this.getUser(this.userId).toPromise();
+    this.commercant = <UserInterface>response!.data;
+    this.saveInLocal('commercant', JSON.stringify(<UserInterface>response!.data));
+    return this.commercant;
+  }
+
+  async getUserByPromise(id: number): Promise<UserInterface> {
+    try {
+      const response = await this.http.get<ApiResponse>(`${this.API_URL}/user/${id}`).toPromise();
+      return response!.data as UserInterface;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  getLoggedInCommercant(): UserInterface {
     this.getUser(this.userId).pipe(
       tap((response) => {
         this.commercant = <UserInterface>response.data;

@@ -26,7 +26,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = this.userSevice.getCommercant();
+    // this.getMyCommercant();
+    this.loadCommercant();
+  }
+
+  async loadCommercant() {
+    const user = await this.userSevice.getCommercant();
     if (user) {
       this.commercant = user;
     } else {
@@ -34,18 +39,19 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getMyCommercant() {
+    const user = this.userSevice.getLoggedInCommercant();
+    if (user) {
+      this.commercant = user;
+    } else {
+      this.commercant = JSON.parse(this.userSevice.getLocalValue('commercant'));
+    }
+  }
+
+
   logOut() {
     this.authService.logout().pipe(
       tap(() => this.router.navigateByUrl("/login"))
     ).subscribe();
   }
-
-  /*onRedirect(agent: 'agent' | 'profil' | 'vFolders' | 'cFolder') {
-    switch (agent) {
-      case "profil": this.router.navigateByUrl('/dashboard/mon-profil'); break;
-      case "agent": this.router.navigateByUrl('/dashboard/mes-agents'); break;
-      case "vFolders": this.router.navigateByUrl('/dashboard/voir-documents'); break;
-      case "cFolder": this.router.navigateByUrl('/dashboard/config-dossier'); break;
-    }
-  }*/
 }

@@ -1,6 +1,7 @@
 <input (change)="getEvent($event)" accept="application/pdf" hidden id='file_uploader' type='file'/>
 <div class="under-big-body mat-elevation-z2">
-  <h2>Importer les dossiers de l'agent <em style="color: blue">{{currentAgent!.name | formatName: 'name'}}</em></h2>
+  <h2>Importer les dossiers de l'agent <em *ngIf="currentAgent"
+                                           style="color: blue">{{currentAgent!.name | formatName: 'name'}}</em></h2>
   <h3>Quel est le statut de cet agent</h3>
   <div class="statut-agent">
     <mat-radio-group [(ngModel)]="typeAgent" color="primary">
@@ -45,7 +46,7 @@
           </svg>
         </div>
         <div class="div5">
-          <mat-icon class="animateMe" color="warn">delete</mat-icon>
+          <mat-icon (click)="removeFile('cni_r')" class="animateMe" color="warn">delete</mat-icon>
         </div>
         <div class="div6"><span *ngIf="file_cni_r"> {{file_cni_r.size | formatFileSize}}</span></div>
       </div>
