@@ -43,6 +43,7 @@ export class ConfigFolderComponent implements OnInit {
   currentFile?: File;
   progress = 5;
   fileMap = new Map();
+  progressMap = new Map();
   informelVariableNames: string[] = ['file_cni_r', 'file_cni_v', 'file_geoloc', 'file_honneur',
     'file_connaissance', 'file_CGU'];
   formelVariableNames: string[] = [...this.informelVariableNames, 'file_statut', 'file_residence'];
@@ -95,6 +96,7 @@ export class ConfigFolderComponent implements OnInit {
   getEvent(event: Event) {
     this.progress = 5;
     let fileType = this.fileType;
+    this.progressMap.set(fileType, 5);
     const target = event.target as HTMLInputElement
     if (target.files && target.files.length) {
       this.currentFile = target?.files[0];
@@ -109,6 +111,7 @@ export class ConfigFolderComponent implements OnInit {
       if (!this.fileService.isTypeFilePDF(this.currentFile)) {
         this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
         this.currentFile = undefined;
+        this.fileMap.delete(fileType);
         this.resetVariables(fileType);
         return;
       }
@@ -116,6 +119,7 @@ export class ConfigFolderComponent implements OnInit {
         let taille = fileType.includes('cni') ? 6 : 3;
         this.notify.snackMessage('La taille du fichier ne doit pas dépasser ' + taille + ' MB', 4000, 'danger');
         this.currentFile = undefined;
+        this.fileMap.delete(fileType);
         this.resetVariables(fileType);
         return;
       }
@@ -125,12 +129,14 @@ export class ConfigFolderComponent implements OnInit {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
           this.progress = 100;
           this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
+          this.progressMap.set(fileType, 100);
         },
         error: err => {
           if (err == 'OK') {
             this.notify.snackMessage('Upload avec succès ', 5000, 'success');
             this.progress = 100;
             this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
+            this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
             this.notify.snackMessage('Error while uploading ' + err.message.toString(),
@@ -145,7 +151,6 @@ export class ConfigFolderComponent implements OnInit {
   onUpload(fileType: FileType) {
     document.getElementById('file_uploader')?.click();
     this.fileType = fileType;
-
   }
 
   dispatchVariableAndGetMessageByType(fileType: FileType, file?: File, progress?: number) {
