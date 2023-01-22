@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {DossierInterface} from "../../models/dossier.interface";
 
@@ -8,8 +7,6 @@ import {DossierInterface} from "../../models/dossier.interface";
   providedIn: 'root'
 })
 export class FileService {
-  tableauCNI: string[] = ['\'image/jpeg\'', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'];
-  tableau: string[] = [...this.tableauCNI, 'doc', 'docx', 'odt', 'rft', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
   limitSelfie = 6 * 1024 * 1024;
   limitFile = 3 * 1024 * 1024;
   private baseUrl = environment.API_URL + "/dossier";
@@ -31,29 +28,12 @@ export class FileService {
     }
   }
 
-  checkTypeFile(extension: string, typeFile: 'CNI' | 'notCNI'): boolean {
-    return typeFile === 'CNI' ? this.tableauCNI.indexOf(extension.toLowerCase().split('.').pop()!) !== -1 :
-      this.tableau.indexOf(extension.toLowerCase().split('.').pop()!) !== -1;
-  }
-
-  upload(file: File): Observable<HttpEvent<any>> {
-    const formData: FormData = new FormData();
-    formData.append('file', file);
-
-    const req = new HttpRequest('POST', `${this.baseUrl}/upload`, formData, {
-      reportProgress: true,
-      responseType: 'text'
-    });
-
-    return this.http.request(req);
-  }
-
-  saveDossier(fileInfos: DossierInterface) {
-    return this.http.post(`${this.baseUrl}/new`, fileInfos);
-  }
-
   saveAllDossier(fileInfos: DossierInterface[]) {
     return this.http.post(`${this.baseUrl}/newfiles`, fileInfos);
+  }
+
+  removeFile(fileName: string) {
+    return this.http.delete(`${this.baseUrl}/deleteFile/${fileName}`);
   }
 
   uploadFile(file: File, type: string) {
@@ -61,9 +41,4 @@ export class FileService {
     formData.append("file", file);
     return this.http.post(this.baseUrl + "/upload/" + type, formData);
   }
-
-  getFiles(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/all`);
-  }
-
 }
