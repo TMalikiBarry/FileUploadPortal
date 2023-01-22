@@ -13,33 +13,39 @@
   <mat-grid-list cols="2" rowHeight="10rem">
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('cni_r')}}</p>
+        <p>{{getParagraphMessageByType('cni_r')}}</p>
         <button (click)="onUpload('cni_r')" [matTooltip]="getTooltipContent('gotImage')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_cni_r === 100}">{{progress_cni_r !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_r!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('cni_r') === 100}">
+            {{progressMap.get('cni_r') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('cni_r')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">image</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_cni_r" class="uploaded-file">
+      <div *ngIf="fileMap.get('cni_r')" class="uploaded-file">
         <div class="div1">
           <img alt="logo PDF" src="assets/images/logos/pdf-logo.png">
         </div>
         <div class="div2">
-          <span *ngIf="!file_cni_r"><em>{{dispatchVariableAndGetMessageByType('cni_r')}}</em></span>
-          <span *ngIf="file_cni_r"
-                [ngClass]="progress_cni_r! < 50 ? 'echec-upload' : 'success-upload'">{{file_cni_r.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('cni_r')"><em>{{getParagraphMessageByType('cni_r')}}</em></span>
+          <span *ngIf="fileMap.get('cni_r')"
+                [ngClass]="progressMap.get('cni_r')! < 50 ? 'echec-upload' : 'success-upload'">
+            {{fileMap.get('cni_r')!.name | formatName: 'filename'}}
+          </span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_cni_r! < 50 ? 'warn': 'primary'" [value]="progress_cni_r"
+          <mat-progress-bar [color]="progressMap.get('cni_r')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('cni_r')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_cni_r! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('cni_r')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -48,36 +54,42 @@
         <div class="div5">
           <mat-icon (click)="removeFile('cni_r')" class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_cni_r"> {{file_cni_r.size | formatFileSize}}</span></div>
+        <div class="div6"><span *ngIf="fileMap.get('cni_r')"> {{fileMap.get('cni_r')!.size | formatFileSize}}</span>
+        </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('cni_v')}}</p>
+        <p>{{getParagraphMessageByType('cni_v')}}</p>
         <button (click)="onUpload('cni_v')" [matTooltip]="getTooltipContent('gotImage')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_cni_v === 100}">{{progress_cni_v !== 100 ? 'Importer l\'image scannée ou le fichier' : file_cni_v!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('cni_v') === 100}">
+            {{progressMap.get('cni_v') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('cni_v')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">image</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_cni_v" class="uploaded-file">
+      <div *ngIf="fileMap.get('cni_v')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_cni_v"><em>{{dispatchVariableAndGetMessageByType('cni_v')}}</em></span>
-          <span *ngIf="file_cni_v"
-                [ngClass]="progress_cni_v! < 50 ? 'echec-upload' : 'success-upload'">{{file_cni_v.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('cni_v')"><em>{{getParagraphMessageByType('cni_v')}}</em></span>
+          <span *ngIf="fileMap.get('cni_v')"
+                [ngClass]="progressMap.get('cni_v')! < 50 ? 'echec-upload' : 'success-upload'">
+            {{fileMap.get('cni_v')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_cni_v! < 50 ? 'warn': 'primary'" [value]="progress_cni_v"
-                            mode="determinate">
+          <mat-progress-bar [color]="progressMap.get('cni_v')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('cni_v')" mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_cni_v! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('cni_v')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -86,36 +98,41 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_cni_v"> {{file_cni_v.size | formatFileSize}}</span></div>
+        <div class="div6"><span *ngIf="fileMap.get('cni_v')"> {{fileMap.get('cni_v')?.size | formatFileSize}}</span>
+        </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('geoloc')}}</p>
+        <p>{{getParagraphMessageByType('geoloc')}}</p>
         <button (click)="onUpload('geoloc')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_geoloc === 100}">{{progress_geoloc !== 100 ? 'Importer l\'image scannée ou le fichier' : file_geoloc!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('geoloc') === 100}">
+            {{progressMap.get('geoloc') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('geoloc')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">location_on</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_geoloc" class="uploaded-file">
+      <div *ngIf="fileMap.get('geoloc')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_geoloc"><em>{{dispatchVariableAndGetMessageByType('geoloc')}}</em></span>
-          <span *ngIf="file_geoloc"
-                [ngClass]="progress_geoloc! < 50 ? 'echec-upload' : 'success-upload'">{{file_geoloc.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('geoloc')"><em>{{getParagraphMessageByType('geoloc')}}</em></span>
+          <span *ngIf="fileMap.get('geoloc')"
+                [ngClass]="progressMap.get('geoloc')! < 50 ? 'echec-upload' : 'success-upload'">{{fileMap.get('geoloc')?.name || 'Aucun fichier' | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_geoloc! < 50 ? 'warn': 'primary'" [value]="progress_geoloc"
+          <mat-progress-bar [color]="progressMap.get('geoloc')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('geoloc')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_geoloc! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('geoloc')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -124,36 +141,43 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_geoloc"> {{file_geoloc.size | formatFileSize}}</span></div>
+        <div class="div6"><span *ngIf="fileMap.get('geoloc')"> {{fileMap.get('geoloc')?.size | formatFileSize}}</span>
+        </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('honneur')}}</p>
+        <p>{{getParagraphMessageByType('honneur')}}</p>
         <button (click)="onUpload('honneur')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_honneur === 100}">{{progress_honneur !== 100 ? 'Importer l\'image scannée ou le fichier' : file_honneur!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('honneur') === 100}">
+            {{progressMap.get('honneur') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('honneur')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_honneur" class="uploaded-file">
+      <div *ngIf="fileMap.get('honneur')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_honneur"><em>{{dispatchVariableAndGetMessageByType('honneur')}}</em></span>
-          <span *ngIf="file_honneur"
-                [ngClass]="progress_honneur! < 50 ? 'echec-upload' : 'success-upload'">{{file_honneur.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('honneur')"><em>{{getParagraphMessageByType('honneur')}}</em></span>
+          <span *ngIf="fileMap.get('honneur')"
+                [ngClass]="progressMap.get('honneur')! < 50 ? 'echec-upload' : 'success-upload'">
+            {{fileMap.get('honneur')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_honneur! < 50 ? 'warn': 'primary'" [value]="progress_honneur"
+          <mat-progress-bar [color]="progressMap.get('honneur')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('honneur')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_honneur! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('honneur')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -162,36 +186,41 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_honneur"> {{file_honneur.size | formatFileSize}}</span></div>
+        <div class="div6"><span *ngIf="fileMap.get('honneur')"> {{fileMap.get('honneur')?.size | formatFileSize}}</span>
+        </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('connaissance')}}</p>
+        <p>{{getParagraphMessageByType('connaissance')}}</p>
         <button (click)="onUpload('connaissance')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_connaissance === 100}">{{progress_connaissance !== 100 ? 'Importer l\'image scannée ou le fichier' : file_connaissance!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('connaissance') === 100}">
+            {{progressMap.get('connaissance') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('connaissance')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_connaissance" class="uploaded-file">
+      <div *ngIf="fileMap.get('connaissance')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_connaissance"><em>{{dispatchVariableAndGetMessageByType('connaissance')}}</em></span>
-          <span *ngIf="file_connaissance"
-                [ngClass]="progress_connaissance! < 50 ? 'echec-upload' : 'success-upload'">{{file_connaissance.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('connaissance')"><em>{{getParagraphMessageByType('connaissance')}}</em></span>
+          <span *ngIf="fileMap.get('connaissance')"
+                [ngClass]="progressMap.get('connaissance')! < 50 ? 'echec-upload' : 'success-upload'">{{fileMap.get('connaissance')!.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_connaissance! < 50 ? 'warn': 'primary'" [value]="progress_connaissance"
+          <mat-progress-bar [color]="progressMap.get('connaissance')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('connaissance')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_connaissance! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('connaissance')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -200,37 +229,41 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_connaissance"> {{file_connaissance.size | formatFileSize}}</span></div>
+        <div class="div6"><span
+          *ngIf="fileMap.get('connaissance')"> {{fileMap.get('connaissance')!.size | formatFileSize}}</span></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('CGU')}}</p>
+        <p>{{getParagraphMessageByType('CGU')}}</p>
         <button (click)="onUpload('CGU')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_CGU === 100}">{{progress_CGU !== 100 ? 'Importer l\'image scannée ou le fichier' : file_CGU!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('CGU') === 100}">
+            {{progressMap.get('CGU') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('CGU')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
       <div></div>
     </mat-grid-tile>
     <mat-grid-tile>
-      <div *ngIf="file_CGU" class="uploaded-file">
+      <div *ngIf="fileMap.get('CGU')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_CGU"><em>{{dispatchVariableAndGetMessageByType('CGU')}}</em></span>
-          <span *ngIf="file_CGU"
-                [ngClass]="progress_CGU! < 50 ? 'echec-upload' : 'success-upload'">{{file_CGU.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('CGU')"><em>{{getParagraphMessageByType('CGU')}}</em></span>
+          <span *ngIf="fileMap.get('CGU')"
+                [ngClass]="progressMap.get('CGU')! < 50 ? 'echec-upload' : 'success-upload'">{{fileMap.get('CGU')!.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_CGU! < 50 ? 'warn': 'primary'" [value]="progress_CGU"
+          <mat-progress-bar [color]="progressMap.get('CGU')! < 50 ? 'warn': 'primary'" [value]="progressMap.get('CGU')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_CGU! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('CGU')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -239,36 +272,40 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_CGU"> {{file_CGU.size | formatFileSize}}</span></div>
+        <div class="div6"><span *ngIf="fileMap.get('CGU')"> {{fileMap.get('CGU')!.size | formatFileSize}}</span></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="typeAgent==='formel'">
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('residence')}}</p>
+        <p>{{getParagraphMessageByType('residence')}}</p>
         <button (click)="onUpload('residence')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_residence === 100}">{{progress_residence !== 100 ? 'Importer l\'image scannée ou le fichier' : file_residence!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('residence') === 100}">
+            {{progressMap.get('residence') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('residence')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="typeAgent==='formel'">
-      <div *ngIf="file_residence" class="uploaded-file">
+      <div *ngIf="fileMap.get('residence')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_residence"><em>{{dispatchVariableAndGetMessageByType('residence')}}</em></span>
-          <span *ngIf="file_residence"
-                [ngClass]="progress_residence! < 50 ? 'echec-upload' : 'success-upload'">{{file_residence.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('residence')"><em>{{getParagraphMessageByType('residence')}}</em></span>
+          <span *ngIf="fileMap.get('residence')"
+                [ngClass]="progressMap.get('residence')! < 50 ? 'echec-upload' : 'success-upload'">{{fileMap.get('residence')!.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_residence! < 50 ? 'warn': 'primary'" [value]="progress_residence"
+          <mat-progress-bar [color]="progressMap.get('residence')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('residence')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_residence! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('residence')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -277,36 +314,41 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_residence"> {{file_residence.size | formatFileSize}}</span></div>
+        <div class="div6"><span
+          *ngIf="fileMap.get('residence')"> {{fileMap.get('residence')!.size | formatFileSize}}</span></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="typeAgent==='formel'">
       <div class="upload-file">
-        <p>{{dispatchVariableAndGetMessageByType('statut')}}</p>
+        <p>{{getParagraphMessageByType('statut')}}</p>
         <button (click)="onUpload('statut')" [matTooltip]="getTooltipContent('document')"
                 mat-stroked-button matTooltipClass="tool-tip-class">
           <span
-            [ngClass]="{'success-upload': progress_statut === 100}">{{progress_statut !== 100 ? 'Importer l\'image scannée ou le fichier' : file_statut!.name | formatName: 'filename'}}</span>
+            [ngClass]="{'success-upload': progressMap.get('residence') === 100}">
+            {{progressMap.get('residence') <= 50 ? 'Importer l\'image scannée ou le fichier' :
+            fileMap.get('residence')?.name || 'Aucun fichier' | formatName: 'filename'}}
+          </span>
           <mat-icon color="primary">insert_drive_file</mat-icon>
         </button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="typeAgent==='formel'">
-      <div *ngIf="file_statut" class="uploaded-file">
+      <div *ngIf="fileMap.get('residence')" class="uploaded-file">
         <div class="div1"><img alt="logo PDF" src="assets/images/logos/pdf-logo.png"></div>
         <div class="div2">
-          <span *ngIf="!file_statut"><em>{{dispatchVariableAndGetMessageByType('statut')}}</em></span>
-          <span *ngIf="file_statut"
-                [ngClass]="progress_statut! < 50 ? 'echec-upload' : 'success-upload'">{{file_statut.name | formatName: 'filename'}}</span>
+          <span *ngIf="!fileMap.get('residence')"><em>{{getParagraphMessageByType('statut')}}</em></span>
+          <span *ngIf="fileMap.get('residence')"
+                [ngClass]="progressMap.get('residence')! < 50 ? 'echec-upload' : 'success-upload'">{{fileMap.get('residence')!.name | formatName: 'filename'}}</span>
         </div>
         <div class="div3">
-          <mat-progress-bar [color]="progress_statut! < 50 ? 'warn': 'primary'" [value]="progress_statut"
+          <mat-progress-bar [color]="progressMap.get('residence')! < 50 ? 'warn': 'primary'"
+                            [value]="progressMap.get('residence')"
                             mode="determinate">
 
           </mat-progress-bar>
         </div>
         <div class="div4">
-          <svg *ngIf="progress_statut! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
+          <svg *ngIf="progressMap.get('residence')! >= 90" fill="none" height="27" viewBox="0 0 26 27" width="26"
                xmlns="http://www.w3.org/2000/svg">
             <ellipse cx="13" cy="13.5" fill="#30BD58" rx="13" ry="13.5"/>
             <path d="M6.5 13.5003L11.7 17.5503L18.2 8.10034" stroke="white" stroke-linecap="round" stroke-width="2"/>
@@ -315,7 +357,8 @@
         <div class="div5">
           <mat-icon class="animateMe" color="warn">delete</mat-icon>
         </div>
-        <div class="div6"><span *ngIf="file_statut"> {{file_statut.size | formatFileSize}}</span></div>
+        <div class="div6"><span
+          *ngIf="fileMap.get('residence')"> {{fileMap.get('residence')!.size | formatFileSize}}</span></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile colspan="2">

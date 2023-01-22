@@ -42,8 +42,10 @@ export class ConfigFolderComponent implements OnInit {
   file_statut?: File;
   currentFile?: File;
   progress = 5;
-  fileMap = new Map();
+  fileMap: Map<FileType, File | undefined> = new Map();
   progressMap = new Map();
+  informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU'];
+  formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   informelVariableNames: string[] = ['file_cni_r', 'file_cni_v', 'file_geoloc', 'file_honneur',
     'file_connaissance', 'file_CGU'];
   formelVariableNames: string[] = [...this.informelVariableNames, 'file_statut', 'file_residence'];
@@ -100,7 +102,7 @@ export class ConfigFolderComponent implements OnInit {
     const target = event.target as HTMLInputElement
     if (target.files && target.files.length) {
       this.currentFile = target?.files[0];
-      this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile);
+      this.getParagraphMessageByType(this.fileType, this.currentFile);
     }
     if (this.currentFile) {
       console.log(" Le type du fichier " + this.currentFile.type);
@@ -128,14 +130,14 @@ export class ConfigFolderComponent implements OnInit {
         next: value => {
           this.notify.snackMessage('Upload avec succès ' + value.toString(), 5000, 'success');
           this.progress = 100;
-          this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
+          this.getParagraphMessageByType(this.fileType, this.currentFile, 100);
           this.progressMap.set(fileType, 100);
         },
         error: err => {
           if (err == 'OK') {
             this.notify.snackMessage('Upload avec succès ', 5000, 'success');
             this.progress = 100;
-            this.dispatchVariableAndGetMessageByType(this.fileType, this.currentFile, 100);
+            this.getParagraphMessageByType(this.fileType, this.currentFile, 100);
             this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
@@ -153,7 +155,7 @@ export class ConfigFolderComponent implements OnInit {
     this.fileType = fileType;
   }
 
-  dispatchVariableAndGetMessageByType(fileType: FileType, file?: File, progress?: number) {
+  getParagraphMessageByType(fileType: FileType, file?: File, progress?: number) {
     let paragraph: string;
     switch (fileType) {
       case "cni_r":
@@ -294,6 +296,60 @@ export class ConfigFolderComponent implements OnInit {
 
   allowSaveDossier(): boolean {
     const value = 100;
+    const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
+    return keys.every(key => this.progressMap.get(key) === value);
+    /*const value = 100;
+    if ( this.typeAgent === 'informel') {
+      for (let key of this.informelMapKeys) {
+        if (this.progressMap.get(key) !== value) {
+          return false
+        }
+      }
+      return true;
+    } else {
+      for (let key of this.formelMapKeys) {
+        if (this.progressMap.get(key) !== value) {
+          return false
+        }
+      }
+      return true;
+    }*/
+  }
+
+  onSaveDossier() {
+    if (this.allowSaveDossier()) {
+      const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
+      let dossiers: DossierInterface[] = [];
+
+      keys.forEach(key => {
+        dossiers.push({
+          name: Typage[key] + '_' + this.fileMap.get(key)!.name,
+          uploadingFile: this.fileMap.get(key)!.name,
+          typeFile: Typage[key],
+          acces: this.currentAgent
+        })
+      });
+      this.fileService.saveAllDossier(dossiers).pipe(
+        tap(() => {
+          this.notify.snackMessage('Les fichiers ont bien été uploadé ', 4000, "success");
+          const dialogRef = this.dialog.open(SaveDossierComponent, {
+            data: {
+              agentName: this.currentAgent.name,
+              isOK: true
+            },
+            maxWidth: '25rem',
+          });
+
+        }),
+      ).subscribe();
+
+    } else {
+      this.notify.snackMessage('Vous n\'avez pas chargés tous les fichiers', 4000, "danger");
+    }
+  }
+
+  allowSaveDossierTheOldWay(): boolean {
+    const value = 100;
     const formelVariables = [this.progress_cni_r, this.progress_cni_v, this.progress_geoloc, this.progress_honneur,
       this.progress_connaissance, this.progress_CGU, this.progress_residence, this.progress_statut];
     if (this.typeAgent === 'informel') {
@@ -304,8 +360,8 @@ export class ConfigFolderComponent implements OnInit {
     }
   }
 
-  onSaveDossier() {
-    if (this.allowSaveDossier()) {
+  onSaveDossierTheOldWay() {
+    if (this.allowSaveDossierTheOldWay()) {
       let informelFileVariables = [this.file_cni_r, this.file_cni_v, this.file_geoloc, this.file_honneur,
         this.file_connaissance, this.file_CGU];
       let formelFileVariables = [...informelFileVariables, this.file_statut, this.file_residence];
@@ -367,7 +423,8 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   removeFile(typeFile: FileType) {
-
+    this.fileMap.delete(typeFile);
+    this.progressMap.delete(typeFile);
   }
 
   getTypeByVariable(myVar: any) {
