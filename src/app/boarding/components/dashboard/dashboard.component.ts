@@ -6,7 +6,6 @@ import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
 
 export enum Role {
-  USER = "USER",
   ADMIN = "ADMIN",
   COMMERCANT = "COMMERCANT",
   AGENT = "AGENT"
@@ -38,16 +37,6 @@ export class DashboardComponent implements OnInit {
       this.commercant = JSON.parse(this.userSevice.getLocalValue('commercant'));
     }
   }
-
-  getMyCommercant() {
-    const user = this.userSevice.getLoggedInCommercant();
-    if (user) {
-      this.commercant = user;
-    } else {
-      this.commercant = JSON.parse(this.userSevice.getLocalValue('commercant'));
-    }
-  }
-
 
   logOut() {
     this.authService.logout().pipe(

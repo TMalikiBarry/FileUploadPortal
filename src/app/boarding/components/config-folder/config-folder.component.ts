@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
-import {map, tap} from "rxjs";
+import {map, Observable, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
 import {DossierInterface} from "../../../core/models/dossier.interface";
@@ -29,7 +29,8 @@ export class ConfigFolderComponent implements OnInit {
   informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
-  showDossiersAgent: boolean = false;
+  lesDossiers$!: Observable<DossierInterface[]>;
+  showDossiersAgent$!: Observable<boolean>;
   paragraphMap: { [key in FileType]: string } = {
     'cni_r': 'Recto de la CNI',
     'cni_v': 'Verso de la CNI',
@@ -68,6 +69,7 @@ export class ConfigFolderComponent implements OnInit {
           }
         },
       });
+      this.getAgentDossiers();
     }
   }
 
@@ -100,12 +102,12 @@ export class ConfigFolderComponent implements OnInit {
       let type = Typage[fileType];
       this.fileService.uploadFile(this.currentFile, type).subscribe({
         next: value => {
-          this.notify.snackMessage('Upload avec succès' + value.toString(), 5000, 'success');
+          this.notify.snackMessage('Upload avec succès' + value.toString(), 1500, 'success');
           this.progressMap.set(fileType, 100);
         },
         error: err => {
           if (err == 'OK') {
-            this.notify.snackMessage('Upload avec succès', 5000, 'success');
+            this.notify.snackMessage('Upload avec succès', 1500, 'success');
             this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
@@ -156,11 +158,14 @@ export class ConfigFolderComponent implements OnInit {
           const dialogRef = this.dialog.open(SaveDossierComponent, {
             data: {
               agentName: this.currentAgent.name,
-              isOK: true
             },
             maxWidth: '25rem',
           });
-
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.getAgentDossiers();
+            }
+          })
         }),
       ).subscribe();
 
@@ -182,16 +187,39 @@ export class ConfigFolderComponent implements OnInit {
       })
     ).subscribe({
       next: () => {
+        this.notify.snackMessage(`Ficher ${this.fileMap.get(typeFile)!.name} retiré avec succès`, 2000, 'success');
         this.progressMap.set(typeFile, 10);
         this.fileMap.delete(typeFile);
       },
       error: err => {
         if (err == 'OK') {
-          this.notify.snackMessage(`Ficher ${this.fileMap.get(typeFile)!.name} retiré avec succès`, 5000, 'success');
+          this.notify.snackMessage(`Ficher ${this.fileMap.get(typeFile)!.name} retiré avec succès`, 2000, 'success');
           this.progressMap.set(typeFile, 10);
           this.fileMap.delete(typeFile);
         }
       }
+    })
+  }
+
+  getAgentDossiers() {
+    this.lesDossiers$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
+      map(response => <DossierInterface[]>response.data),
+    )
+    this.showDossiersAgent$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
+      map(response => <DossierInterface[]>response.data),
+      map(dossiers => dossiers && dossiers.length > 0),
+    )
+  }
+
+  onDeleteAgentDossiers() {
+    this.fileService.deleteAgentDossiers(this.idAgent).subscribe({
+      next: () => {
+        this.notify.snackMessage(`Les fichiers du dossier de l'agent ${this.currentAgent!.name} ont été supprimé avec succès`,
+          3000, 'success');
+        this.showDossiersAgent$ = this.lesDossiers$.pipe(
+          map((dossiers) => dossiers && dossiers.length > 0),
+        )
+      },
     })
   }
 }

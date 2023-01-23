@@ -9,6 +9,7 @@ import {ViewFoldersComponent} from './components/view-folders/view-folders.compo
 import {MyProfileComponent} from './components/my-profile/my-profile.component';
 import {ViewOneFolderComponent} from './components/view-one-folder/view-one-folder.component';
 import {SaveDossierComponent} from './dialogs/save-dossier/save-dossier.component';
+import {DisplayFileComponent} from './dialogs/display-file/display-file.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {SaveDossierComponent} from './dialogs/save-dossier/save-dossier.componen
     MyProfileComponent,
     ViewOneFolderComponent,
     SaveDossierComponent,
+    DisplayFileComponent,
   ],
   imports: [
     BoardingRoutingModule,

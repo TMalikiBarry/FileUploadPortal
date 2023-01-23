@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 })
 export class SaveDossierComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { agentName: string, isOK: boolean }) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { agentName: string }) {
   }
 
   ngOnInit(): void {

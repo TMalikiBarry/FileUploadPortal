@@ -3,7 +3,6 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ApiResponse} from "../../models/ApiResponse";
 import {UserInterface} from "../../models/user.interface";
-import {tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -44,27 +43,6 @@ export class UserService {
     const response = await this.getUser(this.userId).toPromise();
     this.commercant = <UserInterface>response!.data;
     this.saveInLocal('commercant', JSON.stringify(<UserInterface>response!.data));
-    return this.commercant;
-  }
-
-  async getUserByPromise(id: number): Promise<UserInterface> {
-    try {
-      const response = await this.http.get<ApiResponse>(`${this.API_URL}/user/${id}`).toPromise();
-      return response!.data as UserInterface;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  getLoggedInCommercant(): UserInterface {
-    this.getUser(this.userId).pipe(
-      tap((response) => {
-        this.commercant = <UserInterface>response.data;
-        this.saveInLocal('commercant', JSON.stringify(<UserInterface>response.data));
-      }),
-    ).subscribe();
-
     return this.commercant;
   }
 

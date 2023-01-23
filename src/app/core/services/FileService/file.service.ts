@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {DossierInterface} from "../../models/dossier.interface";
+import {ApiResponse} from "../../models/ApiResponse";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +42,13 @@ export class FileService {
     let formData: FormData = new FormData();
     formData.append("file", file);
     return this.http.post(this.baseUrl + "/upload/" + type, formData);
+  }
+
+  getAgentDossiers(idAgent: number): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.baseUrl}/agentDossiers/${idAgent}`);
+  }
+
+  deleteAgentDossiers(idAgent: number) {
+    return this.http.delete(`${this.baseUrl}/deleteAgentDossiers/${idAgent}`);
   }
 }

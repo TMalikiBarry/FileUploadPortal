@@ -20,6 +20,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [],
@@ -40,6 +41,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatToolbarModule,
     MatTooltipModule,
     MatTableModule,
+    MatMenuModule,
     MatGridListModule,
     MatPaginatorModule,
     MatSortModule,
