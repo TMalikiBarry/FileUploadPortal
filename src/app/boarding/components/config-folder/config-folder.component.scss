@@ -141,24 +141,3 @@ mat-grid-list {
   justify-content: space-between;
   margin-bottom: 1.2rem;
 }
-
-.list-folders {
-  display: flex;
-  flex-wrap: wrap;
-
-  .oneFolder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 16rem;
-    margin-bottom: 1.5rem;
-
-    p {
-      font-size: .9rem;
-    }
-  }
-
-  .oneFolder:not(:last-child) {
-    margin-right: 2rem;
-  }
-}

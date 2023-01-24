@@ -4,6 +4,7 @@ import {environment} from "../../../../environments/environment";
 import {DossierInterface} from "../../models/dossier.interface";
 import {ApiResponse} from "../../models/ApiResponse";
 import {Observable} from "rxjs";
+import {Typage} from "../../models/typage";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,10 @@ export class FileService {
 
   getAgentDossiers(idAgent: number): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.baseUrl}/agentDossiers/${idAgent}`);
+  }
+
+  getAllDossiersAgentsByType(idCommercant: number, type: Typage): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.baseUrl}/commercantDossiers/${idCommercant}/${type}`);
   }
 
   deleteAgentDossiers(idAgent: number) {

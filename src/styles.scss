@@ -31,7 +31,7 @@ body {
     padding-inline: 1rem;
     padding-top: .08rem;
     background-color: white;
-    border-radius: 1rem;
+    border-radius: .2rem;
   }
 
   .snack-success {
@@ -49,5 +49,26 @@ body {
     background-color: #e8adad;
     color: darkred;
     font-weight: bold;
+  }
+
+  .list-folders {
+    display: flex;
+    flex-wrap: wrap;
+
+    .oneFolder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 16rem;
+      margin-bottom: 1.5rem;
+
+      p {
+        font-size: .9rem;
+      }
+    }
+
+    .oneFolder:not(:last-child) {
+      margin-right: 2rem;
+    }
   }
 }

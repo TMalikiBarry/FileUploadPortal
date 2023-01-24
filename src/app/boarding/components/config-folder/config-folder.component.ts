@@ -9,6 +9,8 @@ import {DossierInterface} from "../../../core/models/dossier.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {SaveDossierComponent} from "../../dialogs/save-dossier/save-dossier.component";
 import {Typage} from "../../../core/models/typage";
+import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
+import {PARAGRAPH_MAP} from "../../../core/models/Constants";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
@@ -16,7 +18,7 @@ export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance'
 @Component({
   selector: 'app-config-folder',
   templateUrl: './config-folder.component.html',
-  styleUrls: ['./config-folder.component.scss']
+  styleUrls: ['./config-folder.component.scss'],
 })
 export class ConfigFolderComponent implements OnInit {
 
@@ -31,16 +33,6 @@ export class ConfigFolderComponent implements OnInit {
   fileType!: FileType;
   lesDossiers$!: Observable<DossierInterface[]>;
   showDossiersAgent$!: Observable<boolean>;
-  paragraphMap: { [key in FileType]: string } = {
-    'cni_r': 'Recto de la CNI',
-    'cni_v': 'Verso de la CNI',
-    'geoloc': 'Géolocalisation du point',
-    'honneur': 'Déclaration de l\'honneur',
-    'connaissance': 'Fiche de Connaissance',
-    'CGU': 'Conditions (CGU)',
-    'residence': 'Contrat de location',
-    'statut': 'Statut de l\'entreprise'
-  };
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -107,7 +99,7 @@ export class ConfigFolderComponent implements OnInit {
         },
         error: err => {
           if (err == 'OK') {
-            this.notify.snackMessage('Upload avec succès', 1500, 'success');
+            this.notify.snackMessage(this.currentFile!.name + ' enregistré avec succès', 1500, 'success');
             this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
@@ -124,8 +116,8 @@ export class ConfigFolderComponent implements OnInit {
     this.fileType = fileType;
   }
 
-  getParagraphMessageByType(fileType: FileType) {
-    return this.paragraphMap[fileType] || '';
+  getParagraphMessageByType(fileType: FileType): string {
+    return PARAGRAPH_MAP[fileType] || '';
   }
 
   getTooltipContent(fileType: 'gotImage' | 'document'): string {
@@ -221,5 +213,17 @@ export class ConfigFolderComponent implements OnInit {
         )
       },
     })
+  }
+
+  onDisplayFile(dossier: DossierInterface) {
+    console.log(dossier)
+    this.dialog.open(DisplayFileComponent, {
+      data: {
+        fileSrc: "C:\\Users\\THIERNOBARRY\\SpringProjects\\InTouch\\ecobank-portal\\files\\" + dossier.name,
+        agentName: this.currentAgent.name,
+        typeFile: dossier.typeFile
+      },
+      maxWidth: '25rem',
+    });
   }
 }

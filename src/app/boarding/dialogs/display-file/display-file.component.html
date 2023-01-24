@@ -1,1 +1,13 @@
-<p>display-file works!</p>
+<div class="header-actions" mat-dialog-title>
+  <svg [mat-dialog-close]="false" fill="none" height="36" viewBox="0 0 36 36" width="36"
+       xmlns="http://www.w3.org/2000/svg">
+    <circle cx="18" cy="18" fill="#F2F2F2" r="18"/>
+    <path d="M23.8369 11.0019L11.8369 25.0019" stroke="#9A9696" stroke-width="2"/>
+    <path d="M23.8347 25.0038L11.8392 11" stroke="#9A9696" stroke-width="2"/>
+  </svg>
+</div>
+<div class="content-actions" mat-dialog-content>
+  <p>Carte d'identité de {{data.agentName | formatName:'name'}}</p>
+  <pdf-viewer [render-text]="true" [src]="data.fileSrc">
+  </pdf-viewer>
+</div>
