@@ -29,9 +29,9 @@ body {
 
   .under-big-body {
     padding-inline: 1rem;
-    padding-top: .08rem;
+    padding-top: 1rem;
     background-color: white;
-    border-radius: .2rem;
+    border-radius: .5rem;
   }
 
   .snack-success {
@@ -64,6 +64,8 @@ body {
 
       p {
         font-size: .9rem;
+        text-align: center;
+        word-break: break-word;
       }
     }
 

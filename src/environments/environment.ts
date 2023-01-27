@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: "http://localhost:1010/api/v1"
+  API_URL: "http://localhost:2020/api/v1",
+  // API_URL: "http://52.210.42.160:8085/gateway/api/v1",
 };
 
 /*

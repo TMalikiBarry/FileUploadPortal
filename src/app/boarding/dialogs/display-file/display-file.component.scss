@@ -1,0 +1,27 @@
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+
+  .icon-bg {
+    width: 2.2rem;
+    height: 2.2rem;
+    background-color: #F2F2F2;
+    color: black;
+    border-radius: 50%;
+    text-align: center;
+
+    mat-icon {
+      margin-top: 10%;
+    }
+  }
+}
+
+.content-actions {
+
+  pdf-viewer {
+    margin: 1rem 0 0 -3rem;
+    width: 75vw;
+    height: 100vh;
+    display: block;
+  }
+}

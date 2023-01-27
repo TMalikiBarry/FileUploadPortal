@@ -9,7 +9,7 @@ import {map, Observable} from "rxjs";
 import {DossierInterface} from "../../../core/models/dossier.interface";
 import {Typage} from "../../../core/models/typage";
 import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
-import {DESCRIBER_MAP} from "../../../core/models/Constants";
+import {DESCRIBER_MAP, H1_LIST_TITLE} from "../../../core/models/Constants";
 
 @Component({
   selector: 'app-view-one-folder',
@@ -44,15 +44,25 @@ export class ViewOneFolderComponent implements OnInit {
   }
 
   onDisplayFile(dossier: DossierInterface) {
+    let localUrl = "C:\\Users\\THIERNOBARRY\\SpringProjects\\InTouch\\ecobank-portal\\files\\" + dossier.name;
+    let assetUrl = '../../../../assets/pdfTest/CV_Alioune.pdf';
+    let srcTest = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+    let opclUrl = 'https://openclassrooms.com/en/course-certificates/1375982211';
     console.log(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
-        fileSrc: "C:\\Users\\THIERNOBARRY\\SpringProjects\\InTouch\\ecobank-portal\\files\\" + dossier.name,
+        fileSrc: dossier.uploadingFile,
+        // fileSrc: PDF_TEST_URLS[Math.floor(Math.random() * 5)],
         agentName: dossier.acces.name,
         typeFile: dossier.typeFile
       },
-      maxWidth: '25rem',
+      maxWidth: '90vw',
+      maxHeight: '95vh',
     });
+  }
+
+  getH1Title(): string {
+    return H1_LIST_TITLE[this.typeFile];
   }
 
   getDescription(): string {

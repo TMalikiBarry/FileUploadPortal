@@ -39,10 +39,10 @@ export class FileService {
     return this.http.delete(`${this.baseUrl}/deleteFile/${fileName}`);
   }
 
-  uploadFile(file: File, type: string) {
+  uploadFile(file: File, type: string): Observable<ApiResponse> {
     let formData: FormData = new FormData();
     formData.append("file", file);
-    return this.http.post(this.baseUrl + "/upload/" + type, formData);
+    return this.http.post<ApiResponse>(this.baseUrl + "/upload/" + type, formData);
   }
 
   getAgentDossiers(idAgent: number): Observable<ApiResponse> {
@@ -50,7 +50,7 @@ export class FileService {
   }
 
   getAllDossiersAgentsByType(idCommercant: number, type: Typage): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.baseUrl}/commercantDossiers/${idCommercant}/${type}`);
+    return this.http.get<ApiResponse>(`${this.baseUrl}/findCommercantDossiersByIdByType/${idCommercant}/${type}`);
   }
 
   deleteAgentDossiers(idAgent: number) {

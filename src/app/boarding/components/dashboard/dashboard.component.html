@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <button (click)="isOpen = !isOpen" aria-label="menu icon" mat-icon-button>
     <mat-icon *ngIf="!isOpen">menu</mat-icon>
     <mat-icon *ngIf="isOpen">close</mat-icon>
@@ -34,10 +34,10 @@
 
     <mat-divider></mat-divider>
 
-    <button aria-label="icône Profil" class="menu-button" mat-button routerLink="/dashboard/mon-profil">
+    <!--<button aria-label="icône Profil" class="menu-button" mat-button routerLink="/dashboard/mon-profil">
       <mat-icon>person</mat-icon>
       <span>Mon Profil</span>
-    </button>
+    </button>-->
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content">

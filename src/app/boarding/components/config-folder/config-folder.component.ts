@@ -28,6 +28,7 @@ export class ConfigFolderComponent implements OnInit {
   currentFile?: File;
   fileMap: Map<FileType, File | undefined> = new Map();
   progressMap = new Map();
+  fileNameMap = new Map();
   informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
@@ -91,15 +92,15 @@ export class ConfigFolderComponent implements OnInit {
         this.fileMap.delete(fileType);
         return;
       }
-      let type = Typage[fileType];
-      this.fileService.uploadFile(this.currentFile, type).subscribe({
+      this.fileService.uploadFile(this.currentFile, Typage[fileType]).subscribe({
         next: value => {
-          this.notify.snackMessage('Upload avec succès' + value.toString(), 1500, 'success');
+          this.notify.snackMessage('Upload avec succès de ' + this.fileMap.get(fileType)!.name, 2000, 'success');
           this.progressMap.set(fileType, 100);
+          this.fileNameMap.set(fileType, value.data.toString())
         },
         error: err => {
           if (err == 'OK') {
-            this.notify.snackMessage(this.currentFile!.name + ' enregistré avec succès', 1500, 'success');
+            this.notify.snackMessage(this.currentFile!.name + ' enregistré avec succès', 2000, 'success');
             this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
@@ -139,7 +140,8 @@ export class ConfigFolderComponent implements OnInit {
 
       keys.forEach(key => {
         dossiers.push({
-          name: Typage[key] + '_' + this.fileMap.get(key)!.name,
+          // name: Typage[key] + '_' + this.fileMap.get(key)!.name,
+          name: this.fileNameMap.get(key),
           uploadingFile: this.fileMap.get(key)!.name,
           typeFile: Typage[key],
           acces: this.currentAgent
@@ -219,11 +221,12 @@ export class ConfigFolderComponent implements OnInit {
     console.log(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
-        fileSrc: "C:\\Users\\THIERNOBARRY\\SpringProjects\\InTouch\\ecobank-portal\\files\\" + dossier.name,
+        fileSrc: dossier.uploadingFile,
         agentName: this.currentAgent.name,
         typeFile: dossier.typeFile
       },
-      maxWidth: '25rem',
+      maxWidth: '90vw',
+      maxHeight: '95vh',
     });
   }
 }

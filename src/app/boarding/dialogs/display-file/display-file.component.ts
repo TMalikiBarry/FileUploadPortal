@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Typage} from "../../../core/models/typage";
+import {Typage, TypageReverse} from "../../../core/models/typage";
+import {DESCRIBER_MAP} from "../../../core/models/Constants";
 
 @Component({
   selector: 'app-display-file',
@@ -13,5 +14,9 @@ export class DisplayFileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getParagraph(typeFile: Typage): string {
+    return DESCRIBER_MAP[TypageReverse[typeFile]];
   }
 }

@@ -15,12 +15,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       if (err.error instanceof ErrorEvent) {
         // Get client-side error
-        console.error(err.error.message);
+        console.error(`client-side error --- Error Code: ${err.status}\nMessage: ${err.message}`);
       } else {
         // Get server-side error
-        if (err.status !== 200) {
+        /*if (err.status !== 200) {
           console.error(`Error Code: ${err.status}\nMessage: ${err.message}`)
-        }
+        }*/
+        console.error(`server-side error --- Error Code: ${err.status}\nMessage: ${err.message}`)
       }
 
       if ([401, 403].indexOf(err.status) !== -1) {

@@ -5,8 +5,8 @@
   table {
     margin-top: 2rem;
     width: 100%;
-    border-top-right-radius: .5rem;
-    border-top-left-radius: .5rem;
+    border-top-right-radius: .45rem;
+    border-top-left-radius: .45rem;
     overflow: hidden;
 
     th {
@@ -17,8 +17,8 @@
   }
 
   mat-paginator {
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .45rem;
+    border-bottom-right-radius: .45rem;
   }
 }
 
@@ -40,12 +40,10 @@
   mat-form-field {
     width: 60%;
     height: 45%;
-    text-align: center;
-    background-color: white;
-    border-radius: .6rem;
 
     mat-icon {
       color: gray;
+      margin-right: 1rem;
     }
   }
 }

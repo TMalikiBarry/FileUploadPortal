@@ -1,13 +1,17 @@
-<div class="list-folders">
-  <div *ngFor="let dossier of lesDossiers$ | async" class="oneFolder">
-    <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
-         xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd"
-            d="M127.037 30.8668L96.1703 0L1 0C0.447715 0 0 0.447721 0 1.00001V171.407C0 171.96 0.447711 172.407 0.999996 172.407H126.037C126.589 172.407 127.037 171.96 127.037 171.407V30.8668Z"
-            fill="#0082BB"
-            fill-rule="evenodd"/>
-      <path d="M92.9115 35.2769L93.5687 6.95074L121.242 34.8441L92.9115 35.2769Z" fill="white"/>
-    </svg>
-    <p>{{getDescription()}} {{dossier.acces.name | formatName: 'name'}}</p>
+<div class="under-big-body">
+  <h2>{{getH1Title()}} de vos agents</h2>
+  <div class="list-folders">
+    <div *ngFor="let dossier of lesDossiers$ | async" class="oneFolder">
+      <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
+           xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd"
+              d="M127.037 30.8668L96.1703 0L1 0C0.447715 0 0 0.447721 0 1.00001V171.407C0 171.96 0.447711 172.407 0.999996 172.407H126.037C126.589 172.407 127.037 171.96 127.037 171.407V30.8668Z"
+              fill="#0082BB"
+              fill-rule="evenodd"/>
+        <path d="M92.9115 35.2769L93.5687 6.95074L121.242 34.8441L92.9115 35.2769Z" fill="white"/>
+      </svg>
+      <p>{{getDescription()}} <strong>{{dossier.acces.name | formatName: 'name'}}</strong></p>
+    </div>
   </div>
 </div>
+
