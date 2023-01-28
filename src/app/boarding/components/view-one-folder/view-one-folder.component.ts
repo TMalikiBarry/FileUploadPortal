@@ -44,15 +44,15 @@ export class ViewOneFolderComponent implements OnInit {
   }
 
   onDisplayFile(dossier: DossierInterface) {
-    let localUrl = "C:\\Users\\THIERNOBARRY\\SpringProjects\\InTouch\\ecobank-portal\\files\\" + dossier.name;
-    let assetUrl = '../../../../assets/pdfTest/CV_Alioune.pdf';
+    /*let assetUrl = '../../../../assets/pdfTest/CV_Alioune.pdf';
     let srcTest = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-    let opclUrl = 'https://openclassrooms.com/en/course-certificates/1375982211';
+    let opclUrl = 'https://openclassrooms.com/en/course-certificates/1375982211';*/
     console.log(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,
         // fileSrc: PDF_TEST_URLS[Math.floor(Math.random() * 5)],
+        fileName: dossier.name,
         agentName: dossier.acces.name,
         typeFile: dossier.typeFile
       },

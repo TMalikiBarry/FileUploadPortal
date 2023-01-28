@@ -5,7 +5,8 @@
     <path d="M23.8369 11.0019L11.8369 25.0019" stroke="black" stroke-width="2"/>
     <path d="M23.8347 25.0038L11.8392 11" stroke="#0F0E0E" stroke-width="2"/>
   </svg>
-  <div class="icon-bg mat-elevation-z2">
+  <div (click)="onDownLoad()" class="icon-bg mat-elevation-z2 animateMe"
+       matTooltip="Télécharger le document" matTooltipClass="tool-tip-class">
     <mat-icon> file_download</mat-icon>
   </div>
 

@@ -9,12 +9,12 @@ import {LoginInterface} from "../../models/login.interface";
   providedIn: 'root'
 })
 export class AuthService {
-  private token!: string;
   isAuth: boolean = false;
   roleAs !: string | null;
   role !: string;
-  private currentUserSubject!: BehaviorSubject<LoginInterface>;
   public currentUser!: Observable<LoginInterface>;
+  private token!: string;
+  private currentUserSubject!: BehaviorSubject<LoginInterface>;
 
   constructor(private http: HttpClient, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<LoginInterface>(JSON.parse(<string>localStorage.getItem("currentUser")));
@@ -23,6 +23,10 @@ export class AuthService {
 
   public get currentUserValue(): LoginInterface {
     return this.currentUserSubject.value;
+  }
+
+  get myToken(): string {
+    return this.token;
   }
 
   public login(username: string, password: string) {
@@ -51,6 +55,7 @@ export class AuthService {
   public hasRole(roles: string): boolean {
     return this.currentUserSubject.getValue()!.roles.includes(roles);
   }
+
   public logout(): Observable<boolean> {
     this.isAuth = false;
     this.roleAs = '';
@@ -62,6 +67,31 @@ export class AuthService {
     // mettre à jour la liste des users
     return of(true);
   }
+
+  /*
+    testChargerFichier() {
+      let headers = new HttpHeaders();
+      // headers = headers.set('Accept', 'application/pdf');
+
+      return this.http.get(`${environment.API_URL}/dossier/getFile/25-01-2023_13-17-33_CNI_RECTO_M5L4-collections-part1.pdf`
+        , {
+          // headers,
+          observe: 'response',
+          responseType: 'blob'
+        })
+        /!*.pipe(
+          map(res => {
+            const contentDisposition = res.headers.get('content-disposition');
+            console.log(contentDisposition);
+            const fileName = contentDisposition!.split(';')[1].split('=')[1];
+            return {
+              fileName: fileName.replace(/"/g, ''),
+              data: res.body
+            };
+          })
+        );*!/
+    }
+  */
 
   getRole() {
     this.roleAs = localStorage.getItem('ROLE');
@@ -97,10 +127,6 @@ export class AuthService {
     }
 
     return this.role = "";
-  }
-
-  get myToken(): string {
-    return this.token;
   }
 
   loginByOldWay() {

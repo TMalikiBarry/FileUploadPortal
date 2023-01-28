@@ -42,3 +42,4 @@ testem.log
 .DS_Store
 Thumbs.db
 /src/assets/pdfTest/
+/src/assets/pdfTest/*

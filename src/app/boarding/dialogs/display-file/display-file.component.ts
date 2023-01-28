@@ -2,6 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Typage, TypageReverse} from "../../../core/models/typage";
 import {DESCRIBER_MAP} from "../../../core/models/Constants";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
+import * as FileSaver from "file-saver";
 
 @Component({
   selector: 'app-display-file',
@@ -10,7 +13,9 @@ import {DESCRIBER_MAP} from "../../../core/models/Constants";
 })
 export class DisplayFileComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { fileSrc: string, agentName: string, typeFile: Typage }) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data:
+                { fileSrc: string, fileName: string, agentName: string, typeFile: Typage },
+              private http: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -18,5 +23,27 @@ export class DisplayFileComponent implements OnInit {
 
   getParagraph(typeFile: Typage): string {
     return DESCRIBER_MAP[TypageReverse[typeFile]];
+  }
+
+  onDownLoad() {
+    let fileName = this.data.fileName;
+    this.http.get(`${environment.API_URL}/dossier/getFile/${fileName}`
+      , {
+        observe: 'response',
+        responseType: 'blob'
+      }).subscribe({
+      next: response => {
+        FileSaver.saveAs(response.body!, fileName);
+        /*const url = window.URL.createObjectURL(response.data!);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = url;
+        a.download = response.fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();*/
+      }
+    })
   }
 }

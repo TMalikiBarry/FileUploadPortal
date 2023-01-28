@@ -222,6 +222,7 @@ export class ConfigFolderComponent implements OnInit {
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,
+        fileName: dossier.name,
         agentName: this.currentAgent.name,
         typeFile: dossier.typeFile
       },

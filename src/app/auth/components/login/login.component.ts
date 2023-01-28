@@ -27,10 +27,23 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    /*this.authService.loginByOldWay();
-    this.router.navigateByUrl('dashboard');*/
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
+
+    // this.authService.testChargerFichier().subscribe({
+    //   next: response=>{
+    //     FileSaver.saveAs(response.body!, 'fileName.pdf');
+    //     /*const url = window.URL.createObjectURL(response.data!);
+    //     const a = document.createElement('a');
+    //     document.body.appendChild(a);
+    //     a.setAttribute('style', 'display: none');
+    //     a.href = url;
+    //     a.download = response.fileName;
+    //     a.click();
+    //     window.URL.revokeObjectURL(url);
+    //     a.remove();*/
+    //   }
+    // });
 
     if (typeof username === "string" && typeof password === "string") {
       this.authService.login(username, password)

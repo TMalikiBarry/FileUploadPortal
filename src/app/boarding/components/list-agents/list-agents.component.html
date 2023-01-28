@@ -43,13 +43,21 @@
     <ng-container matColumnDef="id">
       <th *matHeaderCellDef mat-header-cell> Action</th>
       <td *matCellDef="let row" mat-cell>
-        <button (click)="onRedirect(row.id)"
+        <button (click)="onRedirect(row.id)" *ngIf="!row.registered"
                 class="animateMeBig"
                 color="primary"
                 mat-icon-button
                 matTooltipClass="tool-tip-class"
                 matTooltip="Importer ses fichiers">
           <mat-icon>create_new_folder</mat-icon>
+        </button>
+        <button (click)="onRedirect(row.id)" *ngIf="row.registered"
+                class="animateMeBig"
+                color="primary"
+                mat-icon-button
+                matTooltip="Voir ses fichiers"
+                matTooltipClass="tool-tip-class">
+          <mat-icon>visibility</mat-icon>
         </button>
       </td>
     </ng-container>
