@@ -7,14 +7,14 @@
   </svg>
   <div (click)="onDownLoad()" class="icon-bg mat-elevation-z2 animateMe"
        matTooltip="Télécharger le document" matTooltipClass="tool-tip-class">
-    <mat-icon> file_download</mat-icon>
+    <mat-icon>file_download</mat-icon>
   </div>
 
 </div>
 <div class="content-actions" mat-dialog-content>
-  <p>{{getParagraph(data.typeFile)}} <strong>{{data.agentName | formatName:'name'}}</strong></p>
+  <p>{{getParagraph(data.typeFile)}} de <strong>{{data.agentName | formatName:'name'}}</strong></p>
   <pdf-viewer [autoresize]="true"
-              [external-link-target]="'blank'"
+              external-link-target="blank"
               [fit-to-page]="false"
               [original-size]="false"
               [page]="1"
@@ -24,7 +24,7 @@
               [show-borders]="false"
               [src]="data.fileSrc"
               [stick-to-page]="true"
-              [zoom-scale]="'page-width'"
+              zoom-scale="page-width"
               [zoom]=".8">
   </pdf-viewer>
   <!--  <iframe [src]="data.fileSrc"></iframe>-->

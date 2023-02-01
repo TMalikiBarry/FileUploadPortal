@@ -1,5 +1,7 @@
 <div class="under-big-body">
-  <h2>{{getH1Title()}} de vos agents</h2>
+  <h2>La liste des {{getH1Title()}} de vos agents</h2>
+
+  <ng-container *ngIf="showDossiers$ | async else emptyFolder"></ng-container>
   <div class="list-folders">
     <div *ngFor="let dossier of lesDossiers$ | async" class="oneFolder">
       <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
@@ -10,8 +12,22 @@
               fill-rule="evenodd"/>
         <path d="M92.9115 35.2769L93.5687 6.95074L121.242 34.8441L92.9115 35.2769Z" fill="white"/>
       </svg>
-      <p>{{getDescription()}} <strong>{{dossier.acces.name | formatName: 'name'}}</strong></p>
+      <p>{{getDescription()}} de <strong>{{dossier.acces.name | formatName: 'name'}}</strong></p>
     </div>
   </div>
 </div>
+
+<ng-template #emptyFolder>
+  <div class="folder-empty">
+    <img alt="empty Folder" src="assets/figmaSVGs/empty_folder.svg">
+    <p>Ce dossier est vide</p>
+    <p>Ajoutez les {{getH1Title()}} de vos agents pour la configuration de vos points</p>
+    <button class="animateMe mat-elevation-z2"
+            color="primary" mat-raised-button routerLink="/dashboard/mes-agents">
+      <mat-icon>create_new_folder</mat-icon>
+      <span>Importer pour remplir</span>
+    </button>
+  </div>
+
+</ng-template>
 

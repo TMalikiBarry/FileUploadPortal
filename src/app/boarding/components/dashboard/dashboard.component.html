@@ -3,7 +3,7 @@
     <mat-icon *ngIf="!isOpen">menu</mat-icon>
     <mat-icon *ngIf="isOpen">close</mat-icon>
   </button>
-  <span class="get-space">Mon DashBoard</span>
+  <span class="get-space">Mon Espace de configuration</span>
   <span class="example-spacer"></span>
   <button (click)="logOut()" aria-label="Log Out icon" class="log_out mat-elevation-z4"
           mat-raised-button>
@@ -42,6 +42,7 @@
   <mat-sidenav-content>
     <div class="content">
       <router-outlet></router-outlet>
+      <h1 *ngIf="router.url=== '/dashboard'">HEYYYYY</h1>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

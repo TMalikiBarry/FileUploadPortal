@@ -12,25 +12,25 @@ export const PARAGRAPH_MAP: { [key in FileType]: string } = {
 };
 
 export const DESCRIBER_MAP: { [key in FileType]: string } = {
-  'cni_r': 'Carte d\'identité recto de',
-  'cni_v': 'Carte d\'identité verso de',
-  'geoloc': 'Fiche de géolocalisation du point de',
-  'honneur': 'Déclaration de l\'honneur de',
-  'connaissance': 'Fiche de connaissance de',
-  'CGU': 'Conditions (CGU) de',
-  'residence': 'Fiche de contrat de location de',
-  'statut': 'Statut de l\'entreprise de'
+  'cni_r': 'Carte d\'identité recto',
+  'cni_v': 'Carte d\'identité verso',
+  'geoloc': 'Fiche de géolocalisation du point',
+  'honneur': 'Déclaration sur l\'honneur / ( ou ) Casier judiciaire',
+  'connaissance': 'Fiche Connaissance',
+  'CGU': 'Conditions (CGU)',
+  'residence': 'Fiche de contrat de location',
+  'statut': 'Statut de l\'entreprise'
 };
 
 export const H1_LIST_TITLE: { [key in FileType]: string } = {
-  'cni_r': 'La liste des cartes d\'identité recto',
-  'cni_v': 'La liste des cartes d\'identité verso',
-  'geoloc': 'La liste des fiches de géolocalisation du point',
-  'honneur': 'La liste des déclarations de l\'honneur',
-  'connaissance': 'La liste des fiches de connaissance',
-  'CGU': 'La liste des conditions (CGU)',
-  'residence': 'La liste des fiches de contrat de location',
-  'statut': 'La liste des statuts des entreprises'
+  'cni_r': 'cartes d\'identité recto',
+  'cni_v': 'cartes d\'identité verso',
+  'geoloc': 'fiches de géolocalisation du point',
+  'honneur': 'déclarations sur l\'honneur',
+  'connaissance': 'fiches Connaissance',
+  'CGU': 'conditions (CGU)',
+  'residence': 'fiches de contrat de location',
+  'statut': 'statuts des entreprises'
 }
 
 export const PDF_TEST_URLS = [

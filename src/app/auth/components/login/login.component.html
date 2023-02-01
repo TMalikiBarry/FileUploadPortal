@@ -1,4 +1,7 @@
 <div class="align-item">
+  <p class="my-auth-title">ONBOARDING</p>
+  <p class="descriptif">Bienvenue dans votre espace de configuration<br>Veuillez vous connecter pour configurer les
+    dossiers de vos agents</p>
   <div [formGroup]="loginForm" class="form-card">
     <h2>Authentification</h2>
     <mat-form-field appearance="outline">
@@ -18,7 +21,8 @@
       </mat-error>
     </mat-form-field>
     <div>
-      <button (click)="onLogin()" class="animateMe mat-elevation-z4" color="primary" mat-raised-button>
+      <button (click)="onLogin()" [disabled]="loginForm.invalid"
+              class="animateMe mat-elevation-z4" color="primary" mat-raised-button>
         Connexion
       </button>
     </div>

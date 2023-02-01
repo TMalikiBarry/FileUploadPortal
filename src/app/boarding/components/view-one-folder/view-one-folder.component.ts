@@ -22,6 +22,8 @@ export class ViewOneFolderComponent implements OnInit {
   commercant!: UserInterface;
   lesDossiers$!: Observable<DossierInterface[]>;
 
+  showDossiers$!: Observable<boolean>;
+
   constructor(private route: ActivatedRoute,
               private notify: NotifService,
               private dialog: MatDialog,
@@ -38,8 +40,11 @@ export class ViewOneFolderComponent implements OnInit {
     if (this.commercant && this.typeFile) {
       this.lesDossiers$ = this.fileService
         .getAllDossiersAgentsByType(this.commercant.id, Typage[this.typeFile]).pipe(
-          map((response) => <DossierInterface[]>response.data)
+          map((response) => <DossierInterface[]>response.data),
         );
+      this.showDossiers$ = this.lesDossiers$.pipe(
+        map(dossiers => (dossiers && dossiers.length > 0)),
+      );
     }
   }
 
@@ -51,7 +56,7 @@ export class ViewOneFolderComponent implements OnInit {
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,
-        // fileSrc: PDF_TEST_URLS[Math.floor(Math.random() * 5)],
+        // fileSrc: PDF_TEST_URLS[Math.floor(Math.random() * 4.5)],
         fileName: dossier.name,
         agentName: dossier.acces.name,
         typeFile: dossier.typeFile
