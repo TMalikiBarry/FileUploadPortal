@@ -21,13 +21,12 @@ export class DashboardComponent implements OnInit {
 
   commercant!: UserInterface
 
-  constructor(private authService: AuthService, public router: Router, private userSevice: UserService) {
+  constructor(private authService: AuthService, private router: Router, private userSevice: UserService) {
   }
 
   ngOnInit(): void {
     // this.getMyCommercant();
     this.loadCommercant();
-    console.log(this.router.url);
   }
 
   async loadCommercant() {

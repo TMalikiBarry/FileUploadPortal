@@ -6,6 +6,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import {UserInterface} from "../../../core/models/user.interface";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {Router} from "@angular/router";
+import {map} from "rxjs";
+import {DossierInterface} from "../../../core/models/dossier.interface";
 
 @Component({
   selector: 'app-list-agents',
@@ -16,20 +18,17 @@ export class ListAgentsComponent implements OnInit {
 
   dataSource !: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'username', 'email', 'roles', 'id'];
-
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
-  @ViewChild(MatSort) sort !: MatSort;
+  idAgents: number[] = [];
+  checkDossiers$ = new Map();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private userService: UserService, private notify: NotifService, private router: Router) {
   }
 
   ngOnInit(): void {
-    console.log("Infos des agents du commerçant " + this.userService.getMyAgents().subscribe());
     this.getAgents();
-  }
-
-  add() {
-
+    this.checkAgentGotDossiers();
   }
 
   applyFilter(event: KeyboardEvent) {
@@ -45,6 +44,22 @@ export class ListAgentsComponent implements OnInit {
     this.router.navigateByUrl(`dashboard/mes-agents/${id}`);
   }
 
+  checkAgentGotDossiers() {
+    this.userService.getMyAgents().pipe(
+      map(res => <UserInterface[]>res.data),
+      map(users => users.map(user => user.id)),
+    ).subscribe({
+      next: ids => {
+        ids.forEach(id => {
+          this.checkDossiers$.set(id, this.userService.getAgentDossiers(id).pipe(
+            map(res => <DossierInterface[]>res.data),
+            map(dossiers => (dossiers && dossiers.length > 0)),
+          ));
+        })
+      }
+    });
+  }
+
   private getAgents() {
     this.userService.getMyAgents().subscribe({
       next: (res) => {
@@ -56,6 +71,6 @@ export class ListAgentsComponent implements OnInit {
         this.notify.snackMessage(err.toString(), 3000, "danger");
         console.error(err);
       }
-    })
+    });
   }
 }

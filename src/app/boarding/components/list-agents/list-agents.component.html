@@ -43,7 +43,7 @@
     <ng-container matColumnDef="id">
       <th *matHeaderCellDef mat-header-cell> Action</th>
       <td *matCellDef="let row" mat-cell>
-        <button (click)="onRedirect(row.id)" *ngIf="!row.registered"
+        <button (click)="onRedirect(row.id)" *ngIf="!(checkDossiers$.get(row.id) | async)"
                 class="animateMeBig"
                 color="primary"
                 mat-icon-button
@@ -51,7 +51,7 @@
                 matTooltip="Importer ses fichiers">
           <mat-icon>create_new_folder</mat-icon>
         </button>
-        <button (click)="onRedirect(row.id)" *ngIf="row.registered"
+        <button (click)="onRedirect(row.id)" *ngIf="checkDossiers$.get(row.id) | async"
                 class="animateMeBig"
                 color="primary"
                 mat-icon-button

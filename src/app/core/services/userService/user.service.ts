@@ -3,6 +3,7 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ApiResponse} from "../../models/ApiResponse";
 import {UserInterface} from "../../models/user.interface";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class UserService {
     this.userId = user.id;
   }
 
-  postUser(data: any) {
-    return this.http.post<ApiResponse>(this.API_URL + "/user/save/", data)
+  getAgentDossiers(idAgent: number): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.API_URL}/dossier/agentDossiers/${idAgent}`);
   }
 
   getUser(id: number) {
@@ -51,13 +52,5 @@ export class UserService {
       return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER + this.userId);
     }
     return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER);
-  }
-
-  putUser(data: any, id: number) {
-    return this.http.put<ApiResponse>(this.API_URL + "/user/edit/" + id, data)
-  }
-
-  deleteLogin(id: number) {
-    return this.http.delete<ApiResponse>(this.API_URL + "/user/delete/" + id)
   }
 }

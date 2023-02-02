@@ -8,5 +8,5 @@ export interface UserInterface {
   email: string;
   roles?: RoleInterface[];
   rememberMe: boolean,
-  registered: boolean,
+  // registered: boolean,
 }
