@@ -5,28 +5,49 @@
   </button>
   <span class="get-space">Mon Espace de configuration</span>
   <span class="example-spacer"></span>
-  <button (click)="logOut()" aria-label="Log Out icon" class="log_out mat-elevation-z4"
+  <div class="divInfo">
+    <span *ngIf="commercant"> {{ commercant!.name}}</span>
+    <button [matMenuTriggerFor]="menu" mat-button>
+      <img alt="default avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
+      {{ 'commerçant' | uppercase}}
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>perm_identity</mat-icon>
+        Profil
+      </button>
+      <button (click)="logOut()" mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        Deconnexion
+      </button>
+    </mat-menu>
+  </div>
+  <!--<button (click)="logOut()" aria-label="Log Out icon" class="log_out mat-elevation-z4"
           mat-raised-button>
     <mat-icon matTooltip="Déconnexion" matTooltipClass="tool-tip-class">logout</mat-icon>
     <span>Se déconnecter</span>
-  </button>
+  </button>-->
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav [(opened)]="isOpen" class="mat-elevation-z4" mode="side">
-    <img alt="Mon PP" class="avatar mat-elevation-z2" src="assets/images/profiles/profile-default.png"/>
+  <mat-sidenav [(opened)]="isOpen" mode="side">
+    <!--
+        <img alt="Mon PP" class="avatar mat-elevation-z2" src="assets/images/profiles/profile-default.png"/>
 
-    <h4 class="name">
-      <!--      <span *ngIf="userSevice.getCommercant() | async as commercant"> {{commercant.name | formatName: 'name'}}</span>-->
-      {{commercant != null ? (commercant.name | formatName: 'name') : 'nom du commerçant'| titlecase}}
-    </h4>
-    <p class="designation"><strong>{{'commerçant' | uppercase}}</strong></p>
+        <h4 class="name">
+          {{commercant != null ? (commercant.name | formatName: 'name') : 'nom du commerçant'| titlecase}}
+        </h4>
+    -->
+    <p>Onboarding</p>
+    <!--    <p class="designation"><strong>{{'commerçant' | uppercase}}</strong></p>-->
 
     <mat-divider></mat-divider>
     <button aria-label="icône Agents" class="menu-button" mat-button routerLink="/dashboard/mes-agents">
       <mat-icon>list_alt</mat-icon>
       <span>Liste des agents</span>
     </button>
+    <mat-divider></mat-divider>
     <button aria-label="icône Dossiers" class="menu-button" mat-button routerLink="/dashboard/voir-documents">
       <mat-icon>folder_shared</mat-icon>
       <span>Les documents</span>
@@ -39,6 +60,7 @@
       <span>Mon Profil</span>
     </button>-->
   </mat-sidenav>
+
   <mat-sidenav-content>
     <div class="content">
       <router-outlet></router-outlet>

@@ -4,6 +4,11 @@
   }
 }
 
+.map {
+  height: 100%;
+  padding: 0;
+}
+
 mat-grid-list {
   padding-bottom: 1.5rem;
   margin-left: 2.5rem;
@@ -106,9 +111,13 @@ mat-grid-list {
     }
 
     .save-files {
+      display: flex;
+      justify-content: center;
+
       button {
-        width: 120%;
-        height: 130%;
+        width: 10rem;
+        height: 2.5rem;
+        margin-inline: 1rem;
 
         span {
           float: right;
@@ -142,4 +151,21 @@ mat-grid-list {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.2rem;
+}
+
+mat-expansion-panel {
+  margin-bottom: .5rem;
+  border-radius: .5rem;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+
+  mat-expansion-panel-header {
+    mat-panel-title {
+      width: 25vw;
+    }
+  }
+
 }

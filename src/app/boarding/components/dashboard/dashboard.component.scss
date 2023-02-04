@@ -10,21 +10,48 @@
 mat-toolbar {
   display: flex;
   align-items: center;
+
+  .divInfo {
+    padding: 0 .5rem;
+
+    button {
+      margin: 0 .5rem;
+      font-family: Poppins, sans-serif;
+
+      img {
+        margin-right: .3rem;
+      }
+    }
+
+    span {
+      font-size: 1rem;
+    }
+  }
 }
 
 mat-sidenav-container {
   padding-top: 3rem;
   padding-bottom: 2rem;
+  overflow: auto;
 }
 
 mat-sidenav {
-  margin: 1rem 1rem 3rem 1rem;
-  width: 12.5rem;
+  width: 13rem;
   border-right: none;
-  border-radius: 1rem;
   padding: 1rem;
   text-align: center;
-  height: 95%;
+  height: 48rem;
+
+  p:first-of-type {
+    font-size: 1.3rem;
+    font-weight: 450;
+    margin: auto
+  }
+
+  mat-divider:nth-of-type(2) {
+    width: 60%;
+    margin-inline: auto;
+  }
 }
 
 .get-space {
@@ -42,9 +69,10 @@ mat-sidenav {
 }
 
 .content {
-  height: calc(100vh - 6rem);
+  height: 44rem;
   border-radius: 1rem;
   margin: 0 2rem;
+  overflow: auto;
 }
 
 .menu-button {
@@ -59,17 +87,17 @@ mat-sidenav {
   }
 }
 
-.avatar {
+/*.avatar {
   margin-top: 1rem;
   width: 8rem;
   height: 7rem;
   border-radius: 47%;
-}
+}*/
 
 .name {
-  margin-top: .5rem;
-  font-weight: normal;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 2rem auto;
 }
 
 .designation {

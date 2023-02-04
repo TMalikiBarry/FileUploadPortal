@@ -32,8 +32,12 @@ export class ConfigFolderComponent implements OnInit {
   informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
+  step = 0;
   lesDossiers$!: Observable<DossierInterface[]>;
   showDossiersAgent$!: Observable<boolean>;
+  lat = 51.678418;
+  lng = 7.809007;
+  API_KEY = '';
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -65,6 +69,7 @@ export class ConfigFolderComponent implements OnInit {
       this.getAgentDossiers();
     }
   }
+
 
   getEvent(event: Event) {
     let fileType = this.fileType;
@@ -110,6 +115,18 @@ export class ConfigFolderComponent implements OnInit {
         },
       });
     }
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 
   onUpload(fileType: FileType) {

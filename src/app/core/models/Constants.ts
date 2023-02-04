@@ -4,8 +4,8 @@ export const PARAGRAPH_MAP: { [key in FileType]: string } = {
   'cni_r': 'Recto de la CNI',
   'cni_v': 'Verso de la CNI',
   'geoloc': 'Géolocalisation du point',
-  'honneur': 'Déclaration de l\'honneur',
-  'connaissance': 'Fiche de Connaissance',
+  'honneur': 'Déclaration sur l\'honneur',
+  'connaissance': 'Fiche Connaissance',
   'CGU': 'Conditions (CGU)',
   'residence': 'Contrat de location',
   'statut': 'Statut de l\'entreprise'
