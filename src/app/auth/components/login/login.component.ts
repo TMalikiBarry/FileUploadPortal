@@ -27,9 +27,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    let username = this.loginForm.value.username;
-    let password = this.loginForm.value.password;
-
     // this.authService.testChargerFichier().subscribe({
     //   next: response=>{
     //     FileSaver.saveAs(response.body!, 'fileName.pdf');
@@ -44,6 +41,9 @@ export class LoginComponent implements OnInit {
     //     a.remove();*/
     //   }
     // });
+
+    let username = this.loginForm.value.username;
+    let password = this.loginForm.value.password;
 
     if (typeof username === "string" && typeof password === "string") {
       this.authService.login(username, password)

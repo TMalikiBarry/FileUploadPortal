@@ -24,7 +24,7 @@
   }
 
   .form-card {
-    background-color: #F2F2F2;
+    background-color: whitesmoke;
     outline: thick black;
     border-radius: 1rem;
     box-sizing: border-box;
@@ -34,13 +34,13 @@
     text-align: center;
 
     mat-form-field {
-      margin: 10px auto;
+      margin: .7rem auto;
       width: 75%;
     }
 
     button {
-      margin: 20px auto;
-      width: 70%;
+      margin: 1.25rem auto;
+      width: 74%;
       height: 3rem;
     }
   }

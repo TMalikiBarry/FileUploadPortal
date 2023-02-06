@@ -8,6 +8,7 @@
 }
 
 mat-toolbar {
+  padding-left: 2rem;
   display: flex;
   align-items: center;
 
@@ -30,8 +31,6 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
-  padding-top: 3rem;
-  padding-bottom: 2rem;
   overflow: auto;
 }
 
@@ -69,6 +68,8 @@ mat-sidenav {
 }
 
 .content {
+  padding-top: 3rem;
+  padding-bottom: 2rem;
   height: 44rem;
   border-radius: 1rem;
   margin: 0 2rem;
