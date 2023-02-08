@@ -1,6 +1,6 @@
 .align-item {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(180deg, #094863 -17.19%, #0082BB 47.35%, rgba(0, 212, 255, 0.84) 121.9%, rgba(0, 212, 255, 0.84) 145.9%);
   display: flex;
   flex-direction: column;
@@ -8,6 +8,7 @@
   justify-content: center;
 
   .my-auth-title {
+    margin-top: -2rem;
     text-align: center;
     color: white;
     font-size: 1.6rem;

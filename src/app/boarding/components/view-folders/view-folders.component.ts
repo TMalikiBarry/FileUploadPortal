@@ -10,7 +10,7 @@ import {H1_LIST_TITLE} from "../../../core/models/Constants";
 })
 export class ViewFoldersComponent implements OnInit {
 
-  keys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU', 'residence', 'statut'];
+  keys: FileType[] = ['cni_r', 'cni_v', 'honneur', 'CGU', 'residence', 'statut'];
 
   constructor(private router: Router) {
   }

@@ -38,7 +38,7 @@
       <span class="get-space">Mon Espace de configuration</span>
       <span class="example-spacer"></span>
       <div class="divInfo">
-        <span *ngIf="commercant"> {{ commercant!.name}}</span>
+        <span *ngIf="commercant"> {{ commercant!.name | formatName: 'name'}}</span>
         <button [matMenuTriggerFor]="menu" mat-button>
           <img alt="default avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
           {{ 'commerçant' | uppercase}}

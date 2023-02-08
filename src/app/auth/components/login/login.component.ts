@@ -12,8 +12,8 @@ import {NotifService} from "../../../core/services/notificationService/notif.ser
 export class LoginComponent implements OnInit {
 
   loginForm = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
+    username: [null, Validators.required],
+    password: [null, Validators.required]
   });
   showPassword = false;
 
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      console.log(this.loginForm.value)
   }
 
   onLogin() {
