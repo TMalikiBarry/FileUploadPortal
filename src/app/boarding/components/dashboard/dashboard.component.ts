@@ -19,7 +19,8 @@ export enum Role {
 export class DashboardComponent implements OnInit {
   isOpen = true;
 
-  commercant!: UserInterface
+  commercant!: UserInterface;
+  expanded = true;
 
   constructor(private authService: AuthService, private router: Router, private userSevice: UserService) {
   }

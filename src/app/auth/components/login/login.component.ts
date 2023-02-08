@@ -12,8 +12,8 @@ import {NotifService} from "../../../core/services/notificationService/notif.ser
 export class LoginComponent implements OnInit {
 
   loginForm = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
+    username: [null, Validators.required],
+    password: [null, Validators.required]
   });
   showPassword = false;
 
@@ -24,12 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      console.log(this.loginForm.value)
   }
 
   onLogin() {
-    let username = this.loginForm.value.username;
-    let password = this.loginForm.value.password;
-
     // this.authService.testChargerFichier().subscribe({
     //   next: response=>{
     //     FileSaver.saveAs(response.body!, 'fileName.pdf');
@@ -44,6 +42,9 @@ export class LoginComponent implements OnInit {
     //     a.remove();*/
     //   }
     // });
+
+    let username = this.loginForm.value.username;
+    let password = this.loginForm.value.password;
 
     if (typeof username === "string" && typeof password === "string") {
       this.authService.login(username, password)

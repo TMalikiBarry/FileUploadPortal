@@ -11,6 +11,8 @@ import {SaveDossierComponent} from "../../dialogs/save-dossier/save-dossier.comp
 import {Typage} from "../../../core/models/typage";
 import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
 import {PARAGRAPH_MAP} from "../../../core/models/Constants";
+import {AbstractControl, FormBuilder, Validators} from "@angular/forms";
+import {PointInterface} from "../../../core/models/point.interface";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
@@ -29,17 +31,27 @@ export class ConfigFolderComponent implements OnInit {
   fileMap: Map<FileType, File | undefined> = new Map();
   progressMap = new Map();
   fileNameMap = new Map();
-  informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'geoloc', 'honneur', 'connaissance', 'CGU'];
+  informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'honneur', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
+  step = 1;
   lesDossiers$!: Observable<DossierInterface[]>;
   showDossiersAgent$!: Observable<boolean>;
+
+  geolocalisation!: PointInterface;
+
+
+  positionForm = this.fb.group({
+    longitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
+    latitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]]
+  });
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private notify: NotifService,
               private dialog: MatDialog,
-              private fileService: FileService) {
+              private fileService: FileService,
+              private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -65,6 +77,7 @@ export class ConfigFolderComponent implements OnInit {
       this.getAgentDossiers();
     }
   }
+
 
   getEvent(event: Event) {
     let fileType = this.fileType;
@@ -99,17 +112,43 @@ export class ConfigFolderComponent implements OnInit {
           this.fileNameMap.set(fileType, value.data.toString())
         },
         error: err => {
-          if (err == 'OK') {
+          console.error(err.toString());
+          this.fileMap.delete(fileType);
+          this.notify.snackMessage('Error while uploading ' + err.message, 5000, 'danger');
+          /*if (err == 'OK') {
             this.notify.snackMessage(this.currentFile!.name + ' enregistré avec succès', 2000, 'success');
             this.progressMap.set(fileType, 100);
           } else {
             console.error(err.toString());
             this.fileMap.delete(fileType);
             this.notify.snackMessage('Error while uploading ' + err.message, 5000, 'danger');
-          }
+          }*/
         },
       });
     }
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    if (this.step === 1 && this.geolocalisation == undefined) {
+      this.fileService.savePoint(this.positionForm.value as PointInterface).pipe(
+        tap(data => {
+          this.geolocalisation = data;
+          this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
+            , 2000, 'success');
+        } ),
+      ).subscribe();
+    }
+
+    if (!this.positionForm.invalid && this.step ===1)
+      this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 
   onUpload(fileType: FileType) {
@@ -128,9 +167,12 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   allowSaveDossier(): boolean {
+/*    if (this.positionForm.invalid) {
+      return false;
+    }*/
     const value = 100;
     const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
-    return keys.every(key => this.progressMap.get(key) === value);
+    return keys.every(key => this.progressMap.get(key) === value) && !this.positionForm.invalid;
   }
 
   onSaveDossier() {
@@ -140,9 +182,9 @@ export class ConfigFolderComponent implements OnInit {
 
       keys.forEach(key => {
         dossiers.push({
-          // name: Typage[key] + '_' + this.fileMap.get(key)!.name,
           name: this.fileNameMap.get(key),
           uploadingFile: this.fileMap.get(key)!.name,
+          geolocalisation: this.geolocalisation,
           typeFile: Typage[key],
           acces: this.currentAgent
         })
@@ -185,13 +227,6 @@ export class ConfigFolderComponent implements OnInit {
         this.progressMap.set(typeFile, 10);
         this.fileMap.delete(typeFile);
       },
-      error: err => {
-        if (err == 'OK') {
-          this.notify.snackMessage(`Ficher ${this.fileMap.get(typeFile)!.name} retiré avec succès`, 2000, 'success');
-          this.progressMap.set(typeFile, 10);
-          this.fileMap.delete(typeFile);
-        }
-      }
     })
   }
 
@@ -229,5 +264,21 @@ export class ConfigFolderComponent implements OnInit {
       maxWidth: '90vw',
       maxHeight: '95vh',
     });
+  }
+
+  getFormControlErrorText(ctrl: AbstractControl) {
+    if (ctrl.hasError('required')) {
+      return 'Ce champ est requis';
+    } else if (ctrl.hasError('email')) {
+      return 'veuillez renseignez un format d\'email correct';
+    } else if (ctrl.hasError('pattern')) {
+      return 'Ce format de donnée n\'est pas autorisé';
+    } else if (ctrl.hasError('minlength')) {
+      return 'Nom d\'utilisateur trop court';
+    } else if (ctrl.hasError('maxlength')) {
+      return 'Nom d\'utilisateur trop long';
+    } else {
+      return 'Ce champ contient une erreur';
+    }
   }
 }

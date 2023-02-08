@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from "../services/AuthService/auth.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {NotifService} from "../services/notificationService/notif.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService,
               private router: Router,
-              private _snackBar: MatSnackBar) {
+              private notify: NotifService) {
   }
 
   canActivate(
@@ -23,23 +23,16 @@ export class AuthGuard implements CanActivate {
       this.router.navigateByUrl('login');
       return false
     }*/
-    return this.checkUserLogin(route, state.url);
+    return this.checkUserLogin(route);
   }
 
-  checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
+  checkUserLogin(route: ActivatedRouteSnapshot): boolean {
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
-      //console.log(this.authService.getRole())
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
-        console.log(userRole + " != " + route.data['roles'])
-        /*this._snackBar.openFromComponent(DialogAlertComponent, {
-          data: "Acces non autoriser",
-          duration: 5000,
-          verticalPosition: "top",
-          horizontalPosition: "end",
-          panelClass: ["custom-style-delete"]
-        })*/
-        this.router.navigateByUrl('/login');
+        console.error(userRole + " != " + route.data['roles']);
+        this.notify.snackMessage('Accès non autorisé', 4000, 'warning');
+        this.router.navigateByUrl('');
         return false;
       }
       return true;

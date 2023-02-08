@@ -21,10 +21,4 @@ export class NotifService {
     this.snackBar.open(msg, '', this.config);
   }
 
-  /*snackWarn(msg: string, type: 'warning'| 'danger'): void {
-    let cssStyle = type === 'warning' ? 'snack-warn': 'snack-danger';
-    this.config['panelClass'] = ['notification', cssStyle];
-    this.snackBar.open(msg, '', this.config);
-  }*/
-
 }

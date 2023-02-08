@@ -21,6 +21,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 @NgModule({
   declarations: [],
@@ -31,6 +33,7 @@ import {MatMenuModule} from "@angular/material/menu";
     MatListModule,
     MatButtonModule,
     MatIconModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,

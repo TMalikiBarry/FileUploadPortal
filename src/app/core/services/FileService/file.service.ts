@@ -3,8 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {DossierInterface} from "../../models/dossier.interface";
 import {ApiResponse} from "../../models/ApiResponse";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Typage} from "../../models/typage";
+import {PointInterface} from "../../models/point.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,11 @@ export class FileService {
 
   deleteAgentDossiers(idAgent: number) {
     return this.http.delete(`${this.baseUrl}/deleteAgentDossiers/${idAgent}`);
+  }
+
+  savePoint(point: PointInterface) {
+    return this.http.post<ApiResponse>(`${environment.API_URL}/points/new`, point).pipe(
+      map(res=> <PointInterface>res.data),
+    );
   }
 }

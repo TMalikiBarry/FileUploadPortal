@@ -14,11 +14,13 @@ body {
   }
 
   .animateMe:hover {
-    transform: scale(1.2);
+    //transform: scale(1.2);
+    opacity: .65;
   }
 
   .animateMeBig:hover {
     transform: scale(1.7);
+    opacity: .8;
   }
 
   .tool-tip-class {
