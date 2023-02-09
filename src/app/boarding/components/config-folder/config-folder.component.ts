@@ -49,8 +49,6 @@ export class ConfigFolderComponent implements OnInit {
 
   positionForm = this.fb.group({
     position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]]
-    /*longitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
-    latitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]]*/
   });
 
   constructor(private route: ActivatedRoute,
@@ -66,7 +64,6 @@ export class ConfigFolderComponent implements OnInit {
     try {
       this.idAgent = +this.route.snapshot.params["id"];
     } catch ({message}) {
-      console.error(message);
     }
     if (this.idAgent) {
       this.userService.getUser(this.idAgent).pipe(
@@ -95,10 +92,7 @@ export class ConfigFolderComponent implements OnInit {
       this.currentFile = target?.files[0];
     }
     if (this.currentFile) {
-      console.log(" Le type du fichier " + this.currentFile.type);
-      console.log(" La taille du fichier " + this.currentFile.size);
       this.fileMap.set(fileType, this.currentFile);
-      // console.log("TEST FONCTION ", this.getTypeByVariable(this.file_cni_r));
 
       if (!this.fileService.isTypeFilePDF(this.currentFile)) {
         this.notify.snackMessage('Ce type de fichier n\'est pas pris en compte', 4000, 'danger');
@@ -136,12 +130,10 @@ export class ConfigFolderComponent implements OnInit {
       let pos = this.positionForm.controls['position'].value?.trim().split(',')
       this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
         tap(data => {
-          console.table(this.positionForm.value);
           this.geolocalisation = data;
           this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
             , 2000, 'success');
           this.positionForm.disable();
-          console.log(this.positionForm.value);
         } ),
       ).subscribe();
     }
@@ -245,12 +237,9 @@ export class ConfigFolderComponent implements OnInit {
       map(dossiers => dossiers[0]),
       tap(dossier=> {
         if (dossier) {
-          console.table(dossier.geolocalisation);
           this.geolocalisation = dossier.geolocalisation;
           this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('http://www.openstreetmap.org/query?map=15/'+this.geolocalisation.latitude+'/'
             +this.geolocalisation.longitude);
-        /*this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.openstreetmap.org/query?lat='
-          +point.latitude+'&lon='+point.longitude);*/
         }
 
       }),
@@ -270,7 +259,6 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   onDisplayFile(dossier: DossierInterface) {
-    console.log(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,

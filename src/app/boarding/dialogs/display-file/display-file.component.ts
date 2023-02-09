@@ -34,15 +34,6 @@ export class DisplayFileComponent implements OnInit {
       }).subscribe({
       next: response => {
         FileSaver.saveAs(response.body!, fileName);
-        /*const url = window.URL.createObjectURL(response.data!);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = url;
-        a.download = response.fileName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();*/
       }
     })
   }

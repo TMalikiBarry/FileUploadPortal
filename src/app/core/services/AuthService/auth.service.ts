@@ -59,39 +59,10 @@ export class AuthService {
   public logout(): Observable<boolean> {
     this.isAuth = false;
     this.roleAs = '';
-    /*localStorage.removeItem("currentUser");
-    localStorage.setItem('STATE', 'false');
-    localStorage.setItem('ROLE', '');
-    localStorage.setItem('TOKEN', '')*/
     localStorage.clear();
     // mettre à jour la liste des users
     return of(true);
   }
-
-  /*
-    testChargerFichier() {
-      let headers = new HttpHeaders();
-      // headers = headers.set('Accept', 'application/pdf');
-
-      return this.http.get(`${environment.API_URL}/dossier/getFile/25-01-2023_13-17-33_CNI_RECTO_M5L4-collections-part1.pdf`
-        , {
-          // headers,
-          observe: 'response',
-          responseType: 'blob'
-        })
-        /!*.pipe(
-          map(res => {
-            const contentDisposition = res.headers.get('content-disposition');
-            console.log(contentDisposition);
-            const fileName = contentDisposition!.split(';')[1].split('=')[1];
-            return {
-              fileName: fileName.replace(/"/g, ''),
-              data: res.body
-            };
-          })
-        );*!/
-    }
-  */
 
   getRole() {
     this.roleAs = localStorage.getItem('ROLE');

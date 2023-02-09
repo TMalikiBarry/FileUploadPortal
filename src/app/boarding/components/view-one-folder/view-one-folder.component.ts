@@ -48,7 +48,6 @@ export class ViewOneFolderComponent implements OnInit {
       this.typeFile = <FileType>this.route.snapshot.params["type"];
       this.commercant = JSON.parse(localStorage.getItem('commercant')!);
     } catch ({message}) {
-      console.error(message);
     }
     if (this.commercant && this.typeFile) {
       if (this.typeFile == 'geoloc') {
@@ -58,12 +57,12 @@ export class ViewOneFolderComponent implements OnInit {
         );
         this.fileService.getAllDossiersAgentsByType(this.commercant.id, Typage.cni_r).pipe(
           map(res => <DossierInterface[]>res.data),
-          map(dossiers=> dossiers.map( dossier => <pointView> {
+          map(dossiers => dossiers.map(dossier => <pointView>{
             name: dossier.acces.name,
             latitude: dossier.geolocalisation.latitude,
             longitude: dossier.geolocalisation.longitude,
           })),
-          tap ( points => console.dir(points)),
+          tap(points => console.table(points)),
         ).subscribe({
           next: (points) => {
             this.dataSource = new MatTableDataSource(points);
@@ -85,14 +84,9 @@ export class ViewOneFolderComponent implements OnInit {
   }
 
   onDisplayFile(dossier: DossierInterface) {
-    /*let assetUrl = '../../../../assets/pdfTest/CV_Alioune.pdf';
-    let srcTest = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-    let opclUrl = 'https://openclassrooms.com/en/course-certificates/1375982211';*/
-    console.log(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,
-        // fileSrc: PDF_TEST_URLS[Math.floor(Math.random() * 4.5)],
         fileName: dossier.name,
         agentName: dossier.acces.name,
         typeFile: dossier.typeFile

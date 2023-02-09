@@ -68,7 +68,6 @@ export class ListAgentsComponent implements OnInit {
       },
       error: (err) => {
         this.notify.snackMessage(err.toString(), 3000, "danger");
-        console.error(err);
       }
     });
   }

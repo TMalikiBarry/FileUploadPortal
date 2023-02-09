@@ -24,25 +24,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      console.log(this.loginForm.value)
   }
 
   onLogin() {
-    // this.authService.testChargerFichier().subscribe({
-    //   next: response=>{
-    //     FileSaver.saveAs(response.body!, 'fileName.pdf');
-    //     /*const url = window.URL.createObjectURL(response.data!);
-    //     const a = document.createElement('a');
-    //     document.body.appendChild(a);
-    //     a.setAttribute('style', 'display: none');
-    //     a.href = url;
-    //     a.download = response.fileName;
-    //     a.click();
-    //     window.URL.revokeObjectURL(url);
-    //     a.remove();*/
-    //   }
-    // });
-
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
 
@@ -51,10 +35,8 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: (user) => {
             this.authService.authenticateUser(user).subscribe({
-              next: (data) => {
-                console.log("data " + data)
+              next: () => {
                 if (this.authService.currentUserValue) {
-                  console.log("login.ts " + this.authService.currentUserValue.roles)
                   this.router.navigateByUrl('/dashboard/mes-agents');
                   this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
                 }
@@ -62,8 +44,7 @@ export class LoginComponent implements OnInit {
               }
             })
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
             this.loginForm.reset();
           }
