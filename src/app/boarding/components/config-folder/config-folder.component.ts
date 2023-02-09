@@ -109,13 +109,13 @@ export class ConfigFolderComponent implements OnInit {
       }
       this.fileService.uploadFile(this.currentFile, Typage[fileType]).subscribe({
         next: value => {
-          this.notify.snackMessage('Upload avec succès de ' + this.fileMap.get(fileType)!.name, 2000, 'success');
+          this.notify.snackMessage('Chargement avec succès de ' + this.fileMap.get(fileType)!.name, 2000, 'success');
           this.progressMap.set(fileType, 100);
           this.fileNameMap.set(fileType, value.data.toString())
         },
         error: err => {
           this.fileMap.delete(fileType);
-          this.notify.snackMessage('Echec durant upload ' + err.message, 5000, 'danger');
+          this.notify.snackMessage('Echec du chargement du fichier ' + err.message, 5000, 'danger');
         },
       });
     }
