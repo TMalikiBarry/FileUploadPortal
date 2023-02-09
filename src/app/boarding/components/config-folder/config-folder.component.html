@@ -508,6 +508,29 @@
       <p>{{dossier.name | formatName: 'server_filename'}}</p>
     </div>
   </div>
+  <hr>
+  <h3>Localisation du point de l'agent</h3>
+  <mat-card class="mat-elevation-z2 geolocalisation">
+    <p>Latitude: {{geolocalisation.latitude}}</p>
+    <p>Longitude: {{geolocalisation.longitude}}</p>
+    <a [href]="'http://maps.google.com/maps?z=18&q='+geolocalisation.latitude+','+geolocalisation.longitude" target="_blank">Voir sur google Maps</a>
+  </mat-card>
+  <!--<iframe
+    *ngIf="geolocalisation"
+    width="600"
+    height="250"
+    frameborder="0"
+    scrolling="no"
+    marginheight="0"
+    marginwidth="0"
+    [src]="urlMap"
+  >
+  </iframe>-->
+  <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15435.481191067754!2d-17.472131122343026!3d14.
+  719924085623756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec172b24815005d%3A0x9d62f9a5fa3d2680!2sSicap-
+  Libert%C3%A9%2C%20Dakar!5e0!3m2!1sfr!2ssn!4v1675890501078!5m2!1sfr!2ssn" width="600" height="450" style="border:0;"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>-->
+
 
 </ng-template>
 

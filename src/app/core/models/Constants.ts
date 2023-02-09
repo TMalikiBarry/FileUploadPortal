@@ -15,7 +15,7 @@ export const DESCRIBER_MAP: { [key in FileType]: string } = {
   'cni_r': 'Carte d\'identité recto',
   'cni_v': 'Carte d\'identité verso',
   'geoloc': 'Fiche de géolocalisation du point',
-  'honneur': 'Déclaration sur l\'honneur / ( ou ) Casier judiciaire',
+  'honneur': 'Déclaration sur l\'honneur / Casier judiciaire',
   'connaissance': 'Fiche Connaissance',
   'CGU': 'Conditions (CGU)',
   'residence': 'Fiche de contrat de location',
@@ -25,9 +25,9 @@ export const DESCRIBER_MAP: { [key in FileType]: string } = {
 export const H1_LIST_TITLE: { [key in FileType]: string } = {
   'cni_r': 'cartes d\'identité recto',
   'cni_v': 'cartes d\'identité verso',
-  'geoloc': 'fiches de géolocalisation du point',
+  'geoloc': 'géolocalisations des points',
   'honneur': 'déclarations sur l\'honneur (ou casiers judiciaires)',
-  'connaissance': 'fiches Connaissance',
+  'connaissance': 'fiches Connaissances',
   'CGU': 'conditions (CGU)',
   'residence': 'fiches de contrat de location',
   'statut': 'statuts des entreprises'

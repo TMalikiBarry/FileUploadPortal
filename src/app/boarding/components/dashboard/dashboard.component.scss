@@ -47,7 +47,7 @@ mat-sidenav {
     margin: auto
   }
 
-  mat-divider:nth-of-type(2) {
+  mat-divider:nth-of-type(2), mat-divider:nth-of-type(3){
     width: 60%;
     margin-inline: auto;
   }
@@ -68,8 +68,7 @@ mat-sidenav {
 }
 
 .content {
-  padding-top: 3rem;
-  padding-bottom: 2rem;
+  padding-top: .5rem;
   height: 44rem;
   border-radius: 1rem;
   margin: 0 2rem;

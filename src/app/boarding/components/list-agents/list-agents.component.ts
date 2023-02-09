@@ -18,7 +18,6 @@ export class ListAgentsComponent implements OnInit {
 
   dataSource !: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'username', 'email', 'roles', 'id'];
-  idAgents: number[] = [];
   checkDossiers$ = new Map();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

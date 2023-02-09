@@ -13,6 +13,7 @@ import {DisplayFileComponent} from "../../dialogs/display-file/display-file.comp
 import {PARAGRAPH_MAP} from "../../../core/models/Constants";
 import {AbstractControl, FormBuilder, Validators} from "@angular/forms";
 import {PointInterface} from "../../../core/models/point.interface";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
@@ -39,6 +40,7 @@ export class ConfigFolderComponent implements OnInit {
   showDossiersAgent$!: Observable<boolean>;
 
   geolocalisation!: PointInterface;
+  urlMap!: SafeResourceUrl;
 
 
   positionForm = this.fb.group({
@@ -51,7 +53,8 @@ export class ConfigFolderComponent implements OnInit {
               private notify: NotifService,
               private dialog: MatDialog,
               private fileService: FileService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -112,17 +115,8 @@ export class ConfigFolderComponent implements OnInit {
           this.fileNameMap.set(fileType, value.data.toString())
         },
         error: err => {
-          console.error(err.toString());
           this.fileMap.delete(fileType);
-          this.notify.snackMessage('Error while uploading ' + err.message, 5000, 'danger');
-          /*if (err == 'OK') {
-            this.notify.snackMessage(this.currentFile!.name + ' enregistré avec succès', 2000, 'success');
-            this.progressMap.set(fileType, 100);
-          } else {
-            console.error(err.toString());
-            this.fileMap.delete(fileType);
-            this.notify.snackMessage('Error while uploading ' + err.message, 5000, 'danger');
-          }*/
+          this.notify.snackMessage('Echec durant upload ' + err.message, 5000, 'danger');
         },
       });
     }
@@ -136,9 +130,12 @@ export class ConfigFolderComponent implements OnInit {
     if (this.step === 1 && this.geolocalisation == undefined) {
       this.fileService.savePoint(this.positionForm.value as PointInterface).pipe(
         tap(data => {
+          console.table(this.positionForm.value);
           this.geolocalisation = data;
           this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
             , 2000, 'success');
+          this.positionForm.disable();
+          console.log(this.positionForm.value);
         } ),
       ).subscribe();
     }
@@ -238,6 +235,20 @@ export class ConfigFolderComponent implements OnInit {
       map(response => <DossierInterface[]>response.data),
       map(dossiers => dossiers && dossiers.length > 0),
     )
+    this.lesDossiers$.pipe(
+      map(dossiers => dossiers[0]),
+      tap(dossier=> {
+        if (dossier) {
+          console.table(dossier.geolocalisation);
+          this.geolocalisation = dossier.geolocalisation;
+          this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('http://www.openstreetmap.org/query?map=15/'+this.geolocalisation.latitude+'/'
+            +this.geolocalisation.longitude);
+        /*this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.openstreetmap.org/query?lat='
+          +point.latitude+'&lon='+point.longitude);*/
+        }
+
+      }),
+    ).subscribe();
   }
 
   onDeleteAgentDossiers() {
