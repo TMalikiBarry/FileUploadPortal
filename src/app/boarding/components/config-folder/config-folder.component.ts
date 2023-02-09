@@ -17,6 +17,10 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
+export interface position {
+  latitude: string,
+  longitude: string,
+}
 
 @Component({
   selector: 'app-config-folder',
@@ -44,8 +48,9 @@ export class ConfigFolderComponent implements OnInit {
 
 
   positionForm = this.fb.group({
-    longitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
-    latitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]]
+    position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]]
+    /*longitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]],
+    latitude: ['', [Validators.required, Validators.pattern(/^-?\d+(\.\d+)?$/)]]*/
   });
 
   constructor(private route: ActivatedRoute,
@@ -128,7 +133,8 @@ export class ConfigFolderComponent implements OnInit {
 
   nextStep() {
     if (this.step === 1 && this.geolocalisation == undefined) {
-      this.fileService.savePoint(this.positionForm.value as PointInterface).pipe(
+      let pos = this.positionForm.controls['position'].value?.trim().split(',')
+      this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
         tap(data => {
           console.table(this.positionForm.value);
           this.geolocalisation = data;
