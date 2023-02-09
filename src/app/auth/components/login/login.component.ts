@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
                 if (this.authService.currentUserValue) {
                   console.log("login.ts " + this.authService.currentUserValue.roles)
                   this.router.navigateByUrl('/dashboard/mes-agents');
-                  this.notif.snackMessage("Bienvenue", 2000, 'success');
+                  this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
                 }
                 this.loginForm.reset();
               }
