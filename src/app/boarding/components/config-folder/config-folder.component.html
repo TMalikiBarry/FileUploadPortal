@@ -379,10 +379,11 @@
   </div>
   <hr>
   <h3>Localisation du point de l'agent</h3>
-  <mat-card class="mat-elevation-z2 geolocalisation">
+  <mat-card *ngIf="geolocalisation" class="mat-elevation-z2 geolocalisation">
     <p>Latitude: {{geolocalisation.latitude}}</p>
     <p>Longitude: {{geolocalisation.longitude}}</p>
-    <a [href]="'http://maps.google.com/maps?z=18&q='+geolocalisation.latitude+','+geolocalisation.longitude" target="_blank">Voir sur google Maps</a>
+    <a [href]="'http://maps.google.com/maps?z=18&q='+geolocalisation.latitude+','+geolocalisation.longitude"
+       target="_blank">Voir sur google Maps</a>
   </mat-card>
 
 </ng-template>
