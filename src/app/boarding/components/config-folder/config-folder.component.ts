@@ -127,14 +127,15 @@ export class ConfigFolderComponent implements OnInit {
 
   nextStep() {
     if (this.step === 1 && this.geolocalisation == undefined) {
-      let pos = this.positionForm.controls['position'].value?.trim().split(',')
+      let pos = this.positionForm.controls['position'].value?.replace(/\s/g, '').split(',');
+      console.table(pos);
       this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
         tap(data => {
           this.geolocalisation = data;
           this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
             , 2000, 'success');
           this.positionForm.disable();
-        } ),
+        }),
       ).subscribe();
     }
 

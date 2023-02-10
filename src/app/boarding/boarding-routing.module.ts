@@ -13,31 +13,31 @@ const routes: Routes = [
     path: 'mes-agents',
     component: ListAgentsComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
   {
     path: 'mes-agents/:id',
     component: ConfigFolderComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
   {
     path: 'voir-documents',
     component: ViewFoldersComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
   {
     path: 'voir-documents/:type',
     component: ViewOneFolderComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
   {
     path: 'mon-profil',
     component: MyProfileComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN, Role.COMMERCANT]}
+    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
 ];
 

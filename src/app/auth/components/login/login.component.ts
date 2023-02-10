@@ -35,12 +35,16 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: (user) => {
             this.authService.authenticateUser(user).subscribe({
-              next: () => {
-                if (this.authService.currentUserValue) {
+              next: (data) => {
+                if (this.authService.currentUserValue && data) {
                   this.router.navigateByUrl('/dashboard/mes-agents');
                   this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
+                  this.loginForm.reset();
+                } else {
+                  this.notif.snackMessage('Accès non autorisé', 4000, 'warning');
+                  localStorage.clear();
+                  this.loginForm.reset();
                 }
-                this.loginForm.reset();
               }
             })
           },
@@ -50,7 +54,6 @@ export class LoginComponent implements OnInit {
           }
         })
     }
-    this.loginForm.reset();
   }
 
 }

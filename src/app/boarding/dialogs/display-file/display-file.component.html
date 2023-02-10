@@ -13,18 +13,10 @@
 </div>
 <div class="content-actions" mat-dialog-content>
   <p>{{getParagraph(data.typeFile)}} de <strong>{{data.agentName | formatName:'name'}}</strong></p>
-  <pdf-viewer [autoresize]="true"
-              external-link-target="blank"
-              [fit-to-page]="false"
+  <pdf-viewer external-link-target="blank"
               [original-size]="false"
-              [page]="1"
-              [render-text]="true"
-              [rotation]="0"
               [show-all]="true"
-              [show-borders]="false"
               [src]="data.fileSrc"
-              [stick-to-page]="true"
-              zoom-scale="page-width"
               [zoom]=".8">
   </pdf-viewer>
 </div>

@@ -33,8 +33,8 @@
       <div class="divInfo">
         <span *ngIf="commercant"> {{ commercant!.name | formatName: 'name'}}</span>
         <button [matMenuTriggerFor]="menu" mat-button>
-          <img alt="default avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
-          {{ 'commerçant' | uppercase}}
+          <img alt="avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
+          {{authService.currentUserValue.roles.includes('COMMERCANT') ? ('commerçant' | uppercase) : 'SUPERVISEUR'}}
           <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

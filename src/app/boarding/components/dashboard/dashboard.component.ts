@@ -6,9 +6,8 @@ import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
 
 export enum Role {
-  ADMIN = "ADMIN",
   COMMERCANT = "COMMERCANT",
-  AGENT = "AGENT"
+  SUPERVISEUR = "SUPERVISEUR"
 }
 
 @Component({
@@ -22,7 +21,7 @@ export class DashboardComponent implements OnInit {
   commercant!: UserInterface;
   expanded = true;
 
-  constructor(private authService: AuthService, private router: Router, private userSevice: UserService) {
+  constructor(public authService: AuthService, private router: Router, private userSevice: UserService) {
   }
 
   ngOnInit(): void {

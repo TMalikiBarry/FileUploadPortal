@@ -13,7 +13,6 @@ export class AuthService {
   roleAs !: string | null;
   role !: string;
   public currentUser!: Observable<LoginInterface>;
-  private token!: string;
   private currentUserSubject!: BehaviorSubject<LoginInterface>;
 
   constructor(private http: HttpClient, private router: Router) {
@@ -24,11 +23,6 @@ export class AuthService {
   public get currentUserValue(): LoginInterface {
     return this.currentUserSubject.value;
   }
-
-  get myToken(): string {
-    return this.token;
-  }
-
   public login(username: string, password: string) {
     return this.http.post<LoginInterface>(`${environment.API_URL}/login`, {username, password})
       .pipe(map(user => {
@@ -48,8 +42,8 @@ export class AuthService {
 
   public authenticateUser(login: LoginInterface): Observable<boolean> {
     this.currentUserSubject.next(login);
-    this.isAuth = true;
-    return of(true);
+    this.isAuth = this.isAuthorized(login.roles);
+    return of(this.isAuth);
   }
 
   public hasRole(roles: string): boolean {
@@ -88,19 +82,23 @@ export class AuthService {
     }
   }
 
+  isAuthorized(roles: string[]): boolean {
+    let bool: boolean = false;
+    for (let role of roles) {
+      bool = ['COMMERCANT', 'SUPERVISEUR'].includes(role);
+      if (bool)
+        break;
+    }
+    return bool;
+  }
+
   public getTheRole(roles: [string]): string {
-    if (roles.indexOf("ADMIN") !== -1) {
-      return this.role = "ADMIN"
-    } else if (roles.indexOf("COMMERCANT") !== -1) {
+    if (roles.indexOf("COMMERCANT") !== -1) {
       return this.role = "COMMERCANT"
-    } else if (roles.indexOf("AGENT") !== -1) {
-      return this.role = "AGENT";
+    } else if (roles.indexOf("SUPERVISEUR") !== -1) {
+      return this.role = "SUPERVISEUR";
     }
 
     return this.role = "";
-  }
-
-  loginByOldWay() {
-    this.token = "My fake Token";
   }
 }
