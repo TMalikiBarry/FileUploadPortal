@@ -229,6 +229,7 @@ export class ConfigFolderComponent implements OnInit {
   getAgentDossiers() {
     this.lesDossiers$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
       map(response => <DossierInterface[]>response.data),
+      tap(dossiers => console.dir(dossiers))
     )
     this.showDossiersAgent$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
       map(response => <DossierInterface[]>response.data),

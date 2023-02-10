@@ -13,6 +13,9 @@ import * as FileSaver from "file-saver";
 })
 export class DisplayFileComponent implements OnInit {
 
+  httpURL = 'http://52.210.42.160:8085';
+  httpsURL = 'https://dev-touch-ssii-api.gutouch.net';
+
   constructor(@Inject(MAT_DIALOG_DATA) public data:
                 { fileSrc: string, fileName: string, agentName: string, typeFile: Typage },
               private http: HttpClient) {
@@ -23,6 +26,10 @@ export class DisplayFileComponent implements OnInit {
 
   getParagraph(typeFile: Typage): string {
     return DESCRIBER_MAP[TypageReverse[typeFile]];
+  }
+
+  protectedURL(): string {
+    return this.data.fileSrc.replace(this.httpURL, this.httpsURL);
   }
 
   onDownLoad() {
