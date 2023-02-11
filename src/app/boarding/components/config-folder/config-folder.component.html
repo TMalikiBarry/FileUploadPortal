@@ -16,7 +16,11 @@
       </mat-expansion-panel-header>
       <mat-card [formGroup]="positionForm">
         <mat-card-subtitle>Pour configurer la localisation du point de votre agent,
-          <a href="https://www.google.com/maps/place/Dakar" target="_blank">cliquez ici</a></mat-card-subtitle>
+          <a href="https://www.google.com/maps/place/Dakar" matTooltip="Une fois sur Maps, faites un clic droit
+          sur l'emplacement de l'agent. Cliquez de nouveau sur les nombres du modal qui s'affiche, revenez ici
+          et collez (Ctrl + V) dans le champ 'Position'." matTooltipClass="tool-tip-class"
+             target="_blank">cliquez ici</a>
+        </mat-card-subtitle>
         <div class="form-row">
           <mat-form-field appearance="outline">
             <mat-label>Position</mat-label>

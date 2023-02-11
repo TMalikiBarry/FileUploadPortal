@@ -27,33 +27,30 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    let username = this.loginForm.value.username;
-    let password = this.loginForm.value.password;
+    let username: string = this.loginForm.value.username!;
+    let password = this.loginForm.value.password!;
 
-    if (typeof username === "string" && typeof password === "string") {
-      this.authService.login(username, password)
-        .subscribe({
-          next: (user) => {
-            this.authService.authenticateUser(user).subscribe({
-              next: (data) => {
-                if (this.authService.currentUserValue && data) {
-                  this.router.navigateByUrl('/dashboard/mes-agents');
-                  this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
-                  this.loginForm.reset();
-                } else {
-                  this.notif.snackMessage('Accès non autorisé', 4000, 'warning');
-                  localStorage.clear();
-                  this.loginForm.reset();
-                }
+    this.authService.login(username, password)
+      .subscribe({
+        next: (user) => {
+          this.authService.authenticateUser(user).subscribe({
+            next: (data) => {
+              if (this.authService.currentUserValue && data) {
+                this.router.navigateByUrl('/dashboard/mes-agents');
+                this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
+                this.loginForm.reset();
+              } else {
+                this.notif.snackMessage('Accès non autorisé', 4000, 'warning');
+                localStorage.clear();
+                this.loginForm.reset();
               }
-            })
-          },
-          error: () => {
-            this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
-            this.loginForm.reset();
-          }
-        })
-    }
+            }
+          })
+        },
+        error: () => {
+          this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
+          this.loginForm.reset();
+        }
+      })
   }
-
 }
