@@ -4,7 +4,8 @@ import {Typage, TypageReverse} from "../../../core/models/typage";
 import {DESCRIBER_MAP} from "../../../core/models/Constants";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment.prod";
-import * as FileSaver from "file-saver";
+// import * as FileSaver from "file-saver";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-display-file',
@@ -40,7 +41,7 @@ export class DisplayFileComponent implements OnInit {
         responseType: 'blob'
       }).subscribe({
       next: response => {
-        FileSaver.saveAs(response.body!, fileName);
+        saveAs(response.body!, fileName);
       }
     })
   }

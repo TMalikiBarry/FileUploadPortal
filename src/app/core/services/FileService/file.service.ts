@@ -32,7 +32,7 @@ export class FileService {
     }
   }
 
-  saveAllDossier(fileInfos: DossierInterface[]) {
+  saveAgentDossier(fileInfos: DossierInterface[]) {
     return this.http.post(`${this.baseUrl}/newfiles`, fileInfos);
   }
 

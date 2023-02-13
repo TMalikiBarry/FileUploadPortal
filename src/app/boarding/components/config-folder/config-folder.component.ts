@@ -168,7 +168,7 @@ export class ConfigFolderComponent implements OnInit {
     }*/
     const value = 100;
     const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
-    return keys.every(key => this.progressMap.get(key) === value) && !this.positionForm.invalid;
+    return keys.every(key => this.progressMap.get(key) === value) && this.positionForm.valid;
   }
 
   onSaveDossier() {
@@ -185,7 +185,7 @@ export class ConfigFolderComponent implements OnInit {
           acces: this.currentAgent
         })
       });
-      this.fileService.saveAllDossier(dossiers).pipe(
+      this.fileService.saveAgentDossier(dossiers).pipe(
         tap(() => {
           const dialogRef = this.dialog.open(SaveDossierComponent, {
             data: {

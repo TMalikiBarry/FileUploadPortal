@@ -16,11 +16,11 @@ export class ErrorInterceptor implements HttpInterceptor {
       if (err.error instanceof ErrorEvent) {
         // Get client-side error
         console.error(`client-side error --- Error Code: ${err.status}\nContent: `);
-        console.table(err.error);
+        console.dir(err.error);
       } else {
         // Get server-side error
         console.error(`Backend returned code ${err.status}, body was:`);
-        console.table(err.error);
+        console.dir(err.error);
       }
 
       if ([401, 403].indexOf(err.status) !== -1) {
@@ -29,10 +29,15 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.auth.logout();
           location.reload();
           this.notify.snackMessage("Connexion expirée", 3500, "warning");
+        } else {
+          this.notify.snackMessage("Accès non autorisé", 3500, "danger");
         }
       }
       if ([500].indexOf(err.status) !== -1) {
         this.notify.snackMessage("Erreur SERVEUR", 5000, "danger");
+      }
+      if ([0].indexOf(err.status) !== -1) {
+        this.notify.snackMessage("Problème de connexion", 5000, "danger");
       }
       if ([404].indexOf(err.status) !== -1) {
         this.notify.snackMessage("Introuvable", 5000, "danger");
