@@ -10,6 +10,7 @@ import {MyProfileComponent} from './components/my-profile/my-profile.component';
 import {ViewOneFolderComponent} from './components/view-one-folder/view-one-folder.component';
 import {SaveDossierComponent} from './dialogs/save-dossier/save-dossier.component';
 import {DisplayFileComponent} from './dialogs/display-file/display-file.component';
+import {ListPointsComponent} from './components/list-points/list-points.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {DisplayFileComponent} from './dialogs/display-file/display-file.componen
     ViewOneFolderComponent,
     SaveDossierComponent,
     DisplayFileComponent,
+    ListPointsComponent,
   ],
   imports: [
     BoardingRoutingModule,

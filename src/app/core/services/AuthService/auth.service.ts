@@ -33,7 +33,6 @@ export class AuthService {
           localStorage.setItem('STATE', 'true');
           localStorage.setItem('ROLE', this.getTheRole(user.roles));
           localStorage.setItem('TOKEN', user.accessToken)
-          this.isAuth = true;
           this.currentUserSubject.next(user);
         }
         return user;

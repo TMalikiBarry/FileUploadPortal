@@ -2,7 +2,6 @@
   <h2>La liste des {{getH1Title()}} de vos agents</h2>
 
   <ng-container *ngIf="showDossiers$ | async else emptyFolder">
-    <ng-container *ngIf="typeFile !=='geoloc' else list_points">
       <div class="list-folders">
         <div *ngFor="let dossier of lesDossiers$ | async" class="oneFolder">
           <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
@@ -16,7 +15,6 @@
           <p>{{getDescription()}} de <strong>{{dossier.acces.name | formatName: 'name'}}</strong></p>
         </div>
       </div>
-    </ng-container>
 
   </ng-container>
 

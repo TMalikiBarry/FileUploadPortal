@@ -4,7 +4,6 @@ import {Typage, TypageReverse} from "../../../core/models/typage";
 import {DESCRIBER_MAP} from "../../../core/models/Constants";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment.prod";
-// import * as FileSaver from "file-saver";
 import {saveAs} from "file-saver";
 
 @Component({

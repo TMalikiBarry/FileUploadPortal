@@ -21,31 +21,3 @@
     border-bottom-right-radius: .45rem;
   }
 }
-
-.hearder-actions {
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
-
-  button {
-    margin-top: 1rem;
-    height: 50%;
-    text-align: center;
-
-    mat-icon {
-      margin-right: 1rem;
-    }
-  }
-
-  mat-form-field {
-    width: 60%;
-    height: 45%;
-
-    mat-icon {
-      color: gray;
-      margin-right: 1rem;
-    }
-  }
-}
-
-

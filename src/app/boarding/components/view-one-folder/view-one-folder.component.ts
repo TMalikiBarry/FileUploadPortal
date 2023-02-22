@@ -5,7 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {FileService} from "../../../core/services/FileService/file.service";
 import {FileType} from "../config-folder/config-folder.component";
 import {UserInterface} from "../../../core/models/user.interface";
-import {map, Observable, tap} from "rxjs";
+import {map, Observable, startWith} from "rxjs";
 import {DossierInterface} from "../../../core/models/dossier.interface";
 import {Typage} from "../../../core/models/typage";
 import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
@@ -19,6 +19,7 @@ export interface pointView {
   latitude: string,
   longitude: string,
 }
+
 @Component({
   selector: 'app-view-one-folder',
   templateUrl: './view-one-folder.component.html',
@@ -50,36 +51,14 @@ export class ViewOneFolderComponent implements OnInit {
     } catch ({message}) {
     }
     if (this.commercant && this.typeFile) {
-      if (this.typeFile == 'geoloc') {
-        this.showDossiers$ = this.fileService.getAllDossiersAgentsByType(this.commercant.id, Typage.cni_r).pipe(
-          map(res => <DossierInterface[]>res.data),
-          map(dossiers => (dossiers && dossiers.length > 0)),
+      this.lesDossiers$ = this.fileService
+        .getAllDossiersAgentsByType(this.commercant.id, Typage[this.typeFile]).pipe(
+          map((response) => <DossierInterface[]>response.data),
         );
-        this.fileService.getAllDossiersAgentsByType(this.commercant.id, Typage.cni_r).pipe(
-          map(res => <DossierInterface[]>res.data),
-          map(dossiers => dossiers.map(dossier => <pointView>{
-            name: dossier.acces.name,
-            latitude: dossier.geolocalisation.latitude,
-            longitude: dossier.geolocalisation.longitude,
-          })),
-          tap(points => console.table(points)),
-        ).subscribe({
-          next: (points) => {
-            this.dataSource = new MatTableDataSource(points);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          },
-        });
-      } else {
-        this.lesDossiers$ = this.fileService
-          .getAllDossiersAgentsByType(this.commercant.id, Typage[this.typeFile]).pipe(
-            map((response) => <DossierInterface[]>response.data),
-          );
-        this.showDossiers$ = this.lesDossiers$.pipe(
-          map(dossiers => (dossiers && dossiers.length > 0)),
-        );
-      }
-
+      this.showDossiers$ = this.lesDossiers$.pipe(
+        map(dossiers => (dossiers && dossiers.length > 0)),
+        startWith(true)
+      );
     }
   }
 

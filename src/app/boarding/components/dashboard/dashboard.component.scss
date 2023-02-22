@@ -36,16 +36,25 @@ mat-sidenav {
   text-align: center;
   height: 48rem;
 
+  img {
+    margin-top: 1.5rem;
+  }
+
   p:first-of-type {
     font-size: 1.3rem;
     font-weight: 450;
-    margin: 5rem auto 1.5rem auto;
+    margin: 2rem auto 1.5rem auto;
   }
 
-  mat-divider:nth-of-type(2), mat-divider:nth-of-type(3){
+  mat-divider:not(:first-of-type, :last-of-type) {
     width: 60%;
     margin-inline: auto;
   }
+
+  /*mat-divider:nth-of-type(2), mat-divider:nth-of-type(3), mat-divider:nth-of-type(4){
+    width: 60%;
+    margin-inline: auto;
+  }*/
 }
 
 .get-space {

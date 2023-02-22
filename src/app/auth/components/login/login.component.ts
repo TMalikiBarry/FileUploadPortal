@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
             next: (data) => {
               if (this.authService.currentUserValue && data) {
                 this.router.navigateByUrl('/dashboard/mes-agents');
-                this.notif.snackMessage(`Bienvenue Commerçant ${username}`, 2000, 'success');
+                this.notif.snackMessage(`Bienvenue cher ${this.authService.getTheRole(user.roles).toLowerCase()} ${username}`
+                  , 2000, 'success');
                 this.loginForm.reset();
               } else {
                 this.notif.snackMessage('Accès non autorisé', 4000, 'warning');

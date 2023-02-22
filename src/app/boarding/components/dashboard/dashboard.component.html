@@ -1,5 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav [(opened)]="isOpen" mode="side">
+    <img alt="Logo" src="assets/figmaSVGs/logo.svg">
     <p>Onboarding</p>
 
     <mat-divider></mat-divider>
@@ -16,6 +17,11 @@
     <button aria-label="icône Points" class="menu-button" mat-button routerLink="/dashboard/voir-documents/geoloc">
       <mat-icon>location_on</mat-icon>
       <span>Les points</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button aria-label="icône Points" class="menu-button" mat-button routerLink="/dashboard/mon-profil">
+      <mat-icon>person</mat-icon>
+      <span>Mon Dossier</span>
     </button>
 
     <mat-divider></mat-divider>
@@ -38,10 +44,10 @@
           <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <!--<button mat-menu-item>
             <mat-icon>perm_identity</mat-icon>
             Profil
-          </button>
+          </button>-->
           <button (click)="logOut()" mat-menu-item>
             <mat-icon>logout</mat-icon>
             Deconnexion
