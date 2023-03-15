@@ -67,7 +67,13 @@
 
     <!-- Row shown when there is no matching data. -->
     <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche "{{inputValue.value}}"</td>
+      <td *ngIf="inputValue.value" class="mat-cell" colspan="5">Aucune donnée correspondant à la recherche
+        "{{inputValue.value}}"
+      </td>
+      <td *ngIf="!inputValue.value" class="mat-cell" colspan="5"><b><em>
+        Vous n'avez aucun agent dans votre espace. Veuillez vous rendre dans la plateforme espace commerçant pour créer
+        les agents
+      </em></b></td>
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 8, 12, 15, 25, 50]" aria-label="Select page of users" showFirstLastButtons
