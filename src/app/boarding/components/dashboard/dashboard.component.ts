@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   commercant!: UserInterface;
   expanded = true;
 
-  constructor(public authService: AuthService, private router: Router, private userSevice: UserService) {
+  constructor(public authService: AuthService, public router: Router, private userSevice: UserService) {
   }
 
   ngOnInit(): void {

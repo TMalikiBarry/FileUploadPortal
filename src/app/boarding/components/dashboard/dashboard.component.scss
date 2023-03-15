@@ -55,6 +55,10 @@ mat-sidenav {
     width: 60%;
     margin-inline: auto;
   }*/
+
+  button[mat-button]:focus {
+    color: #0082BB !important;
+  }
 }
 
 .get-space {
@@ -106,4 +110,8 @@ mat-divider {
   margin-top: 1rem;
   margin-bottom: 1rem;
   background-color: rgba(49, 39, 39, 0.6);
+}
+
+.button-focused {
+  color: #0082BB !important;
 }
