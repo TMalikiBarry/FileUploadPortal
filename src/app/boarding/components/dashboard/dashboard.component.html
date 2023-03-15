@@ -11,19 +11,22 @@
       <span>Liste des agents</span>
     </button>
     <mat-divider></mat-divider>
-    <button [ngClass]="{'button-focused': router.url.includes('voir-documents')}" aria-label="icône Dossiers"
+    <button [ngClass]="{'button-focused': router.url.includes('voir-documents') && !router.url.includes('geoloc')}"
+            aria-label="icône Dossiers"
             class="menu-button" mat-button
             routerLink="/dashboard/voir-documents">
       <mat-icon>folder_shared</mat-icon>
       <span>Les documents</span>
     </button>
     <mat-divider></mat-divider>
-    <button aria-label="icône Points" class="menu-button" mat-button routerLink="/dashboard/voir-documents/geoloc">
+    <button [ngClass]="{'button-focused': router.url.includes('geoloc')}" aria-label="icône Points"
+            class="menu-button" mat-button routerLink="/dashboard/voir-documents/geoloc">
       <mat-icon>location_on</mat-icon>
       <span>Les points</span>
     </button>
     <mat-divider></mat-divider>
-    <button aria-label="icône Points" class="menu-button" mat-button routerLink="/dashboard/mon-profil">
+    <button [ngClass]="{'button-focused': router.url.includes('mon-profil')}" aria-label="icône Points"
+            class="menu-button" mat-button routerLink="/dashboard/mon-profil">
       <mat-icon>person</mat-icon>
       <span>Mon Dossier</span>
     </button>
