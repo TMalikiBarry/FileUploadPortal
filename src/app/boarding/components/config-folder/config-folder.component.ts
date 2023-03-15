@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
-import {map, Observable, tap} from "rxjs";
+import {map, Observable, startWith, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
 import {DossierInterface} from "../../../core/models/dossier.interface";
@@ -36,7 +36,7 @@ export class ConfigFolderComponent implements OnInit {
   fileMap: Map<FileType, File | undefined> = new Map();
   progressMap = new Map();
   fileNameMap = new Map();
-  informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'honneur', 'CGU'];
+  informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'honneur', 'connaissance', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
   step = 1;
@@ -139,8 +139,7 @@ export class ConfigFolderComponent implements OnInit {
       ).subscribe();
     }
 
-    if (!this.positionForm.invalid && this.step ===1)
-      this.step++;
+    this.step = !this.positionForm.invalid && this.step === 1 ? 2 : 3;
   }
 
   prevStep() {
@@ -148,6 +147,7 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   onUpload(fileType: FileType) {
+    this.currentFile = undefined;
     document.getElementById('file_uploader')?.click();
     this.fileType = fileType;
   }
@@ -163,12 +163,13 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   allowSaveDossier(): boolean {
-/*    if (this.positionForm.invalid) {
-      return false;
-    }*/
+    /*    if (this.positionForm.invalid) {
+          return false;
+        }*/
     const value = 100;
     const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
-    return keys.every(key => this.progressMap.get(key) === value) && this.positionForm.valid;
+    keys.forEach(key => console.log(this.progressMap.get(key)));
+    return keys.every(key => this.progressMap.get(key) === value);
   }
 
   onSaveDossier() {
@@ -234,6 +235,7 @@ export class ConfigFolderComponent implements OnInit {
     this.showDossiersAgent$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
       map(response => <DossierInterface[]>response.data),
       map(dossiers => dossiers && dossiers.length > 0),
+      startWith(true),
     )
     this.lesDossiers$.pipe(
       map(dossiers => dossiers[0]),
@@ -287,5 +289,22 @@ export class ConfigFolderComponent implements OnInit {
     } else {
       return 'Ce champ contient une erreur';
     }
+  }
+
+  onDownloadTemplate(templateName: string) {
+    if (templateName === 'Declaration_Honneur') {
+      this.notify.snackMessage('Le template Déclaration sur l\'honneur n\'est pas encore fourni',
+        2500, 'danger');
+      return;
+    }
+    // window.open('../../../assets/fileTemplates/Fiche_Connaissance.xlsx');
+    let link = document.createElement("a");
+    let myUrl = "assets/fileTemplates/" + templateName + ".xlsx";
+    link.download = "Fiche_Connaissance";
+    link.href = myUrl;
+    link.click();
+  }
+
+  onImportFicheConnaissance() {
   }
 }

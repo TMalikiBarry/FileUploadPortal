@@ -146,10 +146,16 @@ mat-grid-list {
   color: #002b5c;
 }
 
-mat-expansion-panel {
-  margin-bottom: .5rem;
-  border-radius: .5rem;
+.mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing) {
+  border-radius: 8px;
 }
+
+mat-expansion-panel {
+  margin-bottom: 1.5rem;
+  margin-inline: .5rem;
+  border-radius: 10px;
+}
+
 .example-headers-align .mat-expansion-panel-header-description {
   justify-content: space-between;
   align-items: center;
@@ -207,11 +213,60 @@ hr {
     font-weight: 450;
   }
 
-  p:first-of-type{
+  p:first-of-type {
     margin-top: 1rem;
   }
 
   * {
     vertical-align: center;
+  }
+}
+
+.connaissanceContent {
+  text-align: center;
+
+  p:first-child {
+    font-weight: bold;
+    font-size: large;
+  }
+
+  p:nth-child(2) {
+    //font-weight: lighter;
+    //font-size: medium;
+    margin-bottom: 2rem;
+  }
+
+  .cardsDescribers {
+    margin-bottom: 3rem;
+    padding-inline: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    & > img:first-of-type {
+      margin: -10rem 0 0 -2.5rem
+    }
+
+    & > img:last-of-type {
+      margin: -7rem 0 0 -2.5rem
+    }
+
+    & > div {
+      padding-top: 1.5rem;
+      width: 16rem;
+      padding-inline: 2rem;
+      text-align: center;
+      border-radius: 1rem;
+      background-color: #F8F8F8;
+
+      p:first-of-type {
+        font-weight: 400;
+        font-size: large;
+      }
+    }
+  }
+
+
+  button:first-of-type {
+    margin-right: 4rem;
   }
 }
