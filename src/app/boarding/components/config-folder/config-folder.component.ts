@@ -11,9 +11,6 @@ import {SaveDossierComponent} from "../../dialogs/save-dossier/save-dossier.comp
 import {Typage} from "../../../core/models/typage";
 import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
 import {PARAGRAPH_MAP} from "../../../core/models/Constants";
-import {AbstractControl, FormBuilder, Validators} from "@angular/forms";
-import {PointInterface} from "../../../core/models/point.interface";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
@@ -39,25 +36,23 @@ export class ConfigFolderComponent implements OnInit {
   informelMapKeys: FileType[] = ['cni_r', 'cni_v', 'honneur', 'connaissance', 'CGU'];
   formelMapKeys: FileType[] = [...this.informelMapKeys, 'statut', 'residence'];
   fileType!: FileType;
-  step = 1;
+  step = 2;
   lesDossiers$!: Observable<DossierInterface[]>;
   showDossiersAgent$!: Observable<boolean>;
 
-  geolocalisation!: PointInterface;
-  urlMap!: SafeResourceUrl;
+  // geolocalisation!: PointInterface;
+  // urlMap!: SafeResourceUrl;
 
 
-  positionForm = this.fb.group({
-    position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]]
-  });
+  // positionForm = this.fb.group({
+  //   position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]]
+  // });
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private notify: NotifService,
               private dialog: MatDialog,
-              private fileService: FileService,
-              private fb: FormBuilder,
-              private sanitizer: DomSanitizer) {
+              private fileService: FileService) {
   }
 
   ngOnInit(): void {
@@ -126,24 +121,25 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.step === 1 && this.geolocalisation == undefined) {
-      let pos = this.positionForm.controls['position'].value?.replace(/\s/g, '').split(',');
-      console.table(pos);
-      this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
-        tap(data => {
-          this.geolocalisation = data;
-          this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
-            , 2000, 'success');
-          this.positionForm.disable();
-        }),
-      ).subscribe();
-    }
+    /*    if (this.step === 1 && this.geolocalisation == undefined) {
+          let pos = this.positionForm.controls['position'].value?.replace(/\s/g, '').split(',');
+          console.table(pos);
+          this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
+            tap(data => {
+              this.geolocalisation = data;
+              this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
+                , 2000, 'success');
+              this.positionForm.disable();
+            }),
+          ).subscribe();
+        }*/
 
-    this.step = !this.positionForm.invalid && this.step === 1 ? 2 : 3;
+    // this.step = !this.positionForm.invalid && this.step === 1 ? 2 : 3;
+    this.step = 3;
   }
 
   prevStep() {
-    this.step--;
+    this.step = 2;
   }
 
   onUpload(fileType: FileType) {
@@ -168,7 +164,7 @@ export class ConfigFolderComponent implements OnInit {
         }*/
     const value = 100;
     const keys = this.typeAgent === 'informel' ? this.informelMapKeys : this.formelMapKeys;
-    keys.forEach(key => console.log(this.progressMap.get(key)));
+    // keys.forEach(key => console.log(this.progressMap.get(key)));
     return keys.every(key => this.progressMap.get(key) === value);
   }
 
@@ -181,7 +177,7 @@ export class ConfigFolderComponent implements OnInit {
         dossiers.push({
           name: this.fileNameMap.get(key),
           uploadingFile: this.fileMap.get(key)!.name,
-          geolocalisation: this.geolocalisation,
+          statut: "INITIER",
           typeFile: Typage[key],
           acces: this.currentAgent
         })
@@ -229,25 +225,24 @@ export class ConfigFolderComponent implements OnInit {
 
   getAgentDossiers() {
     this.lesDossiers$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
-      map(response => <DossierInterface[]>response.data),
-      tap(dossiers => console.dir(dossiers))
+      map(response => <DossierInterface[]>response.data)
     )
     this.showDossiersAgent$ = this.fileService.getAgentDossiers(this.idAgent).pipe(
       map(response => <DossierInterface[]>response.data),
       map(dossiers => dossiers && dossiers.length > 0),
       startWith(true),
     )
-    this.lesDossiers$.pipe(
-      map(dossiers => dossiers[0]),
-      tap(dossier=> {
-        if (dossier) {
-          this.geolocalisation = dossier.geolocalisation;
-          this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('http://www.openstreetmap.org/query?map=15/'+this.geolocalisation.latitude+'/'
-            +this.geolocalisation.longitude);
-        }
-
-      }),
-    ).subscribe();
+    // this.lesDossiers$.pipe(
+    //   map(dossiers => dossiers[0]),
+    //   tap(dossier=> {
+    //     if (dossier) {
+    //       this.geolocalisation = dossier.geolocalisation;
+    //       this.urlMap = this.sanitizer.bypassSecurityTrustResourceUrl('http://www.openstreetmap.org/query?map=15/'+this.geolocalisation.latitude+'/'
+    //         +this.geolocalisation.longitude);
+    //     }
+    //
+    //   }),
+    // ).subscribe();
   }
 
   onDeleteAgentDossiers() {
@@ -275,21 +270,21 @@ export class ConfigFolderComponent implements OnInit {
     });
   }
 
-  getFormControlErrorText(ctrl: AbstractControl) {
-    if (ctrl.hasError('required')) {
-      return 'Ce champ est requis';
-    } else if (ctrl.hasError('email')) {
-      return 'veuillez renseignez un format d\'email correct';
-    } else if (ctrl.hasError('pattern')) {
-      return 'Ce format de donnée n\'est pas autorisé';
-    } else if (ctrl.hasError('minlength')) {
-      return 'Nom d\'utilisateur trop court';
-    } else if (ctrl.hasError('maxlength')) {
-      return 'Nom d\'utilisateur trop long';
-    } else {
-      return 'Ce champ contient une erreur';
-    }
-  }
+  /*  getFormControlErrorText(ctrl: AbstractControl) {
+      if (ctrl.hasError('required')) {
+        return 'Ce champ est requis';
+      } else if (ctrl.hasError('email')) {
+        return 'veuillez renseignez un format d\'email correct';
+      } else if (ctrl.hasError('pattern')) {
+        return 'Ce format de donnée n\'est pas autorisé';
+      } else if (ctrl.hasError('minlength')) {
+        return 'Nom d\'utilisateur trop court';
+      } else if (ctrl.hasError('maxlength')) {
+        return 'Nom d\'utilisateur trop long';
+      } else {
+        return 'Ce champ contient une erreur';
+      }
+    }*/
 
   onDownloadTemplate(templateName: string) {
     if (templateName === 'Declaration_Honneur') {
@@ -303,8 +298,5 @@ export class ConfigFolderComponent implements OnInit {
     link.download = "Fiche_Connaissance";
     link.href = myUrl;
     link.click();
-  }
-
-  onImportFicheConnaissance() {
   }
 }

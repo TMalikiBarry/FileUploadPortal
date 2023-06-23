@@ -60,9 +60,14 @@ export class ListAgentsComponent implements OnInit {
   }
 
   private getAgents() {
-    this.userService.getMyAgents().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(<UserInterface[]>res.data);
+    this.userService.getMyAgents().pipe(
+      map(res => {
+        let myAgents = res.data as UserInterface[];
+        return myAgents.filter(agent => agent.roles?.some(role => role.code === 'OPERATEUR'))
+      })
+    ).subscribe({
+      next: (data) => {
+        this.dataSource = new MatTableDataSource(<UserInterface[]>data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },

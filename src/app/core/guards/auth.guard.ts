@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
       if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
-        console.error(userRole + " != " + route.data['roles']);
         this.notify.snackMessage('Accès non autorisé', 4000, 'warning');
         this.router.navigateByUrl('');
         return false;
