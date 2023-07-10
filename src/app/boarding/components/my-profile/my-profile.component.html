@@ -1,5 +1,14 @@
+<mat-form-field appearance="fill">
+  <input [(ngModel)]="searchFile" matInput placeholder="Rechercher fichier par son type" type="text">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<div *ngIf="searchFile && ((mesDossiers$ | async)| filterFolder: searchFile).length<1" class="not-found">
+  <img alt="warning" src="assets/figmaSVGs/danger.svg">
+  <p>Aucun fichier du type <strong>{{searchFile}}</strong></p>
+</div>
 <div class="list-folders">
-  <div *ngFor="let dossier of mesDossiers$ | async" class="oneFolder">
+  <div *ngFor="let dossier of (mesDossiers$ | async)| filterFolder: searchFile" class="oneFolder">
     <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
          xmlns="http://www.w3.org/2000/svg">
       <path clip-rule="evenodd"

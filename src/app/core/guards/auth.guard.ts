@@ -27,6 +27,18 @@ export class AuthGuard implements CanActivate {
         this.router.navigateByUrl('');
         return false;
       }
+      // let etatDossier = localStorage.getItem('DOSS');
+      // console.log('ETAT-DOSSIER ',etatDossier);
+      // if (etatDossier) {
+      //   if (etatDossier === 'FALSE'){
+      //     this.notify.snackMessage("Pas de dossier pour Vous ", 3500, "danger");
+      //   } else {
+      //     this.notify.snackMessage('Contacter l\'administrateur: Vos documents pas validés!!', 3500
+      //       , "danger");
+      //   }
+      //   this.authService.logout().subscribe();
+      //   return false;
+      // }
       return true;
     }
     this.router.navigate(['']);

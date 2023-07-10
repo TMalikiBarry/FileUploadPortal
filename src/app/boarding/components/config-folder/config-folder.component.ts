@@ -5,7 +5,7 @@ import {UserInterface} from "../../../core/models/user.interface";
 import {map, Observable, startWith, tap} from "rxjs";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {FileService} from "../../../core/services/FileService/file.service";
-import {DossierInterface} from "../../../core/models/dossier.interface";
+import {DossierInterface, EStatutDossier} from "../../../core/models/dossier.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {SaveDossierComponent} from "../../dialogs/save-dossier/save-dossier.component";
 import {Typage} from "../../../core/models/typage";
@@ -14,10 +14,7 @@ import {PARAGRAPH_MAP} from "../../../core/models/Constants";
 
 
 export type FileType = 'cni_r' | 'cni_v' | 'geoloc' | 'honneur' | 'connaissance' | 'CGU' | 'residence' | 'statut';
-export interface position {
-  latitude: string,
-  longitude: string,
-}
+
 
 @Component({
   selector: 'app-config-folder',
@@ -26,6 +23,7 @@ export interface position {
 })
 export class ConfigFolderComponent implements OnInit {
 
+  searchFile: string = '';
   currentAgent!: UserInterface;
   idAgent!: number;
   typeAgent = 'informel'
@@ -39,14 +37,6 @@ export class ConfigFolderComponent implements OnInit {
   step = 2;
   lesDossiers$!: Observable<DossierInterface[]>;
   showDossiersAgent$!: Observable<boolean>;
-
-  // geolocalisation!: PointInterface;
-  // urlMap!: SafeResourceUrl;
-
-
-  // positionForm = this.fb.group({
-  //   position: ['', [Validators.required, Validators.pattern(/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/)]]
-  // });
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
@@ -121,20 +111,6 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   nextStep() {
-    /*    if (this.step === 1 && this.geolocalisation == undefined) {
-          let pos = this.positionForm.controls['position'].value?.replace(/\s/g, '').split(',');
-          console.table(pos);
-          this.fileService.savePoint({latitude: pos![0], longitude: pos![1]} as PointInterface).pipe(
-            tap(data => {
-              this.geolocalisation = data;
-              this["notify"].snackMessage('Point de ' + this.currentAgent.name + ' enregistré avec succès'
-                , 2000, 'success');
-              this.positionForm.disable();
-            }),
-          ).subscribe();
-        }*/
-
-    // this.step = !this.positionForm.invalid && this.step === 1 ? 2 : 3;
     this.step = 3;
   }
 
@@ -177,7 +153,7 @@ export class ConfigFolderComponent implements OnInit {
         dossiers.push({
           name: this.fileNameMap.get(key),
           uploadingFile: this.fileMap.get(key)!.name,
-          statut: "INITIER",
+          statut: EStatutDossier.INITIER,
           typeFile: Typage[key],
           acces: this.currentAgent
         })

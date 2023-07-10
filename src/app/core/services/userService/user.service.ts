@@ -17,6 +17,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log('USER INFOS', user);
     this.userId = user.id;
   }
 

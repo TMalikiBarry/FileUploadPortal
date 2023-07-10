@@ -7,5 +7,11 @@ export interface DossierInterface {
   uploadingFile: string,
   typeFile: Typage;
   acces: UserInterface;
-  statut: "INITIER";
+  statut: EStatutDossier;
+}
+
+export enum EStatutDossier {
+  INITIER = "INITIER",
+  VALIDER = "VALIDER",
+  REJETER = "REJETER"
 }

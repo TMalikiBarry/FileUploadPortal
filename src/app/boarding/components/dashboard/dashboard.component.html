@@ -45,6 +45,7 @@
       <span class="example-spacer"></span>
       <div class="divInfo">
         <span *ngIf="commercant"> {{ commercant!.name | formatName: 'name'}}</span>
+<!--        <span > {{ authService.currentUserValue.username}}</span>-->
         <button [matMenuTriggerFor]="menu" mat-button>
           <img alt="avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
           {{authService.currentUserValue.roles.includes('COMMERCANT') ? ('commerçant' | uppercase) : 'SUPERVISEUR'}}

@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {environment} from "../../../../environments/environment.prod";
 import {LoginInterface} from "../../models/login.interface";
+import {ApiResponse} from "../../models/ApiResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,13 @@ export class AuthService {
   isAuth: boolean = false;
   roleAs !: string | null;
   role !: string;
-  public currentUser!: Observable<LoginInterface>;
+  public currentUser$!: Observable<LoginInterface>;
+  private currentLoggedIn!: LoginInterface;
   private currentUserSubject!: BehaviorSubject<LoginInterface>;
 
   constructor(private http: HttpClient, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<LoginInterface>(JSON.parse(<string>localStorage.getItem("currentUser")));
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): LoginInterface {
@@ -25,18 +27,54 @@ export class AuthService {
   }
   public login(username: string, password: string) {
     return this.http.post<LoginInterface>(`${environment.API_URL}/login`, {username, password})
-      .pipe(map(user => {
-        // login successful if there's a jwt token in the response
-        if (user && user.accessToken) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          localStorage.setItem('STATE', 'true');
-          localStorage.setItem('ROLE', this.getTheRole(user.roles));
-          localStorage.setItem('TOKEN', user.accessToken)
-          this.currentUserSubject.next(user);
-        }
-        return user;
-      }));
+      .pipe(tap(user => {
+          // login successful if there's a jwt token in the response
+          if (user && user.accessToken) {
+            this.currentLoggedIn = user;
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('STATE', 'true');
+            localStorage.setItem('ROLE', this.getTheRole(user.roles));
+            localStorage.setItem('TOKEN', user.accessToken);
+            // console.log('USER INFOS', user)
+            // this.getMyDossiers(user.id).subscribe({
+            //   next : value => {
+            //     let dossiers = value.data as DossierInterface[]
+            //     if (dossiers.length > 0 && dossiers.some(d => d.statut!== EStatutDossier.VALIDER)){
+            //       localStorage.setItem('DOSS','INVALID');
+            //       // this.notify.snackMessage('Contacter l\'administrateur: Vos documents pas validés!!', 3500
+            //       //   , "danger");
+            //       // return;
+            //     }else {
+            //       localStorage.setItem('DOSS','FALSE');
+            //       // this.notify.snackMessage("Pas de dossier pour Vous ", 3500, "danger");
+            //       // return;
+            //     }
+            //   }
+            // });
+            this.currentUserSubject.next(user);
+          }
+        }),
+        // mergeMap(user => this.getMyDossiers(user.id)),
+        // map((res => {
+        //   let dossiers = res.data as DossierInterface[]
+        //   if (dossiers.length > 0 && dossiers.some(d => d.statut!== EStatutDossier.VALIDER)){
+        //     localStorage.setItem('DOSS','INVALID');
+        //     // this.notify.snackMessage('Contacter l\'administrateur: Vos documents pas validés!!', 3500
+        //     //   , "danger");
+        //     // return;
+        //   }else {
+        //     localStorage.setItem('DOSS','FALSE');
+        //     // this.notify.snackMessage("Pas de dossier pour Vous ", 3500, "danger");
+        //     // return;
+        //   }
+        //   return this.currentLoggedIn;
+        // }))
+      );
+  }
+
+  getMyDossiers(myId: number): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${environment.API_URL}/dossier/agentDossiers/${myId}`);
   }
 
   public authenticateUser(login: LoginInterface): Observable<boolean> {
@@ -53,6 +91,9 @@ export class AuthService {
     this.isAuth = false;
     this.roleAs = '';
     localStorage.clear();
+    localStorage.removeItem('currentUser');
+    this.router.navigateByUrl("/login");
+    location.reload();
     // mettre à jour la liste des users
     return of(true);
   }

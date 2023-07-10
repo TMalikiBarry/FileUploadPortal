@@ -4,36 +4,6 @@
                                            style="color: blue">{{currentAgent!.name | formatName: 'name'}}</em></h2>
 
   <mat-accordion class="example-headers-align" multi>
-<!--    <mat-expansion-panel (opened)="setStep(1)" [expanded]="step === 1">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{getParagraphMessageByType('geoloc')}}
-        </mat-panel-title>
-        <mat-panel-description>
-          Choisissez le point d'emplacement de l'agent
-          <mat-icon>map</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-card [formGroup]="positionForm">
-        <mat-card-subtitle>Pour configurer la localisation du point de votre agent,
-          <a href="https://www.google.com/maps/place/Dakar" matTooltip="Une fois sur Maps, faites un clic droit
-          sur l'emplacement de l'agent. Cliquez de nouveau sur les nombres du modal qui s'affiche, revenez ici
-          et collez (Ctrl + V) dans le champ 'Position'." matTooltipClass="tool-tip-class"
-             target="_blank">cliquez ici</a>
-        </mat-card-subtitle>
-        <div class="form-row">
-          <mat-form-field appearance="outline">
-            <mat-label>Position</mat-label>
-            <input formControlName="position" matInput placeholder="latitude, longitude" type="text">
-            <mat-error>{{getFormControlErrorText(positionForm.controls['position'])}}</mat-error>
-          </mat-form-field>
-        </div>
-      </mat-card>
-
-      <mat-action-row>
-        <button (click)="nextStep()" [disabled]="positionForm.invalid" color="primary" mat-button>Suivant</button>
-      </mat-action-row>
-    </mat-expansion-panel>-->
 
     <mat-expansion-panel (opened)="setStep(2)" [expanded]="step === 2">
       <mat-expansion-panel-header>
@@ -289,9 +259,17 @@
       </button>
     </mat-menu>
   </div>
+  <mat-form-field appearance="fill">
+    <input [(ngModel)]="searchFile" matInput placeholder="Rechercher fichier par son type" type="text">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 
+  <div *ngIf="((lesDossiers$ | async)| filterFolder: searchFile).length<1" class="not-found">
+    <img alt="warning" src="assets/figmaSVGs/danger.svg">
+    <p>Aucun fichier du type <strong>{{searchFile}}</strong></p>
+  </div>
   <div class="list-folders">
-    <div *ngFor="let dossier of lesDossiers$ | async" class="oneFolder">
+    <div *ngFor="let dossier of (lesDossiers$ | async)| filterFolder: searchFile" class="oneFolder">
       <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
            xmlns="http://www.w3.org/2000/svg">
         <path clip-rule="evenodd"
@@ -303,14 +281,6 @@
       <p>{{dossier.name | formatName: 'server_filename'}}</p>
     </div>
   </div>
-  <!--  <hr>
-    <h3>Localisation du point de l'agent</h3>
-    <mat-card *ngIf="geolocalisation" class="mat-elevation-z2 geolocalisation">
-      <p>Latitude: {{geolocalisation.latitude}}</p>
-      <p>Longitude: {{geolocalisation.longitude}}</p>
-      <a [href]="'http://maps.google.com/maps?z=18&q='+geolocalisation.latitude+','+geolocalisation.longitude"
-         target="_blank">Voir sur google Maps</a>
-    </mat-card>-->
 
 </ng-template>
 
