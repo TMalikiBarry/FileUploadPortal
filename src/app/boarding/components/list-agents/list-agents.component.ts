@@ -63,7 +63,8 @@ export class ListAgentsComponent implements OnInit {
     this.userService.getMyAgents().pipe(
       map(res => {
         let myAgents = res.data as UserInterface[];
-        return myAgents.filter(agent => agent.roles?.some(role => role.code === 'OPERATEUR'))
+        // return myAgents.filter(agent => agent.roles?.some(role => role.code === 'OPERATEUR'))
+        return myAgents.filter(agent => agent.roles?.code === 'OPERATEUR')
       })
     ).subscribe({
       next: (data) => {

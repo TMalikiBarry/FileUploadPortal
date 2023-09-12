@@ -48,7 +48,8 @@
 <!--        <span > {{ authService.currentUserValue.username}}</span>-->
         <button [matMenuTriggerFor]="menu" mat-button>
           <img alt="avatar" src="assets/images/profiles/user.png" style="width: 2rem; height: 2rem">
-          {{authService.currentUserValue.roles.includes('COMMERCANT') ? ('commerçant' | uppercase) : 'SUPERVISEUR'}}
+          <!--          {{authService.currentUserValue.roles.includes('COMMERCANT') ? ('commerçant' | uppercase) : 'SUPERVISEUR'}}-->
+          {{getMyRole()}}
           <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

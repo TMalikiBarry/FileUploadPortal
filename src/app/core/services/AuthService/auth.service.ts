@@ -34,7 +34,8 @@ export class AuthService {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
             localStorage.setItem('STATE', 'true');
-            localStorage.setItem('ROLE', this.getTheRole(user.roles));
+            // localStorage.setItem('ROLE', this.getTheRole(user.roles));
+            localStorage.setItem('ROLE', user.roles[0]);
             localStorage.setItem('TOKEN', user.accessToken);
             // console.log('USER INFOS', user)
             // this.getMyDossiers(user.id).subscribe({
@@ -79,12 +80,12 @@ export class AuthService {
 
   public authenticateUser(login: LoginInterface): Observable<boolean> {
     this.currentUserSubject.next(login);
-    this.isAuth = this.isAuthorized(login.roles);
+    this.isAuth = this.isAuthorized(login.roles[0]);
     return of(this.isAuth);
   }
 
   public hasRole(roles: string): boolean {
-    return this.currentUserSubject.getValue()!.roles.includes(roles);
+    return this.currentUserSubject.getValue()!.roles[0].includes(roles);
   }
 
   public logout(): Observable<boolean> {
@@ -114,7 +115,6 @@ export class AuthService {
       let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
       if (user) {
         this.authenticateUser(user);
-        this.isAuth = true;
         this.router.navigateByUrl('/dashboard');
       } else {
         this.router.navigateByUrl('');
@@ -122,17 +122,17 @@ export class AuthService {
     }
   }
 
-  isAuthorized(roles: string[]): boolean {
-    let bool: boolean = false;
+  isAuthorized(roles: string): boolean {
+    /*let bool: boolean = false;
     for (let role of roles) {
       bool = ['COMMERCANT', 'SUPERVISEUR'].includes(role);
       if (bool)
         break;
-    }
-    return bool;
+    }*/
+    return ['COMMERCANT', 'SUPERVISEUR'].includes(roles);
   }
 
-  public getTheRole(roles: [string]): string {
+  /*public getTheRole(roles: [string]): string {
     if (roles.indexOf("COMMERCANT") !== -1) {
       return this.role = "COMMERCANT"
     } else if (roles.indexOf("SUPERVISEUR") !== -1) {
@@ -140,5 +140,5 @@ export class AuthService {
     }
 
     return this.role = "";
-  }
+  }*/
 }

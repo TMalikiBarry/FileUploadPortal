@@ -39,6 +39,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getMyRole(): string {
+    return this.authService.currentUserValue.roles[0] === 'COMMERCANT' ?
+      'commerçant'.toUpperCase() : this.authService.currentUserValue.roles[0].toUpperCase()
+  }
   logOut() {
     this.authService.logout().subscribe();
   }

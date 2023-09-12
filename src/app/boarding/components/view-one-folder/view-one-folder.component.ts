@@ -39,7 +39,7 @@ export class ViewOneFolderComponent implements OnInit {
     try {
       this.typeFile = <FileType>this.route.snapshot.params["type"];
       this.commercant = JSON.parse(localStorage.getItem('commercant')!);
-    } catch ({message}) {
+    } catch ({message: any}) {
     }
     if (this.commercant && this.typeFile) {
       const search$: Observable<string> = this.searchControl.valueChanges.pipe(
