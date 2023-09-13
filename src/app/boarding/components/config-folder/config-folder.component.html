@@ -8,7 +8,7 @@
     <mat-expansion-panel (opened)="setStep(2)" [expanded]="step === 2">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Renseignements
+          {{"étape 1" | uppercase}} : Renseignements
         </mat-panel-title>
         <mat-panel-description>
           <span>Remplir les templates</span>
@@ -63,7 +63,7 @@
     <mat-expansion-panel (opened)="setStep(3)" [expanded]="step === 3">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Documentation
+          {{"étape 2" | uppercase}} : Documentation
         </mat-panel-title>
         <mat-panel-description>
           Importer les fichiers de votre agent
@@ -237,8 +237,13 @@
 
 <ng-template #listerDossiers>
   <div class="secondTitle">
-    <h2>Lister les fichiers du dossier de l'agent <em *ngIf="currentAgent"
-                                                      style="color: blue">{{currentAgent!.name | formatName: 'name'}}</em>
+    <!--    <a mat-stroked-button routerLink="/dashboard/mes-agents">Retour</a>-->
+    <h2>
+      <span class="back-arrow">
+        <img alt="Retour" routerLink="/dashboard/mes-agents" src="assets/figmaSVGs/Back_Arrow.svg">
+      </span>
+      Lister les fichiers du dossier de l'agent
+      <em *ngIf="currentAgent" style="color: blue">{{currentAgent!.name | formatName: 'name'}}</em>
     </h2>
     <button [matMenuTriggerFor]="menu" aria-label="Example button with a menu" mat-raised-button>
       <mat-icon>more_vert</mat-icon>
@@ -270,14 +275,15 @@
   </div>
   <div class="list-folders">
     <div *ngFor="let dossier of (lesDossiers$ | async)| filterFolder: searchFile" class="oneFolder">
-      <svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
+      <img (click)="onDisplayFile(dossier)" alt="File svg" src="assets/figmaSVGs/file.svg">
+      <!--<svg (click)="onDisplayFile(dossier)" fill="none" height="173" viewBox="0 0 129 173" width="129"
            xmlns="http://www.w3.org/2000/svg">
         <path clip-rule="evenodd"
               d="M127.037 30.8668L96.1703 0L1 0C0.447715 0 0 0.447721 0 1.00001V171.407C0 171.96 0.447711 172.407 0.999996 172.407H126.037C126.589 172.407 127.037 171.96 127.037 171.407V30.8668Z"
               fill="#0082BB"
               fill-rule="evenodd"/>
         <path d="M92.9115 35.2769L93.5687 6.95074L121.242 34.8441L92.9115 35.2769Z" fill="white"/>
-      </svg>
+      </svg>-->
       <p>{{dossier.name | formatName: 'server_filename'}}</p>
     </div>
   </div>

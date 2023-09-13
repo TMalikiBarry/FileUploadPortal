@@ -80,6 +80,11 @@ body {
 
 }
 
+.back-arrow {
+  vertical-align: middle; /* Aligner verticalement au milieu */
+  display: inline-block;
+}
+
 .secondTitle {
   display: flex;
   align-items: center;
@@ -104,7 +109,6 @@ body {
 
   mat-form-field {
     width: 60%;
-    height: 45%;
 
     mat-icon {
       color: gray;

@@ -234,6 +234,8 @@ export class ConfigFolderComponent implements OnInit {
   }
 
   onDisplayFile(dossier: DossierInterface) {
+    console.log('cliqué ');
+    console.dir(dossier)
     this.dialog.open(DisplayFileComponent, {
       data: {
         fileSrc: dossier.uploadingFile,
