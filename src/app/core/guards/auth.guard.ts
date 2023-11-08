@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
         this.router.navigateByUrl('');
         return false;
       }
-      // let etatDossier = localStorage.getItem('DOSS');
+      // let etatDossier = sessionStorage.getItem('DOSS');
       // console.log('ETAT-DOSSIER ',etatDossier);
       // if (etatDossier) {
       //   if (etatDossier === 'FALSE'){

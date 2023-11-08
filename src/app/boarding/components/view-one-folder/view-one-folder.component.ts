@@ -38,7 +38,7 @@ export class ViewOneFolderComponent implements OnInit {
     this.searchControl = new FormControl<string>('');
     try {
       this.typeFile = <FileType>this.route.snapshot.params["type"];
-      this.commercant = JSON.parse(localStorage.getItem('commercant')!);
+      this.commercant = JSON.parse(sessionStorage.getItem('commercant')!);
     } catch ({message: any}) {
     }
     if (this.commercant && this.typeFile) {

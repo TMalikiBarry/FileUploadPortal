@@ -16,7 +16,7 @@ export class UserService {
   private userId!: number;
 
   constructor(private http: HttpClient) {
-    let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    let user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
     console.log('USER INFOS', user);
     this.userId = user.id;
   }
@@ -30,15 +30,15 @@ export class UserService {
   }
 
   saveInLocal(key: string, value: string) {
-    // localStorage.removeItem(key);
-    const currentValue = localStorage.getItem(key);
+    // sessionStorage.removeItem(key);
+    const currentValue = sessionStorage.getItem(key);
     if (currentValue !== value) {
-      localStorage.setItem(key, value);
+      sessionStorage.setItem(key, value);
     }
   }
 
   getLocalValue(key: string): string {
-    return localStorage.getItem(key)!;
+    return sessionStorage.getItem(key)!;
   }
 
   async getCommercant(): Promise<UserInterface> {

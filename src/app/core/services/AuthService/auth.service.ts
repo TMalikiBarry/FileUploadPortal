@@ -18,7 +18,7 @@ export class AuthService {
   private currentUserSubject!: BehaviorSubject<LoginInterface>;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<LoginInterface>(JSON.parse(<string>localStorage.getItem("currentUser")));
+    this.currentUserSubject = new BehaviorSubject<LoginInterface>(JSON.parse(<string>sessionStorage.getItem("currentUser")));
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
@@ -32,22 +32,22 @@ export class AuthService {
           if (user && user.accessToken) {
             this.currentLoggedIn = user;
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('STATE', 'true');
-            // localStorage.setItem('ROLE', this.getTheRole(user.roles));
-            localStorage.setItem('ROLE', user.roles[0]);
-            localStorage.setItem('TOKEN', user.accessToken);
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            sessionStorage.setItem('STATE', 'true');
+            // sessionStorage.setItem('ROLE', this.getTheRole(user.roles));
+            sessionStorage.setItem('ROLE', user.roles[0]);
+            sessionStorage.setItem('TOKEN', user.accessToken);
             // console.log('USER INFOS', user)
             // this.getMyDossiers(user.id).subscribe({
             //   next : value => {
             //     let dossiers = value.data as DossierInterface[]
             //     if (dossiers.length > 0 && dossiers.some(d => d.statut!== EStatutDossier.VALIDER)){
-            //       localStorage.setItem('DOSS','INVALID');
+            //       sessionStorage.setItem('DOSS','INVALID');
             //       // this.notify.snackMessage('Contacter l\'administrateur: Vos documents pas validés!!', 3500
             //       //   , "danger");
             //       // return;
             //     }else {
-            //       localStorage.setItem('DOSS','FALSE');
+            //       sessionStorage.setItem('DOSS','FALSE');
             //       // this.notify.snackMessage("Pas de dossier pour Vous ", 3500, "danger");
             //       // return;
             //     }
@@ -60,12 +60,12 @@ export class AuthService {
         // map((res => {
         //   let dossiers = res.data as DossierInterface[]
         //   if (dossiers.length > 0 && dossiers.some(d => d.statut!== EStatutDossier.VALIDER)){
-        //     localStorage.setItem('DOSS','INVALID');
+        //     sessionStorage.setItem('DOSS','INVALID');
         //     // this.notify.snackMessage('Contacter l\'administrateur: Vos documents pas validés!!', 3500
         //     //   , "danger");
         //     // return;
         //   }else {
-        //     localStorage.setItem('DOSS','FALSE');
+        //     sessionStorage.setItem('DOSS','FALSE');
         //     // this.notify.snackMessage("Pas de dossier pour Vous ", 3500, "danger");
         //     // return;
         //   }
@@ -91,8 +91,8 @@ export class AuthService {
   public logout(): Observable<boolean> {
     this.isAuth = false;
     this.roleAs = '';
-    localStorage.clear();
-    localStorage.removeItem('currentUser');
+    sessionStorage.clear();
+    sessionStorage.removeItem('currentUser');
     this.router.navigateByUrl("/login");
     location.reload();
     // mettre à jour la liste des users
@@ -100,19 +100,19 @@ export class AuthService {
   }
 
   getRole() {
-    this.roleAs = localStorage.getItem('ROLE');
+    this.roleAs = sessionStorage.getItem('ROLE');
     return this.roleAs;
   }
 
   isLoggedIn() {
-    const loggedIn = localStorage.getItem('STATE');
+    const loggedIn = sessionStorage.getItem('STATE');
     this.isAuth = loggedIn == 'true';
     return this.isAuth;
   }
 
   routingAlreadyConnectedApp() {
-    if (localStorage.getItem('currentUser')) {
-      let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (sessionStorage.getItem('currentUser')) {
+      let user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
       if (user) {
         this.authenticateUser(user);
         this.router.navigateByUrl('/dashboard');

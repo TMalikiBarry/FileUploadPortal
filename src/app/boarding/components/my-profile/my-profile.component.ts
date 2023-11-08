@@ -21,7 +21,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.myInfos = <UserInterface>JSON.parse(localStorage.getItem('commercant')!);
+    this.myInfos = <UserInterface>JSON.parse(sessionStorage.getItem('commercant')!);
     this.mesDossiers$ = this.fileService.getAgentDossiers(this.myInfos.id).pipe(
       map(res => res.data as DossierInterface[])
     );
