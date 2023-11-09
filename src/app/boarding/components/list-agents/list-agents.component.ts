@@ -65,7 +65,6 @@ export class ListAgentsComponent implements OnInit {
   private getAgents() {
     this.userService.getMyAgents(this.userId).subscribe({
       next: (res) => {
-        console.log(res.data)
         this.dataSource = new MatTableDataSource(<UserInterface[]>res.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

@@ -14,13 +14,14 @@ import {MatDialog} from "@angular/material/dialog";
 export class MyProfileComponent implements OnInit {
   myInfos!: UserInterface;
   mesDossiers$!: Observable<DossierInterface[]>;
+  searchFile = '';
 
   constructor(private fileService: FileService,
               private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.myInfos = <UserInterface>JSON.parse(localStorage.getItem('commercant')!);
+    this.myInfos = <UserInterface>JSON.parse(sessionStorage.getItem('commercant')!);
     this.mesDossiers$ = this.fileService.getAgentDossiers(this.myInfos.id).pipe(
       map(res => res.data as DossierInterface[])
     );

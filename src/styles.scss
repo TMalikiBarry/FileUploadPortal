@@ -55,6 +55,7 @@ body {
   }
 
   .list-folders {
+    margin-top: 3.5rem;
     display: flex;
     flex-wrap: wrap;
 
@@ -77,6 +78,11 @@ body {
     }
   }
 
+}
+
+.back-arrow {
+  vertical-align: middle; /* Aligner verticalement au milieu */
+  display: inline-block;
 }
 
 .secondTitle {
@@ -103,11 +109,29 @@ body {
 
   mat-form-field {
     width: 60%;
-    height: 45%;
 
     mat-icon {
       color: gray;
       margin-right: 1rem;
     }
+  }
+}
+
+.not-found {
+  margin-top: 3rem;
+  margin-left: 25%;
+
+  img {
+
+    float: left;
+  }
+
+  p {
+    display: inline-block;
+    margin-left: 2rem;
+    font-size: 1.3rem;
+    font-weight: 450;
+    font-style: italic;
+    color: lightcoral;
   }
 }
