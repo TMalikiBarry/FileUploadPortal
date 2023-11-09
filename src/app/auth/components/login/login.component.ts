@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
                 this.loginForm.reset();
               } else {
                 this.notif.snackMessage('Accès non autorisé', 4000, 'warning');
-                sessionStorage.clear();
+                localStorage.clear();
                 this.loginForm.reset();
               }
             }

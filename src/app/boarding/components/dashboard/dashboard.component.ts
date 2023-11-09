@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // let user = JSON.parse(sessionStorage.getItem('currentUser')!);
+    // let user = JSON.parse(localStorage.getItem('currentUser')!);
     // this.commercant$ = this.userSevice.getUser(user.id).pipe(
     //   map(res => res.data as UserInterface)
     // );
