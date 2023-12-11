@@ -17,6 +17,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log('USER INFOS', user);
     this.userId = user.id;
   }
 
@@ -47,10 +48,10 @@ export class UserService {
     return this.commercant;
   }
 
-  getMyAgents() {
-    if (this.userId) {
-      return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER + this.userId);
-    }
-    return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER);
+  getMyAgents(id : number) {
+    // if (this.userId) {
+    //   return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER + this.userId);
+    // }
+    return this.http.get<ApiResponse>(this.API_URL + this.ENDPOINT_USER + id);
   }
 }

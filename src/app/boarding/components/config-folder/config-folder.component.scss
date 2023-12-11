@@ -270,3 +270,14 @@ hr {
     margin-right: 4rem;
   }
 }
+
+
+mat-form-field:last-of-type {
+  margin-bottom: -16.5rem;
+  width: 60%;
+
+  mat-icon {
+    color: gray;
+    margin-right: 1rem;
+  }
+}

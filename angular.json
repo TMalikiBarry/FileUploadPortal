@@ -18,7 +18,10 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "lodash"
+              "lodash",
+              "file-saver",
+              "pdfjs-dist/web/pdf_viewer",
+              "pdfjs-dist/build/pdf"
             ],
             "outputPath": "dist/onboarding-portal",
             "index": "src/index.html",

@@ -1,6 +1,5 @@
 import {UserInterface} from "./user.interface";
 import {Typage} from "./typage";
-import {PointInterface} from "./point.interface";
 
 export interface DossierInterface {
   id?: number;
@@ -8,5 +7,11 @@ export interface DossierInterface {
   uploadingFile: string,
   typeFile: Typage;
   acces: UserInterface;
-  geolocalisation: PointInterface
+  statut: EStatutDossier;
+}
+
+export enum EStatutDossier {
+  INITIER = "INITIER",
+  VALIDER = "VALIDER",
+  REJETER = "REJETER"
 }

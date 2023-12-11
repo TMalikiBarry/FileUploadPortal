@@ -7,7 +7,6 @@ import {ConfigFolderComponent} from "./components/config-folder/config-folder.co
 import {ViewFoldersComponent} from "./components/view-folders/view-folders.component";
 import {MyProfileComponent} from "./components/my-profile/my-profile.component";
 import {ViewOneFolderComponent} from "./components/view-one-folder/view-one-folder.component";
-import {ListPointsComponent} from "./components/list-points/list-points.component";
 
 const routes: Routes = [
   {
@@ -28,12 +27,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
   },
-  {
-    path: 'voir-documents/geoloc',
-    component: ListPointsComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
-  },
+  // {
+  //   path: 'voir-documents/geoloc',
+  //   component: ListPointsComponent,
+  //   canActivate: [AuthGuard],
+  //   data: {roles: [Role.SUPERVISEUR, Role.COMMERCANT]}
+  // },
   {
     path: 'voir-documents/:type',
     component: ViewOneFolderComponent,

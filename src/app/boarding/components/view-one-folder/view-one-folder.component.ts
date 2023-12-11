@@ -1,24 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {NotifService} from "../../../core/services/notificationService/notif.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FileService} from "../../../core/services/FileService/file.service";
 import {FileType} from "../config-folder/config-folder.component";
 import {UserInterface} from "../../../core/models/user.interface";
-import {map, Observable, startWith} from "rxjs";
+import {combineLatest, map, Observable, startWith} from "rxjs";
 import {DossierInterface} from "../../../core/models/dossier.interface";
 import {Typage} from "../../../core/models/typage";
 import {DisplayFileComponent} from "../../dialogs/display-file/display-file.component";
 import {DESCRIBER_MAP, H1_LIST_TITLE} from "../../../core/models/Constants";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {FormControl} from "@angular/forms";
 
-export interface pointView {
-  name: string,
-  latitude: string,
-  longitude: string,
-}
 
 @Component({
   selector: 'app-view-one-folder',
@@ -31,12 +24,9 @@ export class ViewOneFolderComponent implements OnInit {
   commercant!: UserInterface;
   lesDossiers$!: Observable<DossierInterface[]>;
 
-  showDossiers$!: Observable<boolean>;
+  searchControl!: FormControl;
 
-  dataSource !: MatTableDataSource<any>;
-  columnsToDisplay = ['name', 'latitude', 'longitude', 'actions'];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  showDossiers$!: Observable<boolean>;
 
   constructor(private route: ActivatedRoute,
               private notify: NotifService,
@@ -45,20 +35,46 @@ export class ViewOneFolderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchControl = new FormControl<string>('');
     try {
       this.typeFile = <FileType>this.route.snapshot.params["type"];
       this.commercant = JSON.parse(localStorage.getItem('commercant')!);
-    } catch ({message}) {
+    } catch ({message: any}) {
     }
     if (this.commercant && this.typeFile) {
-      this.lesDossiers$ = this.fileService
+      const search$: Observable<string> = this.searchControl.valueChanges.pipe(
+        startWith(this.searchControl.value),
+        map(s => s.toLowerCase())
+      );
+      const listDossiers$ = this.fileService
         .getAllDossiersAgentsByType(this.commercant.id, Typage[this.typeFile]).pipe(
           map((response) => <DossierInterface[]>response.data),
         );
-      this.showDossiers$ = this.lesDossiers$.pipe(
+      this.lesDossiers$ = combineLatest([
+        search$,
+        listDossiers$
+      ]).pipe(
+        map(([search, listDossiers]) => {
+          // search = search.replace(/\s/g, '');
+          search = search.trim();
+          // return search ? listDossiers.filter(dossier => dossier.acces.name.includes(search)) : listDossiers;
+          return listDossiers.filter(dossier => dossier.acces.name.toLowerCase().includes(search));
+        })
+      );
+      this.showDossiers$ = listDossiers$.pipe(
         map(dossiers => (dossiers && dossiers.length > 0)),
         startWith(true)
       );
+
+      // this.showDossiers$.subscribe(
+      //   value => {
+      //     if (!value) {
+      //       this.searchControl.disable();
+      //     } else {
+      //       this.searchControl.enable();
+      //     }
+      //   }
+      // )
     }
   }
 

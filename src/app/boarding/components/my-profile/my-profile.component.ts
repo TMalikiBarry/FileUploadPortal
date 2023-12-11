@@ -14,6 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class MyProfileComponent implements OnInit {
   myInfos!: UserInterface;
   mesDossiers$!: Observable<DossierInterface[]>;
+  searchFile = '';
 
   constructor(private fileService: FileService,
               private dialog: MatDialog) {

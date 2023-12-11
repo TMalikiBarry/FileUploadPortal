@@ -19,10 +19,13 @@ export class ListAgentsComponent implements OnInit {
   dataSource !: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'username', 'email', 'roles', 'id'];
   checkDossiers$ = new Map();
+  userId !: number
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private userService: UserService, private notify: NotifService, private router: Router) {
+    let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    this.userId = user.id;
   }
 
   ngOnInit(): void {
@@ -44,7 +47,7 @@ export class ListAgentsComponent implements OnInit {
   }
 
   checkAgentGotDossiers() {
-    this.userService.getMyAgents().pipe(
+    this.userService.getMyAgents(this.userId).pipe(
       map(res => <UserInterface[]>res.data),
       map(users => users.map(user => user.id)),
     ).subscribe({
@@ -60,7 +63,7 @@ export class ListAgentsComponent implements OnInit {
   }
 
   private getAgents() {
-    this.userService.getMyAgents().subscribe({
+    this.userService.getMyAgents(this.userId).subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(<UserInterface[]>res.data);
         this.dataSource.paginator = this.paginator;

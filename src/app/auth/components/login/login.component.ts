@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
             next: (data) => {
               if (this.authService.currentUserValue && data) {
                 this.router.navigateByUrl('/dashboard/mes-agents');
-                this.notif.snackMessage(`Bienvenue cher ${this.authService.getTheRole(user.roles).toLowerCase()} ${username}`
+                this.notif.snackMessage(`Bienvenue cher ${user.roles[0].toLowerCase()} ${username}`
                   , 2000, 'success');
                 this.loginForm.reset();
               } else {

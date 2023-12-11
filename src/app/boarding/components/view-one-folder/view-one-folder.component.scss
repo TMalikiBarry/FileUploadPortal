@@ -32,16 +32,12 @@ h2 {
   }
 }
 
-table {
-  margin-top: 2rem;
-  width: 100%;
-  border-top-right-radius: .45rem;
-  border-top-left-radius: .45rem;
-  overflow: hidden;
+mat-form-field {
+  width: 60%;
+  height: 45%;
 
-  th {
-    color: black;
-    font-size: 1rem;
-    font-weight: 500;
+  mat-icon {
+    color: gray;
+    margin-right: 1rem;
   }
 }

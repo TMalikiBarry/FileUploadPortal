@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../core/services/AuthService/auth.service";
-import {tap} from "rxjs";
 import {Router} from "@angular/router";
 import {UserService} from "../../../core/services/userService/user.service";
 import {UserInterface} from "../../../core/models/user.interface";
@@ -19,13 +18,15 @@ export class DashboardComponent implements OnInit {
   isOpen = true;
 
   commercant!: UserInterface;
-  expanded = true;
 
   constructor(public authService: AuthService, public router: Router, private userSevice: UserService) {
   }
 
   ngOnInit(): void {
-    // this.getMyCommercant();
+    // let user = JSON.parse(localStorage.getItem('currentUser')!);
+    // this.commercant$ = this.userSevice.getUser(user.id).pipe(
+    //   map(res => res.data as UserInterface)
+    // );
     this.loadCommercant();
   }
 
@@ -38,9 +39,11 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getMyRole(): string {
+    return this.authService.currentUserValue.roles[0] === 'COMMERCANT' ?
+      'commerçant'.toUpperCase() : this.authService.currentUserValue.roles[0].toUpperCase()
+  }
   logOut() {
-    this.authService.logout().pipe(
-      tap(() => this.router.navigateByUrl("/login"))
-    ).subscribe();
+    this.authService.logout().subscribe();
   }
 }

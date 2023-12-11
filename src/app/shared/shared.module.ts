@@ -6,11 +6,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormatNamePipe} from './pipes/format-name.pipe';
 import {FormatFileSizePipe} from './pipes/format-file-size.pipe';
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import {FilterFolderPipe} from './pipes/filter-folder.pipe';
 
 @NgModule({
   declarations: [
     FormatNamePipe,
     FormatFileSizePipe,
+    FilterFolderPipe,
   ],
   exports: [
     CommonModule,
@@ -20,6 +22,7 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     ReactiveFormsModule,
     FormatNamePipe,
     FormatFileSizePipe,
+    FilterFolderPipe,
   ],
   imports: [
     CommonModule,
