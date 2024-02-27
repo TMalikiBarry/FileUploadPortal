@@ -153,7 +153,7 @@ export class ConfigFolderComponent implements OnInit {
         dossiers.push({
           name: this.fileNameMap.get(key),
           uploadingFile: this.fileMap.get(key)!.name,
-          statut: EStatutDossier.INITIER,
+          statut: EStatutDossier.VALIDER,
           typeFile: Typage[key],
           acces: this.currentAgent
         })
